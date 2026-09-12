@@ -202,7 +202,7 @@ Public Class UserForm
                 lblTime.Text = ""
                 lblAttendance.Text = ""
                 lblYearLevel.Text = ""
-
+                lblParentNumber.Text = ""
                 Return
             End If
 
