@@ -77,9 +77,8 @@ Partial Class UserForm
         Panel1.Controls.Add(Label1)
         Panel1.Dock = DockStyle.Top
         Panel1.Location = New Point(0, 0)
-        Panel1.Margin = New Padding(3, 4, 3, 4)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(2194, 125)
+        Panel1.Size = New Size(1698, 94)
         Panel1.TabIndex = 0
         ' 
         ' lblDateTime
@@ -88,9 +87,9 @@ Partial Class UserForm
         lblDateTime.AutoSize = True
         lblDateTime.Font = New Font("Georgia", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblDateTime.ImageAlign = ContentAlignment.MiddleLeft
-        lblDateTime.Location = New Point(1601, 55)
+        lblDateTime.Location = New Point(1158, 41)
         lblDateTime.Name = "lblDateTime"
-        lblDateTime.Size = New Size(114, 31)
+        lblDateTime.Size = New Size(91, 25)
         lblDateTime.TabIndex = 1
         lblDateTime.Text = "lblDate"
         lblDateTime.TextAlign = ContentAlignment.MiddleCenter
@@ -99,9 +98,9 @@ Partial Class UserForm
         ' 
         Label2.AutoSize = True
         Label2.Font = New Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label2.Location = New Point(24, 89)
+        Label2.Location = New Point(21, 67)
         Label2.Name = "Label2"
-        Label2.Size = New Size(443, 25)
+        Label2.Size = New Size(353, 20)
         Label2.TabIndex = 3
         Label2.Text = "SCAN • RECORD • BUILD A STRENGTH TOMORROW"
         Label2.TextAlign = ContentAlignment.MiddleCenter
@@ -111,9 +110,9 @@ Partial Class UserForm
         Label1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
         Label1.AutoSize = True
         Label1.Font = New Font("Georgia", 36F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label1.Location = New Point(14, 11)
+        Label1.Location = New Point(12, 8)
         Label1.Name = "Label1"
-        Label1.Size = New Size(562, 69)
+        Label1.Size = New Size(450, 56)
         Label1.TabIndex = 0
         Label1.Text = "Mark Attendance"
         Label1.TextAlign = ContentAlignment.MiddleCenter
@@ -124,20 +123,19 @@ Partial Class UserForm
         Panel2.Controls.Add(Label10)
         Panel2.Controls.Add(dgvAttendance)
         Panel2.Dock = DockStyle.Bottom
-        Panel2.Location = New Point(0, 733)
-        Panel2.Margin = New Padding(3, 4, 3, 4)
+        Panel2.Location = New Point(0, 346)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(2194, 639)
+        Panel2.Size = New Size(1698, 479)
         Panel2.TabIndex = 1
         ' 
         ' Label10
         ' 
         Label10.AutoSize = True
         Label10.Font = New Font("Georgia", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label10.Location = New Point(14, 0)
-        Label10.Margin = New Padding(3, 4, 3, 4)
+        Label10.Location = New Point(12, 0)
+        Label10.Margin = New Padding(3, 3, 3, 3)
         Label10.Name = "Label10"
-        Label10.Size = New Size(219, 35)
+        Label10.Size = New Size(178, 29)
         Label10.TabIndex = 1
         Label10.Text = "Recent Scans"
         ' 
@@ -149,14 +147,13 @@ Partial Class UserForm
         dgvAttendance.BackgroundColor = Color.FromArgb(CByte(251), CByte(247), CByte(242))
         dgvAttendance.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvAttendance.Columns.AddRange(New DataGridViewColumn() {Column1, Column2, Column3, Column4, Column5})
-        dgvAttendance.Location = New Point(14, 47)
-        dgvAttendance.Margin = New Padding(3, 4, 3, 4)
+        dgvAttendance.Location = New Point(12, 35)
         dgvAttendance.MultiSelect = False
         dgvAttendance.Name = "dgvAttendance"
         dgvAttendance.ReadOnly = True
         dgvAttendance.RowHeadersWidth = 51
         dgvAttendance.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvAttendance.Size = New Size(2167, 576)
+        dgvAttendance.Size = New Size(1674, 432)
         dgvAttendance.TabIndex = 0
         ' 
         ' Column1
@@ -208,10 +205,9 @@ Partial Class UserForm
         ' 
         Panel3.Controls.Add(TableLayoutPanel1)
         Panel3.Dock = DockStyle.Fill
-        Panel3.Location = New Point(0, 125)
-        Panel3.Margin = New Padding(3, 4, 3, 4)
+        Panel3.Location = New Point(0, 94)
         Panel3.Name = "Panel3"
-        Panel3.Size = New Size(2194, 608)
+        Panel3.Size = New Size(1698, 252)
         Panel3.TabIndex = 2
         ' 
         ' TableLayoutPanel1
@@ -224,11 +220,10 @@ Partial Class UserForm
         TableLayoutPanel1.Controls.Add(Panel7, 1, 0)
         TableLayoutPanel1.Dock = DockStyle.Fill
         TableLayoutPanel1.Location = New Point(0, 0)
-        TableLayoutPanel1.Margin = New Padding(3, 4, 3, 4)
         TableLayoutPanel1.Name = "TableLayoutPanel1"
         TableLayoutPanel1.RowCount = 1
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
-        TableLayoutPanel1.Size = New Size(2194, 608)
+        TableLayoutPanel1.Size = New Size(1698, 252)
         TableLayoutPanel1.TabIndex = 0
         ' 
         ' Panel4
@@ -241,11 +236,11 @@ Partial Class UserForm
         Panel4.Controls.Add(Label3)
         Panel4.Controls.Add(txtQrCode)
         Panel4.Dock = DockStyle.Fill
-        Panel4.Location = New Point(14, 16)
-        Panel4.Margin = New Padding(14, 16, 14, 16)
+        Panel4.Location = New Point(12, 12)
+        Panel4.Margin = New Padding(12, 12, 12, 12)
         Panel4.Name = "Panel4"
-        Panel4.Padding = New Padding(23, 27, 23, 27)
-        Panel4.Size = New Size(1069, 576)
+        Panel4.Padding = New Padding(20, 20, 20, 20)
+        Panel4.Size = New Size(825, 228)
         Panel4.TabIndex = 0
         ' 
         ' Label5
@@ -253,9 +248,9 @@ Partial Class UserForm
         Label5.Anchor = AnchorStyles.None
         Label5.AutoSize = True
         Label5.Font = New Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label5.Location = New Point(328, 468)
+        Label5.Location = New Point(231, 249)
         Label5.Name = "Label5"
-        Label5.Size = New Size(485, 25)
+        Label5.Size = New Size(381, 20)
         Label5.TabIndex = 4
         Label5.Text = "Scan the QR Code or type the student ID and press Enter"
         ' 
@@ -264,9 +259,9 @@ Partial Class UserForm
         Label4.Anchor = AnchorStyles.None
         Label4.AutoSize = True
         Label4.Font = New Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label4.Location = New Point(358, 336)
+        Label4.Location = New Point(257, 150)
         Label4.Name = "Label4"
-        Label4.Size = New Size(424, 25)
+        Label4.Size = New Size(333, 20)
         Label4.TabIndex = 3
         Label4.Text = "Scan the student's QR Code to record attendance"
         ' 
@@ -276,10 +271,9 @@ Partial Class UserForm
         PictureBox2.ErrorImage = My.Resources.Resources.qr_code_scan_icon
         PictureBox2.Image = My.Resources.Resources.qr_code_scan_icon
         PictureBox2.InitialImage = My.Resources.Resources.qr_code_scan_icon
-        PictureBox2.Location = New Point(434, 20)
-        PictureBox2.Margin = New Padding(3, 4, 3, 4)
+        PictureBox2.Location = New Point(324, -87)
         PictureBox2.Name = "PictureBox2"
-        PictureBox2.Size = New Size(195, 208)
+        PictureBox2.Size = New Size(171, 156)
         PictureBox2.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox2.TabIndex = 2
         PictureBox2.TabStop = False
@@ -289,9 +283,9 @@ Partial Class UserForm
         Label3.Anchor = AnchorStyles.None
         Label3.AutoSize = True
         Label3.Font = New Font("Georgia", 36F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label3.Location = New Point(338, 247)
+        Label3.Location = New Point(240, 83)
         Label3.Name = "Label3"
-        Label3.Size = New Size(462, 69)
+        Label3.Size = New Size(370, 56)
         Label3.TabIndex = 1
         Label3.Text = "Ready to Scan"
         Label3.TextAlign = ContentAlignment.MiddleCenter
@@ -302,13 +296,12 @@ Partial Class UserForm
         txtQrCode.BackColor = Color.FromArgb(CByte(250), CByte(246), CByte(241))
         txtQrCode.CharacterCasing = CharacterCasing.Upper
         txtQrCode.Font = New Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        txtQrCode.Location = New Point(104, 392)
-        txtQrCode.Margin = New Padding(3, 4, 3, 4)
+        txtQrCode.Location = New Point(91, 192)
         txtQrCode.Multiline = True
         txtQrCode.Name = "txtQrCode"
         txtQrCode.PlaceholderText = "Scan QR Code here..."
         txtQrCode.RightToLeft = RightToLeft.No
-        txtQrCode.Size = New Size(846, 53)
+        txtQrCode.Size = New Size(630, 41)
         txtQrCode.TabIndex = 0
         txtQrCode.TextAlign = HorizontalAlignment.Center
         ' 
@@ -325,11 +318,11 @@ Partial Class UserForm
         Panel7.Controls.Add(lblStudentName)
         Panel7.Dock = DockStyle.Fill
         Panel7.Font = New Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Panel7.Location = New Point(1111, 16)
-        Panel7.Margin = New Padding(14, 16, 14, 16)
+        Panel7.Location = New Point(861, 12)
+        Panel7.Margin = New Padding(12, 12, 12, 12)
         Panel7.Name = "Panel7"
-        Panel7.Padding = New Padding(23, 27, 23, 27)
-        Panel7.Size = New Size(1069, 576)
+        Panel7.Padding = New Padding(20, 20, 20, 20)
+        Panel7.Size = New Size(825, 228)
         Panel7.TabIndex = 1
         ' 
         ' lblYearLevel
@@ -337,9 +330,9 @@ Partial Class UserForm
         lblYearLevel.Anchor = AnchorStyles.None
         lblYearLevel.AutoSize = True
         lblYearLevel.Font = New Font("Segoe UI", 20.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblYearLevel.Location = New Point(463, 267)
+        lblYearLevel.Location = New Point(349, 98)
         lblYearLevel.Name = "lblYearLevel"
-        lblYearLevel.Size = New Size(245, 46)
+        lblYearLevel.Size = New Size(195, 37)
         lblYearLevel.TabIndex = 11
         lblYearLevel.Text = "2nd Year - BSIT"
         ' 
@@ -348,9 +341,9 @@ Partial Class UserForm
         lblParentNumber.Anchor = AnchorStyles.None
         lblParentNumber.AutoSize = True
         lblParentNumber.Font = New Font("Segoe UI", 20.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblParentNumber.Location = New Point(463, 336)
+        lblParentNumber.Location = New Point(349, 150)
         lblParentNumber.Name = "lblParentNumber"
-        lblParentNumber.Size = New Size(218, 46)
+        lblParentNumber.Size = New Size(182, 37)
         lblParentNumber.TabIndex = 10
         lblParentNumber.Text = "09217467275"
         ' 
@@ -362,20 +355,18 @@ Partial Class UserForm
         Panel5.Controls.Add(lblTime)
         Panel5.Controls.Add(lblAttendance)
         Panel5.Controls.Add(lblStatus)
-        Panel5.Location = New Point(26, 410)
-        Panel5.Margin = New Padding(3, 4, 3, 4)
+        Panel5.Location = New Point(23, 104)
         Panel5.Name = "Panel5"
-        Panel5.Size = New Size(1015, 133)
+        Panel5.Size = New Size(777, 100)
         Panel5.TabIndex = 9
         ' 
         ' PictureBox3
         ' 
         PictureBox3.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
         PictureBox3.Image = My.Resources.Resources.right_arrow_6421_1024
-        PictureBox3.Location = New Point(14, 15)
-        PictureBox3.Margin = New Padding(3, 4, 3, 4)
+        PictureBox3.Location = New Point(12, 11)
         PictureBox3.Name = "PictureBox3"
-        PictureBox3.Size = New Size(96, 101)
+        PictureBox3.Size = New Size(84, 76)
         PictureBox3.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox3.TabIndex = 9
         PictureBox3.TabStop = False
@@ -385,9 +376,9 @@ Partial Class UserForm
         lblTime.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Right
         lblTime.AutoSize = True
         lblTime.Font = New Font("Georgia", 21.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblTime.Location = New Point(746, 43)
+        lblTime.Location = New Point(542, 32)
         lblTime.Name = "lblTime"
-        lblTime.Size = New Size(166, 43)
+        lblTime.Size = New Size(130, 34)
         lblTime.TabIndex = 3
         lblTime.Text = "lblTime"
         ' 
@@ -396,9 +387,9 @@ Partial Class UserForm
         lblAttendance.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         lblAttendance.AutoSize = True
         lblAttendance.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblAttendance.Location = New Point(125, 72)
+        lblAttendance.Location = New Point(109, 54)
         lblAttendance.Name = "lblAttendance"
-        lblAttendance.Size = New Size(172, 28)
+        lblAttendance.Size = New Size(138, 21)
         lblAttendance.TabIndex = 8
         lblAttendance.Text = "                                "
         ' 
@@ -406,9 +397,9 @@ Partial Class UserForm
         ' 
         lblStatus.AutoSize = True
         lblStatus.Font = New Font("Georgia", 21.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblStatus.Location = New Point(125, 27)
+        lblStatus.Location = New Point(109, 20)
         lblStatus.Name = "lblStatus"
-        lblStatus.Size = New Size(189, 43)
+        lblStatus.Size = New Size(149, 34)
         lblStatus.TabIndex = 4
         lblStatus.Text = "lblStatus"
         ' 
@@ -416,10 +407,9 @@ Partial Class UserForm
         ' 
         PictureBox1.Anchor = AnchorStyles.Left
         PictureBox1.Image = My.Resources.Resources.user_3296_128
-        PictureBox1.Location = New Point(38, 20)
-        PictureBox1.Margin = New Padding(3, 4, 3, 4)
+        PictureBox1.Location = New Point(33, -87)
         PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(177, 200)
+        PictureBox1.Size = New Size(155, 150)
         PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox1.TabIndex = 7
         PictureBox1.TabStop = False
@@ -429,9 +419,9 @@ Partial Class UserForm
         Label7.Anchor = AnchorStyles.Left
         Label7.AutoSize = True
         Label7.Font = New Font("Segoe UI", 20.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label7.Location = New Point(48, 336)
+        Label7.Location = New Point(42, 150)
         Label7.Name = "Label7"
-        Label7.Size = New Size(242, 46)
+        Label7.Size = New Size(191, 37)
         Label7.TabIndex = 6
         Label7.Text = "Parent Contact"
         ' 
@@ -440,9 +430,9 @@ Partial Class UserForm
         Label6.Anchor = AnchorStyles.Left
         Label6.AutoSize = True
         Label6.Font = New Font("Segoe UI", 20.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label6.Location = New Point(48, 267)
+        Label6.Location = New Point(42, 98)
         Label6.Name = "Label6"
-        Label6.Size = New Size(285, 46)
+        Label6.Size = New Size(228, 37)
         Label6.TabIndex = 5
         Label6.Text = "Year Level/Course"
         ' 
@@ -451,9 +441,9 @@ Partial Class UserForm
         lblStudentName.Anchor = AnchorStyles.Left
         lblStudentName.AutoSize = True
         lblStudentName.Font = New Font("Georgia", 24F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblStudentName.Location = New Point(235, 104)
+        lblStudentName.Location = New Point(206, -24)
         lblStudentName.Name = "lblStudentName"
-        lblStudentName.Size = New Size(359, 46)
+        lblStudentName.Size = New Size(287, 38)
         lblStudentName.TabIndex = 2
         lblStudentName.Text = "lblStudentName"
         ' 
@@ -462,16 +452,15 @@ Partial Class UserForm
         ' 
         ' UserForm
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(247), CByte(241), CByte(232))
-        ClientSize = New Size(2194, 1372)
+        ClientSize = New Size(1698, 825)
         Controls.Add(Panel3)
         Controls.Add(Panel2)
         Controls.Add(Panel1)
         FormBorderStyle = FormBorderStyle.None
-        Margin = New Padding(3, 4, 3, 4)
-        MinimumSize = New Size(1170, 867)
+        MinimumSize = New Size(1024, 650)
         Name = "UserForm"
         StartPosition = FormStartPosition.WindowsDefaultBounds
         Text = "UserForm"

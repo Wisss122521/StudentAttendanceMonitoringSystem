@@ -43,7 +43,6 @@ Public Class LoginForm
             If isValid Then
                 Count = 0
 
-                ' ===== ROLE-BASED REDIRECT =====
                 If String.Equals(userRole, "Admin", StringComparison.OrdinalIgnoreCase) Then
                     Dim ad As New AdminForm()
                     ad.Show()
@@ -70,4 +69,7 @@ Public Class LoginForm
         End Try
     End Sub
 
+    Private Sub lblUsername_Click(sender As Object, e As EventArgs) Handles lblUsername.Click
+
+    End Sub
 End Class

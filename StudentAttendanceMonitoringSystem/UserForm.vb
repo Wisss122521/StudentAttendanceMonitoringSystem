@@ -349,7 +349,6 @@ Public Class UserForm
                 Using reader As OdbcDataReader =
                     checkCmd.ExecuteReader()
 
-                    ' MAY OPEN RECORD = TIME OUT
                     If reader.Read() Then
 
                         Dim attendanceId As Integer =
@@ -393,21 +392,20 @@ Public Class UserForm
                         lblTime.Text =
                             DateTime.Now.ToString("hh:mm:ss tt")
 
-                        MessageBox.Show(
-                            studentName &
-                            vbCrLf &
-                            "Time Out: " &
-                            DateTime.Now.ToString("hh:mm:ss tt"),
-                            "Attendance Recorded",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information
-                        )
+                        'MessageBox.Show(
+                        '    studentName &
+                        '    vbCrLf &
+                        '    "Time Out: " &
+                        '    DateTime.Now.ToString("hh:mm:ss tt"),
+                        '    "Attendance Recorded",
+                        '    MessageBoxButtons.OK,
+                        '    MessageBoxIcon.Information
+                        ')
 
                     Else
 
                         reader.Close()
 
-                        ' WALANG OPEN RECORD = TIME IN
 
                         Dim insertQuery As String =
                             "INSERT INTO attendance_records " &
@@ -448,15 +446,15 @@ Public Class UserForm
                         lblTime.Text =
                             DateTime.Now.ToString("hh:mm:ss tt")
 
-                        MessageBox.Show(
-                            studentName &
-                            vbCrLf &
-                            "Time In: " &
-                            DateTime.Now.ToString("hh:mm:ss tt"),
-                            "Attendance Recorded",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information
-                        )
+                        'MessageBox.Show(
+                        '    studentName &
+                        '    vbCrLf &
+                        '    "Time In: " &
+                        '    DateTime.Now.ToString("hh:mm:ss tt"),
+                        '    "Attendance Recorded",
+                        '    MessageBoxButtons.OK,
+                        '    MessageBoxIcon.Information
+                        ')
 
                     End If
 
