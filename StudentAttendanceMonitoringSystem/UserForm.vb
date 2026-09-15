@@ -61,7 +61,7 @@ Public Class UserForm
 
     Private Async Function SendSmsTimeOut(parentNumber As String, studentName As String) As Task
 
-        Dim apiToken As String = "de73dee5c2e1e19b2984f9eba3b0084e9adb82"
+        Dim apiToken As String = "de73dee5c2e1e19b2984f9eba3b0084e9adb82a1"
         Dim apiUrl As String = "https://sms.iprogtech.com/api/v1/sms_messages?api_token=" & apiToken
 
         Dim message As String = "Hello, your child " & studentName & " has left the school."
@@ -124,7 +124,7 @@ Public Class UserForm
 
     Private Async Function SendSmsTimeIn(parentNumber As String, studentName As String) As Task
 
-        Dim apiToken As String = "de73dee5c2e1e19b2984f9eba3b0084e9adb82"
+        Dim apiToken As String = "de73dee5c2e1e19b2984f9eba3b0084e9adb82a1"
         Dim apiUrl As String = "https://sms.iprogtech.com/api/v1/sms_messages?api_token=" & apiToken
 
         Dim message As String = "Hello, your child " & studentName & " has arrived at school."
@@ -478,8 +478,4 @@ Public Class UserForm
         End Try
 
     End Function
-
-    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
-
-    End Sub
 End Class
