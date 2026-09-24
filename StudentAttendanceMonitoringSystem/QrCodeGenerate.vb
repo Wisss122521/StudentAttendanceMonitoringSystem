@@ -1,5 +1,4 @@
 ﻿Imports System.Data.Odbc
-Imports System.Drawing
 Imports System.Drawing.Imaging
 Imports QRCoder
 
