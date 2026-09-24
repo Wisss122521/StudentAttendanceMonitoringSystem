@@ -28,13 +28,13 @@ Partial Class LoginForm
         TableLayoutPanel2 = New TableLayoutPanel()
         pnlLoginCard = New Panel()
         Panel1 = New Panel()
+        Label2 = New Label()
+        Label1 = New Label()
         lblPassword = New Label()
         txtPassword = New TextBox()
         lblUsername = New Label()
         txtUsername = New TextBox()
         btnLogin = New Button()
-        Label1 = New Label()
-        Label2 = New Label()
         TableLayoutPanel1.SuspendLayout()
         Panel3.SuspendLayout()
         TableLayoutPanel2.SuspendLayout()
@@ -121,6 +121,27 @@ Partial Class LoginForm
         Panel1.Size = New Size(260, 331)
         Panel1.TabIndex = 0
         ' 
+        ' Label2
+        ' 
+        Label2.Anchor = AnchorStyles.Top
+        Label2.AutoSize = True
+        Label2.Location = New Point(81, 84)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(107, 15)
+        Label2.TabIndex = 6
+        Label2.Text = "Sign in to continue"
+        ' 
+        ' Label1
+        ' 
+        Label1.Anchor = AnchorStyles.Top
+        Label1.AutoSize = True
+        Label1.Font = New Font("Georgia", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.Location = New Point(52, 48)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(170, 25)
+        Label1.TabIndex = 5
+        Label1.Text = "Welcome Back"
+        ' 
         ' lblPassword
         ' 
         lblPassword.Anchor = AnchorStyles.Top
@@ -161,32 +182,15 @@ Partial Class LoginForm
         ' btnLogin
         ' 
         btnLogin.Anchor = AnchorStyles.Top
-        btnLogin.Location = New Point(96, 267)
+        btnLogin.BackColor = Color.FromArgb(CByte(55), CByte(29), CByte(17))
+        btnLogin.FlatStyle = FlatStyle.Flat
+        btnLogin.ForeColor = Color.White
+        btnLogin.Location = New Point(25, 267)
         btnLogin.Name = "btnLogin"
-        btnLogin.Size = New Size(75, 23)
+        btnLogin.Size = New Size(212, 23)
         btnLogin.TabIndex = 0
         btnLogin.Text = "LOGIN"
-        btnLogin.UseVisualStyleBackColor = True
-        ' 
-        ' Label1
-        ' 
-        Label1.Anchor = AnchorStyles.Top
-        Label1.AutoSize = True
-        Label1.Location = New Point(90, 49)
-        Label1.Name = "Label1"
-        Label1.Size = New Size(85, 15)
-        Label1.TabIndex = 5
-        Label1.Text = "Welcome Back"
-        ' 
-        ' Label2
-        ' 
-        Label2.Anchor = AnchorStyles.Top
-        Label2.AutoSize = True
-        Label2.Location = New Point(81, 84)
-        Label2.Name = "Label2"
-        Label2.Size = New Size(107, 15)
-        Label2.TabIndex = 6
-        Label2.Text = "Sign in to continue"
+        btnLogin.UseVisualStyleBackColor = False
         ' 
         ' LoginForm
         ' 

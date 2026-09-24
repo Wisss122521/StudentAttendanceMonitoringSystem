@@ -3,6 +3,9 @@ Imports Microsoft.Data.SqlClient
 
 Public Class LoginForm
 
+    Private Sub LoginForm_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        Application.Exit()
+    End Sub
 
     Private Sub LoginForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Call vbConnection()
@@ -67,9 +70,5 @@ Public Class LoginForm
         Finally
             GC.Collect()
         End Try
-    End Sub
-
-    Private Sub lblUsername_Click(sender As Object, e As EventArgs) Handles lblUsername.Click
-
     End Sub
 End Class

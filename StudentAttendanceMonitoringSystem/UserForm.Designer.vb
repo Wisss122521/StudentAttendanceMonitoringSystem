@@ -24,6 +24,7 @@ Partial Class UserForm
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
         Panel1 = New Panel()
+        Button1 = New Button()
         lblDateTime = New Label()
         Label2 = New Label()
         Label1 = New Label()
@@ -72,6 +73,7 @@ Partial Class UserForm
         ' Panel1
         ' 
         Panel1.BackColor = Color.FromArgb(CByte(247), CByte(242), CByte(237))
+        Panel1.Controls.Add(Button1)
         Panel1.Controls.Add(lblDateTime)
         Panel1.Controls.Add(Label2)
         Panel1.Controls.Add(Label1)
@@ -80,6 +82,19 @@ Partial Class UserForm
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(1698, 94)
         Panel1.TabIndex = 0
+        ' 
+        ' Button1
+        ' 
+        Button1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Right
+        Button1.BackColor = Color.FromArgb(CByte(55), CByte(29), CByte(17))
+        Button1.FlatStyle = FlatStyle.Flat
+        Button1.ForeColor = Color.White
+        Button1.Location = New Point(1543, 8)
+        Button1.Name = "Button1"
+        Button1.Size = New Size(143, 23)
+        Button1.TabIndex = 4
+        Button1.Text = "LOG OUT"
+        Button1.UseVisualStyleBackColor = False
         ' 
         ' lblDateTime
         ' 
@@ -133,7 +148,7 @@ Partial Class UserForm
         Label10.AutoSize = True
         Label10.Font = New Font("Georgia", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label10.Location = New Point(12, 0)
-        Label10.Margin = New Padding(3, 3, 3, 3)
+        Label10.Margin = New Padding(3)
         Label10.Name = "Label10"
         Label10.Size = New Size(178, 29)
         Label10.TabIndex = 1
@@ -237,9 +252,9 @@ Partial Class UserForm
         Panel4.Controls.Add(txtQrCode)
         Panel4.Dock = DockStyle.Fill
         Panel4.Location = New Point(12, 12)
-        Panel4.Margin = New Padding(12, 12, 12, 12)
+        Panel4.Margin = New Padding(12)
         Panel4.Name = "Panel4"
-        Panel4.Padding = New Padding(20, 20, 20, 20)
+        Panel4.Padding = New Padding(20)
         Panel4.Size = New Size(825, 228)
         Panel4.TabIndex = 0
         ' 
@@ -319,9 +334,9 @@ Partial Class UserForm
         Panel7.Dock = DockStyle.Fill
         Panel7.Font = New Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Panel7.Location = New Point(861, 12)
-        Panel7.Margin = New Padding(12, 12, 12, 12)
+        Panel7.Margin = New Padding(12)
         Panel7.Name = "Panel7"
-        Panel7.Padding = New Padding(20, 20, 20, 20)
+        Panel7.Padding = New Padding(20)
         Panel7.Size = New Size(825, 228)
         Panel7.TabIndex = 1
         ' 
@@ -517,4 +532,5 @@ Partial Class UserForm
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
     Friend WithEvents Column5 As DataGridViewTextBoxColumn
     Friend WithEvents Label10 As Label
+    Friend WithEvents Button1 As Button
 End Class

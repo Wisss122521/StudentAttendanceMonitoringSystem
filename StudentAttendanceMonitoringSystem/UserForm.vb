@@ -476,4 +476,11 @@ Public Class UserForm
         End Try
 
     End Function
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Me.Hide()
+        Dim lg As New LoginForm()
+        lg.Show()
+
+    End Sub
 End Class
