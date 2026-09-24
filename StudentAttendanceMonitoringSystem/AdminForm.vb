@@ -13,7 +13,7 @@
 
     '    pnlContent.Controls.Add(qrPage)
 
-    'End Subasdsadsadsad
+    'End Sub
 
     Private Sub LoadUserControl(uc As UserControl)
 
