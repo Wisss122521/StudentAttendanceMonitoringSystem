@@ -63,6 +63,16 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
+        Friend ReadOnly Property _6a4fef6f_e247_4671_bc82_cbd6ced86108() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("6a4fef6f-e247-4671-bc82-cbd6ced86108", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
         Friend ReadOnly Property ChatGPT_Image_Sep_11__2026__08_43_52_AM() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("ChatGPT Image Sep 11, 2026, 08_43_52 AM", resourceCulture)
@@ -86,6 +96,16 @@ Namespace My.Resources
         Friend ReadOnly Property ChatGPT_Image_Sep_22__2026__01_35_50_PM__2_() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("ChatGPT Image Sep 22, 2026, 01_35_50 PM (2)", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property Colegio_Sta__Teresa_de_Avila_Crest() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Colegio Sta. Teresa de Avila Crest", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

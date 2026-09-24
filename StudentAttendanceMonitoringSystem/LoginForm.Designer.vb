@@ -61,6 +61,8 @@ Partial Class LoginForm
         ' Panel2
         ' 
         Panel2.BackColor = Color.FromArgb(CByte(55), CByte(29), CByte(17))
+        Panel2.BackgroundImage = My.Resources.Resources.ChatGPT_Image_Sep_22__2026__01_35_50_PM__2_
+        Panel2.BackgroundImageLayout = ImageLayout.Stretch
         Panel2.Dock = DockStyle.Fill
         Panel2.Location = New Point(3, 3)
         Panel2.Name = "Panel2"

@@ -6,7 +6,7 @@ Imports System.Threading.Tasks
 
 Public Class UserForm
 
-    Private Sub UserForm_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+    Private Sub AdminForms_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         Application.Exit()
     End Sub
 
