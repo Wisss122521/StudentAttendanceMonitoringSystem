@@ -252,7 +252,7 @@ Public Class QrCodeGenerate
                 vbConnection()
             End If
 
-            ' Kunin muna lahat ng students na walang QR
+
             Dim studentIds As New List(Of Integer)
 
             Dim selectQuery As String =

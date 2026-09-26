@@ -3,18 +3,6 @@
         Application.Exit()
     End Sub
 
-    'Private Sub lblQRCode_Click(sender As Object, e As EventArgs) Handles lblQRCode.Click
-
-    '    pnlContent.Controls.Clear()
-
-    '    Dim qrPage As New QrCodeGenerate()
-
-    '    qrPage.Dock = DockStyle.Fill
-
-    '    pnlContent.Controls.Add(qrPage)
-
-    'End Sub
-
     Private Sub LoadUserControl(uc As UserControl)
 
         pnlContent.Controls.Clear()
@@ -26,6 +14,6 @@
     End Sub
 
     Private Sub AdminForm_Load(sender As Object, e As EventArgs) Handles Me.Load
-        LoadUserControl(New QrCodeGenerate())
+        LoadUserControl(New Manage_Students())
     End Sub
 End Class
