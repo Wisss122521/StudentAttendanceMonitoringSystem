@@ -8,7 +8,18 @@ Public Class QrCodeGenerate
     Private selectedStudentName As String = ""
     Private selectedQRToken As String = ""
 
+    Private Sub timerClock_Tick_1(sender As Object, e As EventArgs) Handles timerClock.Tick
+        UpdateDateTime()
+    End Sub
 
+    Private Sub UpdateDateTime()
+
+        lblDateTime.Text =
+        DateTime.Now.ToString("dddd, MMMM dd, yyyy") &
+        "     |     " &
+        DateTime.Now.ToString("hh:mm:ss tt")
+
+    End Sub
 
     Private Sub LoadStudents()
 
@@ -99,8 +110,12 @@ Public Class QrCodeGenerate
 
         cboQRStatus.SelectedIndex = 0
 
+        timerClock.Interval = 1000
+        timerClock.Start()
+
         LoadStudents()
         ClearPreview()
+        UpdateDateTime()
 
     End Sub
 
@@ -243,7 +258,8 @@ Public Class QrCodeGenerate
             Dim selectQuery As String =
             "SELECT students_id " &
             "FROM students " &
-            "WHERE qr_code_data IS NULL"
+            "WHERE qr_code_data IS NULL " &
+            "OR TRIM(qr_code_data) = ''"
 
             Using selectCmd As New OdbcCommand(selectQuery, con)
 
@@ -477,29 +493,56 @@ Public Class QrCodeGenerate
 
         Try
 
+            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
+                vbConnection()
+            End If
+
             Dim query As String =
                 "SELECT " &
                 "COUNT(*) AS total_students, " &
-                "SUM(CASE WHEN qr_code_data IS NOT NULL " &
-                "AND qr_code_data <> '' THEN 1 ELSE 0 END) AS generated, " &
-                "SUM(CASE WHEN qr_code_data IS NULL " &
-                "OR qr_code_data = '' THEN 1 ELSE 0 END) AS not_generated " &
+                "SUM(CASE " &
+                "WHEN qr_code_data IS NOT NULL " &
+                "AND TRIM(qr_code_data) <> '' " &
+                "THEN 1 ELSE 0 END) AS generated_count, " &
+                "SUM(CASE " &
+                "WHEN qr_code_data IS NULL " &
+                "OR TRIM(qr_code_data) = '' " &
+                "THEN 1 ELSE 0 END) AS not_generated_count " &
                 "FROM students"
 
             Using cmd As New OdbcCommand(query, con)
 
-                Using reader As OdbcDataReader =
-                    cmd.ExecuteReader()
+                Using reader As OdbcDataReader = cmd.ExecuteReader()
 
                     If reader.Read() Then
 
-                        lblSummary.Text =
-                            reader("total_students").ToString() &
-                            " Students • " &
-                            reader("generated").ToString() &
-                            " Generated • " &
-                            reader("not_generated").ToString() &
-                            " Not Generated"
+                        Dim totalStudents As Integer = 0
+                        Dim generatedCount As Integer = 0
+                        Dim notGeneratedCount As Integer = 0
+
+                        If Not IsDBNull(reader("total_students")) Then
+                            totalStudents =
+                                Convert.ToInt32(reader("total_students"))
+                        End If
+
+                        If Not IsDBNull(reader("generated_count")) Then
+                            generatedCount =
+                                Convert.ToInt32(reader("generated_count"))
+                        End If
+
+                        If Not IsDBNull(reader("not_generated_count")) Then
+                            notGeneratedCount =
+                                Convert.ToInt32(reader("not_generated_count"))
+                        End If
+
+                        lblTotalStudents.Text =
+                            totalStudents.ToString()
+
+                        lblGeneratedCount.Text =
+                            generatedCount.ToString()
+
+                        lblNotGeneratedCount.Text =
+                            notGeneratedCount.ToString()
 
                     End If
 
@@ -509,7 +552,12 @@ Public Class QrCodeGenerate
 
         Catch ex As Exception
 
-            lblSummary.Text = ""
+            MessageBox.Show(
+                "Summary Error: " & ex.Message,
+                "QR Summary",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+            )
 
         End Try
 
