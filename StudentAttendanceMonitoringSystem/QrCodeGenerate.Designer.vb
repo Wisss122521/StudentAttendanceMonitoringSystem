@@ -187,11 +187,8 @@ Partial Class QrCodeGenerate
         TableLayoutPanel2.RowCount = 1
         TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 100.0F))
         TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 20.0F))
-<<<<<<< Updated upstream
         TableLayoutPanel2.Size = New Size(1368, 100)
-=======
         TableLayoutPanel2.Size = New Size(970, 100)
->>>>>>> Stashed changes
         TableLayoutPanel2.TabIndex = 0
         ' 
         ' Panel6
@@ -268,11 +265,8 @@ Partial Class QrCodeGenerate
         TableLayoutPanel1.RowCount = 1
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 100.0F))
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 20.0F))
-<<<<<<< Updated upstream
         TableLayoutPanel1.Size = New Size(1368, 389)
-=======
         TableLayoutPanel1.Size = New Size(970, 389)
->>>>>>> Stashed changes
         TableLayoutPanel1.TabIndex = 3
         ' 
         ' Panel4
