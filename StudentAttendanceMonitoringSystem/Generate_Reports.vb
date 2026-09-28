@@ -482,10 +482,7 @@ Public Class Generate_Reports
 
     End Function
 
-    Private Sub btnGenerateExcel_Click(
-    sender As Object,
-    e As EventArgs
-) Handles btnGenerateExcel.Click
+    Private Sub btnGenerateExcel_Click(sender As Object, e As EventArgs) Handles btnGenerateExcel.Click
 
         Try
 
