@@ -14,6 +14,6 @@
     End Sub
 
     Private Sub AdminForm_Load(sender As Object, e As EventArgs) Handles Me.Load
-        LoadUserControl(New QrCodeGenerate())
+        LoadUserControl(New Generate_Reports())
     End Sub
 End Class

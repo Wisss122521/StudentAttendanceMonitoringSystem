@@ -4,6 +4,7 @@ Imports System.Net.Http
 Imports System.Text
 Imports System.Threading.Tasks
 
+
 Public Class UserForm
 
     Private Sub AdminForms_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
@@ -13,7 +14,6 @@ Public Class UserForm
     Private Sub timerClock_Tick_1(sender As Object, e As EventArgs) Handles timerClock.Tick
         UpdateDateTime()
     End Sub
-
     Private Sub UpdateDateTime()
 
         lblDateTime.Text =
