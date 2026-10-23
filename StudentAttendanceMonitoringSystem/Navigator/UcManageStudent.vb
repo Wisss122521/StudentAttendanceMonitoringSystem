@@ -1,7 +1,7 @@
 ﻿Imports System.Data.Odbc
 Imports ClosedXML.Excel
 
-Public Class ManageStudent
+Public Class UcManageStudent
     Private selectedStudentId As Integer = 0
 
 
@@ -24,7 +24,11 @@ Public Class ManageStudent
             UpdateTotalStudents()
 
             ClearFields()
+            UpdateButtonAppearance()
 
+            timerClock.Interval = 1000
+            timerClock.Start()
+            UpdateDateTime()
         Catch ex As Exception
 
             MessageBox.Show(
@@ -96,6 +100,29 @@ Public Class ManageStudent
         cboFilterCourse.Items.Add("BSEd")
 
         cboFilterCourse.SelectedIndex = 0
+
+    End Sub
+
+    Private Sub timerClock_Tick(
+        sender As Object,
+        e As EventArgs
+    ) Handles timerClock.Tick
+
+        UpdateDateTime()
+
+    End Sub
+
+
+    Private Sub UpdateDateTime()
+
+        lblDateTime.Text =
+        DateTime.Now.ToString(
+            "dddd, MMMM dd, yyyy"
+        ) &
+        "   |   " &
+        DateTime.Now.ToString(
+            "hh:mm:ss tt"
+        )
 
     End Sub
 
@@ -401,6 +428,104 @@ Public Class ManageStudent
             )
 
         End Try
+
+    End Sub
+
+    Private Sub UpdateButtonAppearance()
+
+        '==================================================
+        ' SAVE / ADD STUDENT
+        '==================================================
+        If btnSave.Enabled Then
+
+            btnSave.BackColor =
+            Color.FromArgb(103, 60, 36)
+
+            btnSave.ForeColor =
+            Color.White
+
+            btnSave.Cursor =
+            Cursors.Hand
+
+        Else
+
+            btnSave.BackColor =
+            Color.FromArgb(220, 220, 220)
+
+            btnSave.ForeColor =
+            Color.Gray
+
+            btnSave.Cursor =
+            Cursors.No
+
+        End If
+
+
+        '==================================================
+        ' UPDATE
+        '==================================================
+        If btnUpdate.Enabled Then
+
+            btnUpdate.BackColor =
+            Color.FromArgb(103, 60, 36)
+
+            btnUpdate.ForeColor =
+            Color.White
+
+            btnUpdate.Cursor =
+            Cursors.Hand
+
+        Else
+
+            btnUpdate.BackColor =
+            Color.FromArgb(220, 220, 220)
+
+            btnUpdate.ForeColor =
+            Color.Gray
+
+            btnUpdate.Cursor =
+            Cursors.No
+
+        End If
+
+
+        '==================================================
+        ' DELETE
+        '==================================================
+        If btnDelete.Enabled Then
+
+            btnDelete.BackColor =
+            Color.FromArgb(201, 75, 67)
+
+            btnDelete.ForeColor =
+            Color.White
+
+            btnDelete.Cursor =
+            Cursors.Hand
+
+        Else
+
+            btnDelete.BackColor =
+            Color.FromArgb(220, 220, 220)
+
+            btnDelete.ForeColor =
+            Color.Gray
+
+            btnDelete.Cursor =
+            Cursors.No
+
+        End If
+
+    End Sub
+
+    Private Sub Buttons_EnabledChanged(
+    sender As Object,
+    e As EventArgs
+) Handles btnSave.EnabledChanged,
+          btnUpdate.EnabledChanged,
+          btnDelete.EnabledChanged
+
+        UpdateButtonAppearance()
 
     End Sub
 

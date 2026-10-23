@@ -22,7 +22,7 @@ Public Class LoginForm
 
         Try
             Dim sql As String = "SELECT Username, Password, Role FROM login_table WHERE Username=?"
-            Dim cmd As New OdbcCommand(sql, Module1.con)
+            Dim cmd As New OdbcCommand(sql, Connector.con)
             cmd.Parameters.AddWithValue("?", txtUsername.Text)
 
             Dim reader As OdbcDataReader = cmd.ExecuteReader()

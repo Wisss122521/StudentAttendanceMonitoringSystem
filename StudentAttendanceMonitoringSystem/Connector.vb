@@ -1,4 +1,4 @@
-﻿Module Module1
+﻿Module Connector
     Public con As Odbc.OdbcConnection
     Public Sub vbConnection()
         Try

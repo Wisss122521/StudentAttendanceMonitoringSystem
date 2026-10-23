@@ -2,7 +2,7 @@
 Imports System.Drawing.Imaging
 Imports QRCoder
 
-Public Class QrCodeGenerate
+Public Class UcQrCode
 
     Private selectedStudentId As Integer = 0
     Private selectedStudentName As String = ""
@@ -605,5 +605,6 @@ Public Class QrCodeGenerate
         End Using
 
     End Function
+
 
 End Class
