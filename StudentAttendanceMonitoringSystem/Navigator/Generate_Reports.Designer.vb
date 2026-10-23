@@ -28,11 +28,6 @@ Partial Class Generate_Reports
         Label1 = New Label()
         Panel2 = New Panel()
         Panel6 = New Panel()
-        lblCourse = New Label()
-        lblDateTo = New Label()
-        lblDateFrom = New Label()
-        Label5 = New Label()
-        lblSearch = New Label()
         btnReset = New Button()
         btnApplyFilter = New Button()
         cboCourse = New ComboBox()
@@ -50,7 +45,7 @@ Partial Class Generate_Reports
         Panel7 = New Panel()
         dgvAttendance = New DataGridView()
         Panel8 = New Panel()
-        lblRecords = New Label()
+        Label4 = New Label()
         Label3 = New Label()
         Panel1.SuspendLayout()
         Panel5.SuspendLayout()
@@ -66,7 +61,7 @@ Partial Class Generate_Reports
         ' 
         ' Panel1
         ' 
-        Panel1.BackColor = Color.White
+        Panel1.BackColor = Color.FromArgb(CByte(255), CByte(244), CByte(240))
         Panel1.Controls.Add(Panel5)
         Panel1.Dock = DockStyle.Top
         Panel1.Location = New Point(0, 0)
@@ -78,12 +73,10 @@ Partial Class Generate_Reports
         ' 
         ' Panel5
         ' 
-        Panel5.BackColor = Color.FromArgb(CByte(255), CByte(244), CByte(240))
-        Panel5.BorderStyle = BorderStyle.FixedSingle
+        Panel5.BackColor = Color.White
         Panel5.Controls.Add(Label2)
         Panel5.Controls.Add(Label1)
         Panel5.Dock = DockStyle.Fill
-        Panel5.ForeColor = Color.FromArgb(CByte(58), CByte(27), CByte(14))
         Panel5.Location = New Point(10, 10)
         Panel5.Name = "Panel5"
         Panel5.Size = New Size(991, 80)
@@ -101,34 +94,27 @@ Partial Class Generate_Reports
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Font = New Font("Georgia", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label1.Location = New Point(15, 11)
+        Label1.Location = New Point(15, 22)
         Label1.Name = "Label1"
-        Label1.Size = New Size(227, 25)
+        Label1.Size = New Size(111, 15)
         Label1.TabIndex = 0
         Label1.Text = "Attendance Reports"
         ' 
         ' Panel2
         ' 
-        Panel2.BackColor = Color.White
+        Panel2.BackColor = Color.FromArgb(CByte(255), CByte(244), CByte(240))
         Panel2.Controls.Add(Panel6)
         Panel2.Dock = DockStyle.Top
         Panel2.Location = New Point(0, 100)
         Panel2.Margin = New Padding(10)
         Panel2.Name = "Panel2"
         Panel2.Padding = New Padding(15)
-        Panel2.Size = New Size(1011, 193)
+        Panel2.Size = New Size(1011, 100)
         Panel2.TabIndex = 1
         ' 
         ' Panel6
         ' 
-        Panel6.BackColor = Color.FromArgb(CByte(255), CByte(244), CByte(240))
-        Panel6.BorderStyle = BorderStyle.FixedSingle
-        Panel6.Controls.Add(lblCourse)
-        Panel6.Controls.Add(lblDateTo)
-        Panel6.Controls.Add(lblDateFrom)
-        Panel6.Controls.Add(Label5)
-        Panel6.Controls.Add(lblSearch)
+        Panel6.BackColor = Color.White
         Panel6.Controls.Add(btnReset)
         Panel6.Controls.Add(btnApplyFilter)
         Panel6.Controls.Add(cboCourse)
@@ -136,61 +122,14 @@ Partial Class Generate_Reports
         Panel6.Controls.Add(dtpFrom)
         Panel6.Controls.Add(txtSearch)
         Panel6.Dock = DockStyle.Fill
-        Panel6.ForeColor = Color.FromArgb(CByte(58), CByte(27), CByte(14))
         Panel6.Location = New Point(15, 15)
         Panel6.Name = "Panel6"
-        Panel6.Size = New Size(981, 163)
+        Panel6.Size = New Size(981, 70)
         Panel6.TabIndex = 0
-        ' 
-        ' lblCourse
-        ' 
-        lblCourse.AutoSize = True
-        lblCourse.Location = New Point(626, 58)
-        lblCourse.Name = "lblCourse"
-        lblCourse.Size = New Size(44, 15)
-        lblCourse.TabIndex = 13
-        lblCourse.Text = "Course"
-        ' 
-        ' lblDateTo
-        ' 
-        lblDateTo.AutoSize = True
-        lblDateTo.Location = New Point(393, 59)
-        lblDateTo.Name = "lblDateTo"
-        lblDateTo.Size = New Size(46, 15)
-        lblDateTo.TabIndex = 12
-        lblDateTo.Text = "Date To"
-        ' 
-        ' lblDateFrom
-        ' 
-        lblDateFrom.AutoSize = True
-        lblDateFrom.Location = New Point(162, 61)
-        lblDateFrom.Name = "lblDateFrom"
-        lblDateFrom.Size = New Size(62, 15)
-        lblDateFrom.TabIndex = 11
-        lblDateFrom.Text = "Date From"
-        ' 
-        ' Label5
-        ' 
-        Label5.AutoSize = True
-        Label5.Font = New Font("Georgia", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label5.Location = New Point(18, 14)
-        Label5.Name = "Label5"
-        Label5.Size = New Size(150, 23)
-        Label5.TabIndex = 10
-        Label5.Text = "Report Filters"
-        ' 
-        ' lblSearch
-        ' 
-        lblSearch.AutoSize = True
-        lblSearch.Location = New Point(25, 67)
-        lblSearch.Name = "lblSearch"
-        lblSearch.Size = New Size(86, 15)
-        lblSearch.TabIndex = 9
-        lblSearch.Text = "Search Student"
         ' 
         ' btnReset
         ' 
-        btnReset.Location = New Point(871, 82)
+        btnReset.Location = New Point(882, 3)
         btnReset.Name = "btnReset"
         btnReset.Size = New Size(75, 23)
         btnReset.TabIndex = 8
@@ -199,7 +138,7 @@ Partial Class Generate_Reports
         ' 
         ' btnApplyFilter
         ' 
-        btnApplyFilter.Location = New Point(769, 83)
+        btnApplyFilter.Location = New Point(882, 32)
         btnApplyFilter.Name = "btnApplyFilter"
         btnApplyFilter.Size = New Size(75, 23)
         btnApplyFilter.TabIndex = 7
@@ -209,35 +148,35 @@ Partial Class Generate_Reports
         ' cboCourse
         ' 
         cboCourse.FormattingEnabled = True
-        cboCourse.Location = New Point(627, 83)
+        cboCourse.Location = New Point(711, 20)
         cboCourse.Name = "cboCourse"
         cboCourse.Size = New Size(121, 23)
         cboCourse.TabIndex = 6
         ' 
         ' dtpTo
         ' 
-        dtpTo.Location = New Point(390, 87)
+        dtpTo.Location = New Point(474, 24)
         dtpTo.Name = "dtpTo"
         dtpTo.Size = New Size(200, 23)
         dtpTo.TabIndex = 5
         ' 
         ' dtpFrom
         ' 
-        dtpFrom.Location = New Point(167, 87)
+        dtpFrom.Location = New Point(218, 15)
         dtpFrom.Name = "dtpFrom"
         dtpFrom.Size = New Size(200, 23)
         dtpFrom.TabIndex = 4
         ' 
         ' txtSearch
         ' 
-        txtSearch.Location = New Point(25, 90)
+        txtSearch.Location = New Point(32, 29)
         txtSearch.Name = "txtSearch"
         txtSearch.Size = New Size(100, 23)
         txtSearch.TabIndex = 0
         ' 
         ' Panel3
         ' 
-        Panel3.BackColor = Color.White
+        Panel3.BackColor = Color.FromArgb(CByte(255), CByte(244), CByte(240))
         Panel3.Controls.Add(Panel9)
         Panel3.Dock = DockStyle.Bottom
         Panel3.Location = New Point(0, 530)
@@ -249,14 +188,13 @@ Partial Class Generate_Reports
         ' 
         ' Panel9
         ' 
-        Panel9.BackColor = Color.FromArgb(CByte(255), CByte(244), CByte(240))
-        Panel9.BorderStyle = BorderStyle.FixedSingle
+        Panel9.BackColor = Color.White
         Panel9.Controls.Add(btnGeneratePDF)
         Panel9.Controls.Add(btnGenerateExcel)
         Panel9.Controls.Add(lblNoTimeOut)
         Panel9.Controls.Add(lblComplete)
+        Panel9.Controls.Add(lblTotalRecords)
         Panel9.Dock = DockStyle.Fill
-        Panel9.ForeColor = Color.FromArgb(CByte(58), CByte(27), CByte(14))
         Panel9.Location = New Point(15, 15)
         Panel9.Name = "Panel9"
         Panel9.Size = New Size(981, 70)
@@ -264,34 +202,34 @@ Partial Class Generate_Reports
         ' 
         ' btnGeneratePDF
         ' 
-        btnGeneratePDF.Location = New Point(708, 24)
+        btnGeneratePDF.Location = New Point(677, 36)
         btnGeneratePDF.Name = "btnGeneratePDF"
-        btnGeneratePDF.Size = New Size(152, 23)
+        btnGeneratePDF.Size = New Size(75, 23)
         btnGeneratePDF.TabIndex = 4
-        btnGeneratePDF.Text = "Generate PDF"
+        btnGeneratePDF.Text = "btnGeneratePDF"
         btnGeneratePDF.UseVisualStyleBackColor = True
         ' 
         ' btnGenerateExcel
         ' 
-        btnGenerateExcel.Location = New Point(560, 24)
+        btnGenerateExcel.Location = New Point(527, 30)
         btnGenerateExcel.Name = "btnGenerateExcel"
-        btnGenerateExcel.Size = New Size(130, 23)
+        btnGenerateExcel.Size = New Size(75, 23)
         btnGenerateExcel.TabIndex = 3
-        btnGenerateExcel.Text = "Export Excel"
+        btnGenerateExcel.Text = "btnGenerateExcel"
         ' 
         ' lblNoTimeOut
         ' 
         lblNoTimeOut.AutoSize = True
-        lblNoTimeOut.Location = New Point(177, 28)
+        lblNoTimeOut.Location = New Point(369, 32)
         lblNoTimeOut.Name = "lblNoTimeOut"
-        lblNoTimeOut.Size = New Size(82, 15)
+        lblNoTimeOut.Size = New Size(83, 15)
         lblNoTimeOut.TabIndex = 2
         lblNoTimeOut.Text = "lblNoTimeOut"
         ' 
         ' lblComplete
         ' 
         lblComplete.AutoSize = True
-        lblComplete.Location = New Point(85, 28)
+        lblComplete.Location = New Point(217, 28)
         lblComplete.Name = "lblComplete"
         lblComplete.Size = New Size(72, 15)
         lblComplete.TabIndex = 1
@@ -300,23 +238,22 @@ Partial Class Generate_Reports
         ' lblTotalRecords
         ' 
         lblTotalRecords.AutoSize = True
-        lblTotalRecords.Location = New Point(794, 18)
+        lblTotalRecords.Location = New Point(39, 30)
         lblTotalRecords.Name = "lblTotalRecords"
-        lblTotalRecords.Size = New Size(87, 15)
+        lblTotalRecords.Size = New Size(88, 15)
         lblTotalRecords.TabIndex = 0
         lblTotalRecords.Text = "lblTotalRecords"
         ' 
         ' Panel4
         ' 
-        Panel4.BackColor = Color.White
+        Panel4.BackColor = Color.FromArgb(CByte(255), CByte(244), CByte(240))
         Panel4.Controls.Add(Panel7)
         Panel4.Dock = DockStyle.Fill
-        Panel4.ForeColor = Color.FromArgb(CByte(58), CByte(27), CByte(14))
-        Panel4.Location = New Point(0, 293)
+        Panel4.Location = New Point(0, 200)
         Panel4.Margin = New Padding(10)
         Panel4.Name = "Panel4"
         Panel4.Padding = New Padding(15)
-        Panel4.Size = New Size(1011, 237)
+        Panel4.Size = New Size(1011, 330)
         Panel4.TabIndex = 3
         ' 
         ' Panel7
@@ -327,53 +264,43 @@ Partial Class Generate_Reports
         Panel7.Dock = DockStyle.Fill
         Panel7.Location = New Point(15, 15)
         Panel7.Name = "Panel7"
-        Panel7.Size = New Size(981, 207)
+        Panel7.Size = New Size(981, 300)
         Panel7.TabIndex = 2
         ' 
         ' dgvAttendance
         ' 
-        dgvAttendance.AllowUserToAddRows = False
-        dgvAttendance.AllowUserToDeleteRows = False
-        dgvAttendance.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        dgvAttendance.BackgroundColor = Color.FromArgb(CByte(255), CByte(244), CByte(240))
         dgvAttendance.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvAttendance.Dock = DockStyle.Fill
         dgvAttendance.Location = New Point(0, 42)
-        dgvAttendance.MultiSelect = False
         dgvAttendance.Name = "dgvAttendance"
-        dgvAttendance.ReadOnly = True
-        dgvAttendance.Size = New Size(981, 165)
+        dgvAttendance.Size = New Size(981, 258)
         dgvAttendance.TabIndex = 1
         ' 
         ' Panel8
         ' 
-        Panel8.BackColor = Color.FromArgb(CByte(255), CByte(244), CByte(240))
-        Panel8.BorderStyle = BorderStyle.FixedSingle
-        Panel8.Controls.Add(lblRecords)
+        Panel8.Controls.Add(Label4)
         Panel8.Controls.Add(Label3)
-        Panel8.Controls.Add(lblTotalRecords)
         Panel8.Dock = DockStyle.Top
         Panel8.Location = New Point(0, 0)
         Panel8.Name = "Panel8"
         Panel8.Size = New Size(981, 42)
         Panel8.TabIndex = 0
         ' 
-        ' lblRecords
+        ' Label4
         ' 
-        lblRecords.AutoSize = True
-        lblRecords.Location = New Point(708, 18)
-        lblRecords.Name = "lblRecords"
-        lblRecords.Size = New Size(80, 15)
-        lblRecords.TabIndex = 1
-        lblRecords.Text = "Total Records:"
+        Label4.AutoSize = True
+        Label4.Location = New Point(708, 18)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(85, 15)
+        Label4.TabIndex = 1
+        Label4.Text = "Total Students:"
         ' 
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Font = New Font("Georgia", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label3.Location = New Point(10, 10)
+        Label3.Location = New Point(10, 18)
         Label3.Name = "Label3"
-        Label3.Size = New Size(230, 25)
+        Label3.Size = New Size(113, 15)
         Label3.TabIndex = 0
         Label3.Text = "Attendance Records"
         ' 
@@ -416,7 +343,7 @@ Partial Class Generate_Reports
     Friend WithEvents Panel7 As Panel
     Friend WithEvents dgvAttendance As DataGridView
     Friend WithEvents Panel8 As Panel
-    Friend WithEvents lblRecords As Label
+    Friend WithEvents Label4 As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents txtSearch As TextBox
     Friend WithEvents dtpFrom As DateTimePicker
@@ -429,10 +356,5 @@ Partial Class Generate_Reports
     Friend WithEvents btnReset As Button
     Friend WithEvents btnGeneratePDF As Button
     Friend WithEvents btnGenerateExcel As Button
-    Friend WithEvents Label5 As Label
-    Friend WithEvents lblSearch As Label
-    Friend WithEvents lblCourse As Label
-    Friend WithEvents lblDateTo As Label
-    Friend WithEvents lblDateFrom As Label
 
 End Class
