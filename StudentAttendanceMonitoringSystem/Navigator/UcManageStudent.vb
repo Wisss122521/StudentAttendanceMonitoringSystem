@@ -626,6 +626,25 @@ Public Class UcManageStudent
             Return
         End If
 
+        If StudentExists(
+                txtStudentName.Text.Trim(),
+                cboYearLevel.Text,
+                cboCourse.Text
+            ) Then
+
+            MessageBox.Show(
+                    "A student with the same name, year level, and course already exists.",
+                    "Duplicate Student",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                )
+
+            txtStudentName.Focus()
+
+            Return
+
+        End If
+
 
         Try
 
@@ -1156,40 +1175,113 @@ Public Class UcManageStudent
 
     End Sub
 
+    '==================================================
+    ' CHECK DUPLICATE STUDENT
+    '==================================================
+    Private Function StudentExists(
+            studentName As String,
+            yearLevel As String,
+            course As String,
+            Optional transaction As OdbcTransaction = Nothing
+        ) As Boolean
+
+        Dim query As String =
+                "SELECT COUNT(*) " &
+                "FROM students " &
+                "WHERE LOWER(TRIM(students_name)) = LOWER(TRIM(?)) " &
+                "AND year_level = ? " &
+                "AND course = ?"
+
+
+        Using cmd As New OdbcCommand(
+                query,
+                con
+            )
+
+            If transaction IsNot Nothing Then
+                cmd.Transaction = transaction
+            End If
+
+
+            cmd.Parameters.AddWithValue(
+            "@name",
+            studentName.Trim()
+        )
+
+            cmd.Parameters.AddWithValue(
+            "@year",
+            yearLevel
+        )
+
+            cmd.Parameters.AddWithValue(
+            "@course",
+            course
+        )
+
+
+            Return Convert.ToInt32(
+            cmd.ExecuteScalar()
+        ) > 0
+
+        End Using
+
+    End Function
 
     '==================================================
     ' IMPORT EXCEL FUNCTION
     '==================================================
     Private Sub ImportStudentsFromExcel(
-        filePath As String
-    )
+    filePath As String
+)
 
         Try
 
-            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
+            If con Is Nothing OrElse
+           con.State <> ConnectionState.Open Then
+
                 vbConnection()
+
             End If
 
 
             Using workbook As New XLWorkbook(filePath)
 
                 Dim worksheet =
-                    workbook.Worksheet(1)
+                workbook.Worksheet(1)
+
+
+                '==================================================
+                ' CHECK EMPTY WORKSHEET
+                '==================================================
+                Dim lastUsedRow =
+                worksheet.LastRowUsed()
+
+                If lastUsedRow Is Nothing Then
+
+                    MessageBox.Show(
+                    "The Excel file does not contain student records.",
+                    "Import Students",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                )
+
+                    Return
+
+                End If
 
 
                 Dim lastRow As Integer =
-                    worksheet.LastRowUsed().
-                    RowNumber()
+                lastUsedRow.RowNumber()
 
 
                 If lastRow < 2 Then
 
                     MessageBox.Show(
-                        "The Excel file does not contain student records.",
-                        "Import Students",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    )
+                    "The Excel file does not contain student records.",
+                    "Import Students",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                )
 
                     Return
 
@@ -1197,160 +1289,230 @@ Public Class UcManageStudent
 
 
                 Dim importedCount As Integer = 0
-                Dim skippedCount As Integer = 0
+                Dim duplicateCount As Integer = 0
+                Dim invalidCount As Integer = 0
 
 
-                ' Row 1 = headers
-                For row As Integer = 2 To lastRow
+                '==================================================
+                ' START DATABASE TRANSACTION
+                '==================================================
+                Using transaction As OdbcTransaction =
+                con.BeginTransaction()
 
-                    Dim studentName As String =
-                        worksheet.Cell(row, 1).
-                        GetString().
-                        Trim()
+                    Try
 
+                        ' Row 1 = headers
+                        For row As Integer = 2 To lastRow
 
-                    Dim yearValue As String =
-                        worksheet.Cell(row, 2).
-                        GetString().
-                        Trim()
-
-
-                    Dim courseValue As String =
-                        worksheet.Cell(row, 3).
-                        GetString().
-                        Trim()
+                            Dim studentName As String =
+                            worksheet.Cell(row, 1).
+                            GetString().
+                            Trim()
 
 
-                    Dim parentContact As String =
-                        worksheet.Cell(row, 4).
-                        GetString().
-                        Trim()
+                            Dim yearValue As String =
+                            worksheet.Cell(row, 2).
+                            GetString().
+                            Trim()
 
 
-                    ' Ignore completely empty row
-                    If studentName = "" AndAlso
-                       yearValue = "" AndAlso
-                       courseValue = "" AndAlso
-                       parentContact = "" Then
-
-                        Continue For
-
-                    End If
+                            Dim courseValue As String =
+                            worksheet.Cell(row, 3).
+                            GetString().
+                            Trim()
 
 
-                    Dim yearLevel As String =
-                        NormalizeYearLevel(
-                            yearValue
-                        )
+                            Dim parentContact As String =
+                            worksheet.Cell(row, 4).
+                            GetString().
+                            Trim()
 
 
-                    Dim course As String =
-                        NormalizeCourse(
-                            courseValue
-                        )
+                            '======================================
+                            ' IGNORE COMPLETELY EMPTY ROW
+                            '======================================
+                            If studentName = "" AndAlso
+                           yearValue = "" AndAlso
+                           courseValue = "" AndAlso
+                           parentContact = "" Then
+
+                                Continue For
+
+                            End If
 
 
-                    ' Required information missing
-                    If studentName = "" OrElse
-                       yearLevel = "" OrElse
-                       course = "" Then
-
-                        skippedCount += 1
-                        Continue For
-
-                    End If
-
-
-                    ' Contact must be numeric if present
-                    If parentContact <> "" AndAlso
-                       Not parentContact.All(
-                           AddressOf Char.IsDigit
-                       ) Then
-
-                        skippedCount += 1
-                        Continue For
-
-                    End If
-
-
-                    Dim query As String =
-                        "INSERT INTO students " &
-                        "(" &
-                        "students_name, " &
-                        "year_level, " &
-                        "course, " &
-                        "parent_contact_number, " &
-                        "qr_code_data" &
-                        ") " &
-                        "VALUES (?, ?, ?, ?, NULL)"
-
-
-                    Using cmd As New OdbcCommand(
-                        query,
-                        con
-                    )
-
-                        cmd.Parameters.AddWithValue(
-                            "@name",
-                            studentName
-                        )
-
-                        cmd.Parameters.AddWithValue(
-                            "@year",
-                            yearLevel
-                        )
-
-                        cmd.Parameters.AddWithValue(
-                            "@course",
-                            course
-                        )
-
-
-                        If parentContact = "" Then
-
-                            cmd.Parameters.AddWithValue(
-                                "@contact",
-                                DBNull.Value
+                            '======================================
+                            ' NORMALIZE VALUES
+                            '======================================
+                            Dim yearLevel As String =
+                            NormalizeYearLevel(
+                                yearValue
                             )
 
-                        Else
 
-                            cmd.Parameters.AddWithValue(
-                                "@contact",
-                                parentContact
+                            Dim course As String =
+                            NormalizeCourse(
+                                courseValue
                             )
 
-                        End If
+
+                            '======================================
+                            ' INVALID REQUIRED INFORMATION
+                            '======================================
+                            If studentName = "" OrElse
+                           yearLevel = "" OrElse
+                           course = "" Then
+
+                                invalidCount += 1
+                                Continue For
+
+                            End If
 
 
-                        cmd.ExecuteNonQuery()
+                            '======================================
+                            ' INVALID CONTACT NUMBER
+                            '======================================
+                            If parentContact <> "" AndAlso
+                           Not parentContact.All(
+                               AddressOf Char.IsDigit
+                           ) Then
 
-                    End Using
+                                invalidCount += 1
+                                Continue For
+
+                            End If
 
 
-                    importedCount += 1
+                            '======================================
+                            ' DUPLICATE CHECK
+                            '======================================
+                            If StudentExists(
+                            studentName,
+                            yearLevel,
+                            course,
+                            transaction
+                        ) Then
 
-                Next
+                                duplicateCount += 1
+                                Continue For
+
+                            End If
 
 
+                            '======================================
+                            ' INSERT STUDENT
+                            '======================================
+                            Dim query As String =
+                            "INSERT INTO students " &
+                            "(" &
+                            "students_name, " &
+                            "year_level, " &
+                            "course, " &
+                            "parent_contact_number, " &
+                            "qr_code_data" &
+                            ") " &
+                            "VALUES (?, ?, ?, ?, NULL)"
+
+
+                            Using cmd As New OdbcCommand(
+                            query,
+                            con,
+                            transaction
+                        )
+
+                                cmd.Parameters.AddWithValue(
+                                "@name",
+                                studentName
+                            )
+
+                                cmd.Parameters.AddWithValue(
+                                "@year",
+                                yearLevel
+                            )
+
+                                cmd.Parameters.AddWithValue(
+                                "@course",
+                                course
+                            )
+
+
+                                If parentContact = "" Then
+
+                                    cmd.Parameters.AddWithValue(
+                                    "@contact",
+                                    DBNull.Value
+                                )
+
+                                Else
+
+                                    cmd.Parameters.AddWithValue(
+                                    "@contact",
+                                    parentContact
+                                )
+
+                                End If
+
+
+                                cmd.ExecuteNonQuery()
+
+                            End Using
+
+
+                            importedCount += 1
+
+                        Next
+
+
+                        '==================================================
+                        ' EVERYTHING SUCCESSFUL
+                        '==================================================
+                        transaction.Commit()
+
+
+                    Catch
+
+                        '==================================================
+                        ' ERROR = CANCEL ENTIRE IMPORT
+                        '==================================================
+                        Try
+                            transaction.Rollback()
+                        Catch
+                        End Try
+
+                        Throw
+
+                    End Try
+
+                End Using
+
+
+                '==================================================
+                ' REFRESH UI
+                '==================================================
                 LoadStudents()
                 UpdateTotalStudents()
                 ClearFields()
 
 
+                '==================================================
+                ' IMPORT RESULT
+                '==================================================
                 MessageBox.Show(
-                    "Import completed." &
-                    vbCrLf &
-                    vbCrLf &
-                    "Imported: " &
-                    importedCount.ToString() &
-                    vbCrLf &
-                    "Skipped: " &
-                    skippedCount.ToString(),
-                    "Import Students",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                )
+                "Import completed successfully." &
+                vbCrLf &
+                vbCrLf &
+                "Imported: " &
+                importedCount.ToString() &
+                vbCrLf &
+                "Duplicates skipped: " &
+                duplicateCount.ToString() &
+                vbCrLf &
+                "Invalid rows skipped: " &
+                invalidCount.ToString(),
+                "Import Students",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            )
 
             End Using
 
@@ -1358,12 +1520,16 @@ Public Class UcManageStudent
         Catch ex As Exception
 
             MessageBox.Show(
-                "Excel Import Error: " &
-                ex.Message,
-                "Import Students",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error
-            )
+            "The student import failed." &
+            vbCrLf &
+            vbCrLf &
+            "No partial import was kept." &
+            vbCrLf &
+            ex.Message,
+            "Import Students",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error
+        )
 
         End Try
 

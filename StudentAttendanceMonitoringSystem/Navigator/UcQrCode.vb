@@ -8,6 +8,35 @@ Public Class UcQrCode
     Private selectedStudentName As String = ""
     Private selectedQRToken As String = ""
 
+    Private Function GetSafeFileName(
+        value As String
+    ) As String
+
+        Dim result As String =
+            value.Trim()
+
+        For Each invalidChar As Char In
+            IO.Path.GetInvalidFileNameChars()
+
+            result =
+                result.Replace(
+                    invalidChar,
+                    "_"c
+                )
+
+        Next
+
+
+        result =
+        result.Replace(
+            " ",
+            "_"
+        )
+
+
+        Return result
+
+    End Function
     Private Sub timerClock_Tick_1(sender As Object, e As EventArgs) Handles timerClock.Tick
         UpdateDateTime()
     End Sub
@@ -152,6 +181,13 @@ Public Class UcQrCode
 
         Try
 
+            If con Is Nothing OrElse
+                con.State <> ConnectionState.Open Then
+
+                vbConnection()
+
+            End If
+
             Dim query As String =
                 "SELECT students_id, students_name, " &
                 "year_level, course, qr_code_data " &
@@ -248,27 +284,41 @@ Public Class UcQrCode
 
         Try
 
-            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
+            If con Is Nothing OrElse
+           con.State <> ConnectionState.Open Then
+
                 vbConnection()
+
             End If
 
 
             Dim studentIds As New List(Of Integer)
 
+
+            '==================================================
+            ' GET STUDENTS WITHOUT QR
+            '==================================================
             Dim selectQuery As String =
             "SELECT students_id " &
             "FROM students " &
             "WHERE qr_code_data IS NULL " &
             "OR TRIM(qr_code_data) = ''"
 
-            Using selectCmd As New OdbcCommand(selectQuery, con)
 
-                Using reader As OdbcDataReader = selectCmd.ExecuteReader()
+            Using selectCmd As New OdbcCommand(
+            selectQuery,
+            con
+        )
+
+                Using reader As OdbcDataReader =
+                selectCmd.ExecuteReader()
 
                     While reader.Read()
 
                         studentIds.Add(
-                        Convert.ToInt32(reader("students_id"))
+                        Convert.ToInt32(
+                            reader("students_id")
+                        )
                     )
 
                     End While
@@ -278,7 +328,9 @@ Public Class UcQrCode
             End Using
 
 
-            ' Kapag wala nang missing QR
+            '==================================================
+            ' NOTHING TO GENERATE
+            '==================================================
             If studentIds.Count = 0 Then
 
                 MessageBox.Show(
@@ -293,37 +345,85 @@ Public Class UcQrCode
             End If
 
 
-            ' Generate QR token bawat student
-            For Each studentId As Integer In studentIds
-
-                Dim qrToken As String =
-                "STU-" & Guid.NewGuid().ToString()
-
-                Dim updateQuery As String =
-                "UPDATE students " &
-                "SET qr_code_data = ? " &
-                "WHERE students_id = ?"
-
-                Using updateCmd As New OdbcCommand(updateQuery, con)
-
-                    updateCmd.Parameters.AddWithValue(
-                    "@qr",
-                    qrToken
-                )
-
-                    updateCmd.Parameters.AddWithValue(
-                    "@id",
-                    studentId
-                )
-
-                    updateCmd.ExecuteNonQuery()
-
-                End Using
-
-            Next
+            Dim result As DialogResult =
+            MessageBox.Show(
+                "Generate QR Codes for " &
+                studentIds.Count.ToString() &
+                " student(s)?",
+                "Generate Missing QR Codes",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            )
 
 
-            ' Refresh table at summary
+            If result <> DialogResult.Yes Then
+                Return
+            End If
+
+
+            '==================================================
+            ' START TRANSACTION
+            '==================================================
+            Using transaction As OdbcTransaction =
+            con.BeginTransaction()
+
+                Try
+
+                    For Each studentId As Integer In studentIds
+
+                        Dim qrToken As String =
+                        GenerateQRToken()
+
+
+                        Dim updateQuery As String =
+                        "UPDATE students " &
+                        "SET qr_code_data = ? " &
+                        "WHERE students_id = ?"
+
+
+                        Using updateCmd As New OdbcCommand(
+                        updateQuery,
+                        con,
+                        transaction
+                    )
+
+                            updateCmd.Parameters.AddWithValue(
+                            "@qr",
+                            qrToken
+                        )
+
+                            updateCmd.Parameters.AddWithValue(
+                            "@id",
+                            studentId
+                        )
+
+                            updateCmd.ExecuteNonQuery()
+
+                        End Using
+
+                    Next
+
+
+                    transaction.Commit()
+
+
+                Catch
+
+                    Try
+                        transaction.Rollback()
+                    Catch
+                    End Try
+
+                    Throw
+
+                End Try
+
+            End Using
+
+
+            '==================================================
+            ' REFRESH
+            '==================================================
             LoadStudents()
             UpdateSummary()
             ClearPreview()
@@ -337,11 +437,17 @@ Public Class UcQrCode
             MessageBoxIcon.Information
         )
 
+
         Catch ex As Exception
 
             MessageBox.Show(
+            "QR generation failed." &
+            vbCrLf &
+            vbCrLf &
+            "No partial QR generation was kept." &
+            vbCrLf &
             ex.Message,
-            "Generate Missing QR Error",
+            "Generate QR Codes",
             MessageBoxButtons.OK,
             MessageBoxIcon.Error
         )
@@ -375,11 +481,12 @@ Public Class UcQrCode
                 MessageBox.Show(
                     "This student already has a QR Code." &
                     vbCrLf &
-                    "Do you want to generate a new one?" &
+                    vbCrLf &
+                    "Generating a new QR Code will immediately invalidate the old one." &
                     vbCrLf &
                     vbCrLf &
-                    "The old QR Code will no longer work.",
-                    "Generate New QR Code",
+                    "Do you want to continue?",
+                    "Replace QR Code",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning
                 )
@@ -468,7 +575,9 @@ Public Class UcQrCode
                 "PNG Image|*.png"
 
             save.FileName =
-                selectedStudentName.Replace(" ", "_") &
+                GetSafeFileName(
+                    selectedStudentName
+                ) &
                 "_QR.png"
 
             If save.ShowDialog() =

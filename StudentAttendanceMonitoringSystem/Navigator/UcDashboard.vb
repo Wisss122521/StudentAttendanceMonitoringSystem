@@ -5,43 +5,51 @@ Imports System.Drawing
 Public Class UcDashboard
 
     '==================================================
-    ' DASHBOARD LOAD
+    ' FORM LOAD
     '==================================================
-    Private Sub Dashboard_Load(
+    Private Sub UcDashboard_Load(
         sender As Object,
         e As EventArgs
     ) Handles MyBase.Load
 
         Try
+            EnsureDatabaseConnection()
 
-            If con Is Nothing OrElse
-               con.State <> ConnectionState.Open Then
-
-                vbConnection()
-
-            End If
-
+            Me.AutoScroll = True
 
             timerClock.Interval = 1000
             timerClock.Start()
 
             UpdateDateTime()
-
             RefreshDashboard()
-
-            Me.AutoScroll = True
-
 
         Catch ex As Exception
 
             MessageBox.Show(
-                "Dashboard Error: " & ex.Message,
-                "Dashboard",
+                "Unable to load the dashboard." &
+                vbCrLf &
+                ex.Message,
+                "Dashboard Error",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
             )
 
         End Try
+
+    End Sub
+
+
+    '==================================================
+    ' DATABASE CONNECTION
+    '==================================================
+    Private Sub EnsureDatabaseConnection()
+
+        If con Is Nothing OrElse
+           con.State <> ConnectionState.Open Then
+
+            vbConnection()
+
+        End If
 
     End Sub
 
@@ -59,7 +67,7 @@ Public Class UcDashboard
 
 
     '==================================================
-    ' DATE / TIME
+    ' DATE AND TIME
     '==================================================
     Private Sub timerClock_Tick(
         sender As Object,
@@ -75,75 +83,34 @@ Public Class UcDashboard
 
         lblDateTime.Text =
             DateTime.Now.ToString(
-                "dddd, MMMM dd, yyyy"
-            ) &
-            "   |   " &
-            DateTime.Now.ToString(
-                "hh:mm:ss tt"
+                "dddd, MMMM dd, yyyy   |   hh:mm:ss tt"
             )
 
     End Sub
 
 
     '==================================================
-    ' SIMPLE COUNT FUNCTION
+    ' GET COUNT FROM DATABASE
     '==================================================
-    Private Function GetCount(
-        query As String
-    ) As Integer
+    Private Function GetCount(query As String) As Integer
 
-        Try
+        EnsureDatabaseConnection()
 
-            If con Is Nothing OrElse
-               con.State <> ConnectionState.Open Then
+        Using cmd As New OdbcCommand(query, con)
 
-                vbConnection()
+            Dim result As Object =
+                cmd.ExecuteScalar()
+
+            If result Is Nothing OrElse
+               IsDBNull(result) Then
+
+                Return 0
 
             End If
 
+            Return Convert.ToInt32(result)
 
-            Using cmd As New OdbcCommand(
-                query,
-                con
-            )
-
-                Dim result As Object =
-                    cmd.ExecuteScalar()
-
-
-                If result Is Nothing OrElse
-                   IsDBNull(result) Then
-
-                    Return 0
-
-                End If
-
-
-                Return Convert.ToInt32(result)
-
-            End Using
-
-
-        Catch ex As Exception
-
-            MessageBox.Show(
-                "Count Query Error:" &
-                vbCrLf &
-                vbCrLf &
-                ex.Message &
-                vbCrLf &
-                vbCrLf &
-                "Query:" &
-                vbCrLf &
-                query,
-                "Dashboard",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error
-            )
-
-            Return 0
-
-        End Try
+        End Using
 
     End Function
 
@@ -155,9 +122,7 @@ Public Class UcDashboard
 
         Try
 
-            '==============================================
-            ' TOTAL STUDENTS
-            '==============================================
+            ' Total registered students
             lblTotalStudents.Text =
                 GetCount(
                     "SELECT COUNT(*) " &
@@ -165,9 +130,7 @@ Public Class UcDashboard
                 ).ToString()
 
 
-            '==============================================
-            ' QR GENERATED
-            '==============================================
+            ' Students with generated QR code
             lblQRGenerated.Text =
                 GetCount(
                     "SELECT COUNT(*) " &
@@ -177,46 +140,36 @@ Public Class UcDashboard
                 ).ToString()
 
 
-            '==============================================
-            ' TODAY'S ENTRY
-            '==============================================
+            ' Entry records today
             lblTodayEntry.Text =
                 GetCount(
-                    "SELECT COUNT(*) " &
+                    "SELECT COUNT(DISTINCT students_id) " &
                     "FROM attendance_records " &
                     "WHERE attendance_date = CURDATE()"
                 ).ToString()
 
 
-            '==============================================
-            ' TODAY'S EXIT
-            '==============================================
+            ' Completed exits today
             lblTodayExit.Text =
                 GetCount(
-                    "SELECT COUNT(*) " &
+                    "SELECT COUNT(DISTINCT students_id) " &
                     "FROM attendance_records " &
                     "WHERE attendance_date = CURDATE() " &
                     "AND time_out IS NOT NULL"
                 ).ToString()
 
 
-            '==============================================
-            ' QR NOT GENERATED
-            '==============================================
+            ' Students without QR code
             lblQRNotGenerated.Text =
                 GetCount(
                     "SELECT COUNT(*) " &
                     "FROM students " &
-                    "WHERE (" &
-                    "qr_code_data IS NULL " &
-                    "OR TRIM(qr_code_data) = ''" &
-                    ")"
+                    "WHERE qr_code_data IS NULL " &
+                    "OR TRIM(qr_code_data) = ''"
                 ).ToString()
 
 
-            '==============================================
-            ' NO EXIT TODAY
-            '==============================================
+            ' Entry records without exit today
             lblNoExitToday.Text =
                 GetCount(
                     "SELECT COUNT(*) " &
@@ -226,23 +179,23 @@ Public Class UcDashboard
                 ).ToString()
 
 
-            '==============================================
-            ' FAILED SMS
-            '==============================================
+            ' Failed SMS logs
             lblFailedSMS.Text =
                 GetCount(
                     "SELECT COUNT(*) " &
                     "FROM sms_logs " &
-                    "WHERE status = 'FAILED'"
+                    "WHERE UPPER(status) = 'FAILED' " &
+                    "AND DATE(sent_at) = CURDATE()"
                 ).ToString()
 
 
         Catch ex As Exception
 
             MessageBox.Show(
-                "Dashboard Summary Error: " &
+                "Unable to load dashboard summary." &
+                vbCrLf &
                 ex.Message,
-                "Dashboard",
+                "Dashboard Error",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
             )
@@ -253,20 +206,12 @@ Public Class UcDashboard
 
 
     '==================================================
-    ' RECENT ENTRY / EXIT
-    ' TODAY ONLY
+    ' RECENT ENTRY / EXIT RECORDS
     '==================================================
     Private Sub LoadRecentEntryExit()
 
         Try
-
-            If con Is Nothing OrElse
-               con.State <> ConnectionState.Open Then
-
-                vbConnection()
-
-            End If
-
+            EnsureDatabaseConnection()
 
             Dim query As String =
                 "SELECT " &
@@ -283,24 +228,23 @@ Public Class UcDashboard
                 "LIMIT 10"
 
 
-            Using cmd As New OdbcCommand(
-                query,
-                con
-            )
+            Using cmd As New OdbcCommand(query, con)
 
-                Dim adapter As New OdbcDataAdapter(
-                    cmd
-                )
+                Using adapter As New OdbcDataAdapter(cmd)
 
-                Dim dt As New DataTable()
+                    Dim table As New DataTable()
 
-                adapter.Fill(dt)
+                    adapter.Fill(table)
 
-                dgvRecentEntryExit.DataSource =
-                    dt
+                    dgvRecentEntryExit.DataSource =
+                        table
+
+                End Using
 
             End Using
 
+
+            FormatEntryExitGrid()
 
             dgvRecentEntryExit.ClearSelection()
 
@@ -308,9 +252,10 @@ Public Class UcDashboard
         Catch ex As Exception
 
             MessageBox.Show(
-                "Recent Entry/Exit Error: " &
+                "Unable to load recent entry/exit records." &
+                vbCrLf &
                 ex.Message,
-                "Dashboard",
+                "Dashboard Error",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
             )
@@ -321,19 +266,73 @@ Public Class UcDashboard
 
 
     '==================================================
-    ' RECENT SMS
+    ' FORMAT ENTRY / EXIT GRID
+    '==================================================
+    Private Sub FormatEntryExitGrid()
+
+        For Each column As DataGridViewColumn In
+            dgvRecentEntryExit.Columns
+
+            Select Case column.DataPropertyName
+
+                Case "student_id"
+
+                    column.HeaderText =
+                        "Student ID"
+
+                    column.FillWeight =
+                        60
+
+
+                Case "student_name"
+
+                    column.HeaderText =
+                        "Student Name"
+
+                    column.FillWeight =
+                        120
+
+
+                Case "year_course"
+
+                    column.HeaderText =
+                        "Year / Course"
+
+                    column.FillWeight =
+                        100
+
+
+                Case "time_in"
+
+                    column.HeaderText =
+                        "Time In"
+
+                    column.FillWeight =
+                        75
+
+
+                Case "time_out"
+
+                    column.HeaderText =
+                        "Time Out"
+
+                    column.FillWeight =
+                        75
+
+            End Select
+
+        Next
+
+    End Sub
+
+
+    '==================================================
+    ' RECENT SMS NOTIFICATIONS
     '==================================================
     Private Sub LoadRecentSMS()
 
         Try
-
-            If con Is Nothing OrElse
-               con.State <> ConnectionState.Open Then
-
-                vbConnection()
-
-            End If
-
+            EnsureDatabaseConnection()
 
             Dim query As String =
                 "SELECT " &
@@ -348,24 +347,23 @@ Public Class UcDashboard
                 "LIMIT 10"
 
 
-            Using cmd As New OdbcCommand(
-                query,
-                con
-            )
+            Using cmd As New OdbcCommand(query, con)
 
-                Dim adapter As New OdbcDataAdapter(
-                    cmd
-                )
+                Using adapter As New OdbcDataAdapter(cmd)
 
-                Dim dt As New DataTable()
+                    Dim table As New DataTable()
 
-                adapter.Fill(dt)
+                    adapter.Fill(table)
 
-                dgvRecentSMS.DataSource =
-                    dt
+                    dgvRecentSMS.DataSource =
+                        table
+
+                End Using
 
             End Using
 
+
+            FormatSMSGrid()
 
             dgvRecentSMS.ClearSelection()
 
@@ -373,9 +371,10 @@ Public Class UcDashboard
         Catch ex As Exception
 
             MessageBox.Show(
-                "Recent SMS Error: " &
+                "Unable to load recent SMS notifications." &
+                vbCrLf &
                 ex.Message,
-                "Dashboard",
+                "Dashboard Error",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
             )
@@ -386,91 +385,105 @@ Public Class UcDashboard
 
 
     '==================================================
-    ' ENTRY / EXIT CELL COLOR
+    ' FORMAT SMS GRID
+    '==================================================
+    Private Sub FormatSMSGrid()
+
+        For Each column As DataGridViewColumn In
+            dgvRecentSMS.Columns
+
+            Select Case column.DataPropertyName
+
+                Case "student_name"
+
+                    column.HeaderText =
+                        "Student"
+
+                    column.FillWeight =
+                        110
+
+
+                Case "sms_type"
+
+                    column.HeaderText =
+                        "Type"
+
+                    column.FillWeight =
+                        60
+
+
+                Case "sent_at"
+
+                    column.HeaderText =
+                        "Date / Time"
+
+                    column.FillWeight =
+                        95
+
+
+                Case "status"
+
+                    column.HeaderText =
+                        "Status"
+
+                    column.FillWeight =
+                        60
+
+            End Select
+
+        Next
+
+    End Sub
+
+
+    '==================================================
+    ' ENTRY / EXIT CELL FORMATTING
     '==================================================
     Private Sub dgvRecentEntryExit_CellFormatting(
         sender As Object,
         e As DataGridViewCellFormattingEventArgs
     ) Handles dgvRecentEntryExit.CellFormatting
 
-        If e.RowIndex < 0 Then
-            Return
-        End If
-
-
-        If e.ColumnIndex <>
-           dgvRecentEntryExit.Columns(
-               "colEntryTimeOut"
-           ).Index Then
+        If e.RowIndex < 0 OrElse
+           e.ColumnIndex < 0 Then
 
             Return
 
         End If
 
 
-        Dim hasTimeOut As Boolean = False
+        Dim column As DataGridViewColumn =
+            dgvRecentEntryExit.Columns(e.ColumnIndex)
 
 
-        If e.Value IsNot Nothing AndAlso
-           Not IsDBNull(e.Value) AndAlso
-           e.Value.ToString().Trim() <> "" Then
-
-            hasTimeOut = True
-
+        ' Only format the Time Out column
+        If column.DataPropertyName <> "time_out" Then
+            Return
         End If
+
+
+        Dim hasTimeOut As Boolean =
+            e.Value IsNot Nothing AndAlso
+            Not IsDBNull(e.Value) AndAlso
+            e.Value.ToString().Trim() <> ""
 
 
         If hasTimeOut Then
 
-            ' COMPLETE ENTRY / EXIT
-            e.CellStyle.BackColor =
-                Color.FromArgb(
-                    220,
-                    242,
-                    224
-                )
-
-            e.CellStyle.ForeColor =
-                Color.FromArgb(
-                    32,
-                    110,
-                    55
-                )
-
-            e.CellStyle.SelectionBackColor =
-                Color.FromArgb(
-                    190,
-                    225,
-                    197
-                )
+            ApplySuccessStyle(
+                e.CellStyle
+            )
 
         Else
 
-            ' NO EXIT YET
             e.Value = "-"
 
-            e.CellStyle.BackColor =
-                Color.FromArgb(
-                    250,
-                    218,
-                    218
-                )
+            ApplyWarningStyle(
+                e.CellStyle
+            )
 
-            e.CellStyle.ForeColor =
-                Color.FromArgb(
-                    170,
-                    45,
-                    45
-                )
-
-            e.CellStyle.SelectionBackColor =
-                Color.FromArgb(
-                    238,
-                    190,
-                    190
-                )
-
-            e.FormattingApplied = True
+            e.FormattingApplied =
+                True
 
         End If
 
@@ -478,68 +491,123 @@ Public Class UcDashboard
 
 
     '==================================================
-    ' SMS STATUS COLOR
+    ' SMS STATUS CELL FORMATTING
     '==================================================
     Private Sub dgvRecentSMS_CellFormatting(
-    sender As Object,
-    e As DataGridViewCellFormattingEventArgs
-) Handles dgvRecentSMS.CellFormatting
+        sender As Object,
+        e As DataGridViewCellFormattingEventArgs
+    ) Handles dgvRecentSMS.CellFormatting
 
-        If e.RowIndex < 0 Then Return
-
-        If e.ColumnIndex < 0 OrElse
-       e.ColumnIndex >= dgvRecentSMS.Columns.Count Then
+        If e.RowIndex < 0 OrElse
+           e.ColumnIndex < 0 Then
 
             Return
 
         End If
 
 
-        Dim currentColumn As DataGridViewColumn =
-        dgvRecentSMS.Columns(e.ColumnIndex)
+        Dim column As DataGridViewColumn =
+            dgvRecentSMS.Columns(e.ColumnIndex)
 
 
-        ' Status column lang
-        If currentColumn.DataPropertyName <> "status" Then
+        ' Only format the Status column
+        If column.DataPropertyName <> "status" Then
             Return
         End If
 
 
-        If e.Value Is Nothing OrElse IsDBNull(e.Value) Then
+        If e.Value Is Nothing OrElse
+           IsDBNull(e.Value) Then
+
             Return
+
         End If
 
 
         Dim status As String =
-        e.Value.ToString().Trim().ToUpper()
+            e.Value.ToString().
+            Trim().
+            ToUpper()
 
 
         Select Case status
 
             Case "SENT"
 
-                e.CellStyle.BackColor =
-                Color.FromArgb(220, 242, 224)
-
-                e.CellStyle.ForeColor =
-                Color.FromArgb(32, 110, 55)
-
-                e.CellStyle.SelectionBackColor =
-                Color.FromArgb(190, 225, 197)
+                ApplySuccessStyle(
+                    e.CellStyle
+                )
 
 
             Case "FAILED"
 
-                e.CellStyle.BackColor =
-                Color.FromArgb(250, 218, 218)
-
-                e.CellStyle.ForeColor =
-                Color.FromArgb(170, 45, 45)
-
-                e.CellStyle.SelectionBackColor =
-                Color.FromArgb(238, 190, 190)
+                ApplyWarningStyle(
+                    e.CellStyle
+                )
 
         End Select
+
+    End Sub
+
+
+    '==================================================
+    ' GREEN CELL STYLE
+    '==================================================
+    Private Sub ApplySuccessStyle(
+        style As DataGridViewCellStyle
+    )
+
+        style.BackColor =
+            Color.FromArgb(
+                220,
+                242,
+                224
+            )
+
+        style.ForeColor =
+            Color.FromArgb(
+                32,
+                110,
+                55
+            )
+
+        style.SelectionBackColor =
+            Color.FromArgb(
+                190,
+                225,
+                197
+            )
+
+    End Sub
+
+
+    '==================================================
+    ' RED / WARNING CELL STYLE
+    '==================================================
+    Private Sub ApplyWarningStyle(
+        style As DataGridViewCellStyle
+    )
+
+        style.BackColor =
+            Color.FromArgb(
+                250,
+                218,
+                218
+            )
+
+        style.ForeColor =
+            Color.FromArgb(
+                170,
+                45,
+                45
+            )
+
+        style.SelectionBackColor =
+            Color.FromArgb(
+                238,
+                190,
+                190
+            )
 
     End Sub
 
