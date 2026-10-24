@@ -4,7 +4,7 @@ Imports System.Text
 Imports System.Threading.Tasks
 Imports System.Drawing
 
-Public Class SmsNotifications
+Public Class UcSmsNotifications
 
     '==================================================
     ' SELECTED STUDENT

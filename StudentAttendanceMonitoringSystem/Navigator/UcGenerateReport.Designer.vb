@@ -140,17 +140,14 @@ Partial Class UcGenerateReport
         Me.pnlHeader.BorderStyle =
             System.Windows.Forms.BorderStyle.FixedSingle
 
-        Me.pnlHeader.Controls.Add(Me.lblSubtitle)
-        Me.pnlHeader.Controls.Add(Me.lblTitle)
-
         Me.pnlHeader.Location =
-            New System.Drawing.Point(15, 15)
+            New System.Drawing.Point(18, 14)
 
         Me.pnlHeader.Name =
             "pnlHeader"
 
         Me.pnlHeader.Size =
-            New System.Drawing.Size(1430, 75)
+            New System.Drawing.Size(998, 68)
 
         Me.pnlHeader.TabIndex =
             0
@@ -168,7 +165,7 @@ Partial Class UcGenerateReport
         Me.lblTitle.Font =
             New System.Drawing.Font(
                 "Georgia",
-                23.0!,
+                24.0!,
                 System.Drawing.FontStyle.Bold
             )
 
@@ -176,7 +173,7 @@ Partial Class UcGenerateReport
             System.Drawing.Color.FromArgb(68, 37, 22)
 
         Me.lblTitle.Location =
-            New System.Drawing.Point(20, 8)
+            New System.Drawing.Point(19, 10)
 
         Me.lblTitle.Name =
             "lblTitle"
@@ -200,14 +197,14 @@ Partial Class UcGenerateReport
         Me.lblSubtitle.Font =
             New System.Drawing.Font(
                 "Segoe UI",
-                9.0!
+                10.0!
             )
 
         Me.lblSubtitle.ForeColor =
             System.Drawing.Color.FromArgb(117, 87, 71)
 
         Me.lblSubtitle.Location =
-            New System.Drawing.Point(23, 49)
+            New System.Drawing.Point(23, 44)
 
         Me.lblSubtitle.Name =
             "lblSubtitle"
@@ -257,13 +254,13 @@ Partial Class UcGenerateReport
         Me.pnlFilters.Controls.Add(Me.pnlFiltersHeader)
 
         Me.pnlFilters.Location =
-            New System.Drawing.Point(15, 100)
+            New System.Drawing.Point(18, 90)
 
         Me.pnlFilters.Name =
             "pnlFilters"
 
         Me.pnlFilters.Size =
-            New System.Drawing.Size(1430, 125)
+            New System.Drawing.Size(998, 92)
 
         Me.pnlFilters.TabIndex =
             1
@@ -273,7 +270,7 @@ Partial Class UcGenerateReport
         ' pnlFiltersHeader
         '==================================================
         Me.pnlFiltersHeader.BackColor =
-            System.Drawing.Color.FromArgb(103, 60, 36)
+            System.Drawing.Color.FromArgb(97, 55, 31)
 
         Me.pnlFiltersHeader.Controls.Add(
             Me.lblFiltersTitle
@@ -289,7 +286,7 @@ Partial Class UcGenerateReport
             "pnlFiltersHeader"
 
         Me.pnlFiltersHeader.Size =
-            New System.Drawing.Size(1428, 38)
+            New System.Drawing.Size(996, 38)
 
         Me.pnlFiltersHeader.TabIndex =
             0
@@ -304,7 +301,7 @@ Partial Class UcGenerateReport
         Me.lblFiltersTitle.Font =
             New System.Drawing.Font(
                 "Segoe UI Semibold",
-                11.0!,
+                12.0!,
                 System.Drawing.FontStyle.Bold
             )
 
@@ -312,7 +309,7 @@ Partial Class UcGenerateReport
             System.Drawing.Color.White
 
         Me.lblFiltersTitle.Location =
-            New System.Drawing.Point(15, 7)
+            New System.Drawing.Point(14, 8)
 
         Me.lblFiltersTitle.Name =
             "lblFiltersTitle"
@@ -341,7 +338,7 @@ Partial Class UcGenerateReport
             )
 
         Me.lblSearch.Location =
-            New System.Drawing.Point(18, 51)
+            New System.Drawing.Point(18, 43)
 
         Me.lblSearch.Name =
             "lblSearch"
@@ -369,13 +366,13 @@ Partial Class UcGenerateReport
             )
 
         Me.txtSearch.Location =
-            New System.Drawing.Point(20, 75)
+            New System.Drawing.Point(18, 61)
 
         Me.txtSearch.Name =
             "txtSearch"
 
         Me.txtSearch.Size =
-            New System.Drawing.Size(300, 27)
+            New System.Drawing.Size(210, 25)
 
         Me.txtSearch.TabIndex =
             2
@@ -395,7 +392,7 @@ Partial Class UcGenerateReport
             )
 
         Me.lblDateFrom.Location =
-            New System.Drawing.Point(350, 51)
+            New System.Drawing.Point(245, 43)
 
         Me.lblDateFrom.Name =
             "lblDateFrom"
@@ -426,13 +423,13 @@ Partial Class UcGenerateReport
             System.Windows.Forms.DateTimePickerFormat.Custom
 
         Me.dtpFrom.Location =
-            New System.Drawing.Point(350, 75)
+            New System.Drawing.Point(245, 61)
 
         Me.dtpFrom.Name =
             "dtpFrom"
 
         Me.dtpFrom.Size =
-            New System.Drawing.Size(220, 27)
+            New System.Drawing.Size(180, 25)
 
         Me.dtpFrom.TabIndex =
             4
@@ -452,7 +449,7 @@ Partial Class UcGenerateReport
             )
 
         Me.lblDateTo.Location =
-            New System.Drawing.Point(600, 51)
+            New System.Drawing.Point(442, 43)
 
         Me.lblDateTo.Name =
             "lblDateTo"
@@ -483,13 +480,13 @@ Partial Class UcGenerateReport
             System.Windows.Forms.DateTimePickerFormat.Custom
 
         Me.dtpTo.Location =
-            New System.Drawing.Point(600, 75)
+            New System.Drawing.Point(442, 61)
 
         Me.dtpTo.Name =
             "dtpTo"
 
         Me.dtpTo.Size =
-            New System.Drawing.Size(220, 27)
+            New System.Drawing.Size(180, 25)
 
         Me.dtpTo.TabIndex =
             6
@@ -509,7 +506,7 @@ Partial Class UcGenerateReport
             )
 
         Me.lblCourse.Location =
-            New System.Drawing.Point(850, 51)
+            New System.Drawing.Point(639, 43)
 
         Me.lblCourse.Name =
             "lblCourse"
@@ -540,13 +537,13 @@ Partial Class UcGenerateReport
             True
 
         Me.cboCourse.Location =
-            New System.Drawing.Point(850, 75)
+            New System.Drawing.Point(639, 61)
 
         Me.cboCourse.Name =
             "cboCourse"
 
         Me.cboCourse.Size =
-            New System.Drawing.Size(180, 28)
+            New System.Drawing.Size(130, 25)
 
         Me.cboCourse.TabIndex =
             8
@@ -555,6 +552,13 @@ Partial Class UcGenerateReport
         '==================================================
         ' btnApplyFilter
         '==================================================
+        Me.btnApplyFilter.Anchor =
+            CType(
+                System.Windows.Forms.AnchorStyles.Top Or
+                System.Windows.Forms.AnchorStyles.Right,
+                System.Windows.Forms.AnchorStyles
+            )
+
         Me.btnApplyFilter.BackColor =
             System.Drawing.Color.FromArgb(103, 60, 36)
 
@@ -578,13 +582,13 @@ Partial Class UcGenerateReport
             System.Drawing.Color.White
 
         Me.btnApplyFilter.Location =
-            New System.Drawing.Point(1065, 66)
+            New System.Drawing.Point(786, 56)
 
         Me.btnApplyFilter.Name =
             "btnApplyFilter"
 
         Me.btnApplyFilter.Size =
-            New System.Drawing.Size(150, 38)
+            New System.Drawing.Size(90, 30)
 
         Me.btnApplyFilter.TabIndex =
             9
@@ -599,6 +603,13 @@ Partial Class UcGenerateReport
         '==================================================
         ' btnReset
         '==================================================
+        Me.btnReset.Anchor =
+            CType(
+                System.Windows.Forms.AnchorStyles.Top Or
+                System.Windows.Forms.AnchorStyles.Right,
+                System.Windows.Forms.AnchorStyles
+            )
+
         Me.btnReset.BackColor =
             System.Drawing.Color.FromArgb(242, 230, 220)
 
@@ -622,13 +633,13 @@ Partial Class UcGenerateReport
             System.Drawing.Color.FromArgb(75, 41, 24)
 
         Me.btnReset.Location =
-            New System.Drawing.Point(1225, 66)
+            New System.Drawing.Point(884, 56)
 
         Me.btnReset.Name =
             "btnReset"
 
         Me.btnReset.Size =
-            New System.Drawing.Size(180, 38)
+            New System.Drawing.Size(94, 30)
 
         Me.btnReset.TabIndex =
             10
@@ -652,7 +663,7 @@ Partial Class UcGenerateReport
         Me.lblDateTime.Font =
         New System.Drawing.Font(
             "Segoe UI Semibold",
-            9.0!,
+            10.0!,
             System.Drawing.FontStyle.Bold
         )
 
@@ -660,13 +671,13 @@ Partial Class UcGenerateReport
         System.Drawing.Color.FromArgb(68, 37, 22)
 
         Me.lblDateTime.Location =
-        New System.Drawing.Point(930, 25)
+        New System.Drawing.Point(648, 24)
 
         Me.lblDateTime.Name =
         "lblDateTime"
 
         Me.lblDateTime.Size =
-        New System.Drawing.Size(470, 25)
+        New System.Drawing.Size(324, 19)
 
         Me.lblDateTime.TabIndex =
         2
@@ -705,13 +716,13 @@ Partial Class UcGenerateReport
         Me.pnlRecords.Controls.Add(Me.pnlRecordsHeader)
 
         Me.pnlRecords.Location =
-            New System.Drawing.Point(15, 235)
+            New System.Drawing.Point(18, 192)
 
         Me.pnlRecords.Name =
             "pnlRecords"
 
         Me.pnlRecords.Size =
-            New System.Drawing.Size(1430, 400)
+            New System.Drawing.Size(998, 240)
 
         Me.pnlRecords.TabIndex =
             2
@@ -721,7 +732,7 @@ Partial Class UcGenerateReport
         ' pnlRecordsHeader
         '==================================================
         Me.pnlRecordsHeader.BackColor =
-            System.Drawing.Color.FromArgb(103, 60, 36)
+            System.Drawing.Color.FromArgb(97, 55, 31)
 
         Me.pnlRecordsHeader.Controls.Add(
             Me.lblRecordsTitle
@@ -737,7 +748,7 @@ Partial Class UcGenerateReport
             "pnlRecordsHeader"
 
         Me.pnlRecordsHeader.Size =
-            New System.Drawing.Size(1428, 38)
+            New System.Drawing.Size(996, 38)
 
         Me.pnlRecordsHeader.TabIndex =
             0
@@ -752,7 +763,7 @@ Partial Class UcGenerateReport
         Me.lblRecordsTitle.Font =
             New System.Drawing.Font(
                 "Segoe UI Semibold",
-                11.0!,
+                12.0!,
                 System.Drawing.FontStyle.Bold
             )
 
@@ -760,7 +771,7 @@ Partial Class UcGenerateReport
             System.Drawing.Color.White
 
         Me.lblRecordsTitle.Location =
-            New System.Drawing.Point(15, 7)
+            New System.Drawing.Point(14, 8)
 
         Me.lblRecordsTitle.Name =
             "lblRecordsTitle"
@@ -812,7 +823,7 @@ Partial Class UcGenerateReport
             System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal
 
         Me.dgvAttendance.ColumnHeadersHeight =
-            40
+            42
 
         Me.dgvAttendance.ColumnHeadersHeightSizeMode =
             System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
@@ -835,7 +846,7 @@ Partial Class UcGenerateReport
             System.Drawing.Color.FromArgb(225, 211, 201)
 
         Me.dgvAttendance.Location =
-            New System.Drawing.Point(18, 55)
+            New System.Drawing.Point(18, 50)
 
         Me.dgvAttendance.MultiSelect =
             False
@@ -850,13 +861,13 @@ Partial Class UcGenerateReport
             False
 
         Me.dgvAttendance.RowTemplate.Height =
-            36
+            38
 
         Me.dgvAttendance.SelectionMode =
             System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
 
         Me.dgvAttendance.Size =
-            New System.Drawing.Size(1390, 325)
+            New System.Drawing.Size(960, 171)
 
         Me.dgvAttendance.TabIndex =
             1
@@ -866,15 +877,21 @@ Partial Class UcGenerateReport
         ' dgvAttendance HEADER STYLE
         '==================================================
         Me.dgvAttendance.ColumnHeadersDefaultCellStyle.BackColor =
-            System.Drawing.Color.FromArgb(103, 60, 36)
+            System.Drawing.Color.FromArgb(93, 50, 29)
 
         Me.dgvAttendance.ColumnHeadersDefaultCellStyle.ForeColor =
+            System.Drawing.Color.White
+
+        Me.dgvAttendance.ColumnHeadersDefaultCellStyle.SelectionBackColor =
+            System.Drawing.Color.FromArgb(93, 50, 29)
+
+        Me.dgvAttendance.ColumnHeadersDefaultCellStyle.SelectionForeColor =
             System.Drawing.Color.White
 
         Me.dgvAttendance.ColumnHeadersDefaultCellStyle.Font =
             New System.Drawing.Font(
                 "Segoe UI Semibold",
-                9.0!,
+                10.0!,
                 System.Drawing.FontStyle.Bold
             )
 
@@ -888,7 +905,7 @@ Partial Class UcGenerateReport
         Me.dgvAttendance.DefaultCellStyle.Font =
             New System.Drawing.Font(
                 "Segoe UI",
-                9.0!
+                10.0!
             )
 
         Me.dgvAttendance.DefaultCellStyle.BackColor =
@@ -1048,13 +1065,13 @@ Partial Class UcGenerateReport
         Me.pnlSummary.Controls.Add(Me.lblSummaryTitle)
 
         Me.pnlSummary.Location =
-            New System.Drawing.Point(15, 645)
+            New System.Drawing.Point(18, 442)
 
         Me.pnlSummary.Name =
             "pnlSummary"
 
         Me.pnlSummary.Size =
-            New System.Drawing.Size(1430, 120)
+            New System.Drawing.Size(998, 83)
 
         Me.pnlSummary.TabIndex =
             3
@@ -1069,7 +1086,7 @@ Partial Class UcGenerateReport
         Me.lblSummaryTitle.Font =
             New System.Drawing.Font(
                 "Segoe UI Semibold",
-                9.5!,
+                10.5!,
                 System.Drawing.FontStyle.Bold
             )
 
@@ -1077,7 +1094,7 @@ Partial Class UcGenerateReport
             System.Drawing.Color.FromArgb(68, 37, 22)
 
         Me.lblSummaryTitle.Location =
-            New System.Drawing.Point(15, 8)
+            New System.Drawing.Point(16, 8)
 
         Me.lblSummaryTitle.Name =
             "lblSummaryTitle"
@@ -1102,13 +1119,13 @@ Partial Class UcGenerateReport
         Me.pnlTotalRecords.Controls.Add(Me.lblTotalRecordsTitle)
 
         Me.pnlTotalRecords.Location =
-            New System.Drawing.Point(15, 42)
+            New System.Drawing.Point(18, 30)
 
         Me.pnlTotalRecords.Name =
             "pnlTotalRecords"
 
         Me.pnlTotalRecords.Size =
-            New System.Drawing.Size(270, 58)
+            New System.Drawing.Size(210, 41)
 
         Me.pnlTotalRecords.TabIndex =
             1
@@ -1127,7 +1144,7 @@ Partial Class UcGenerateReport
             )
 
         Me.lblTotalRecordsTitle.Location =
-            New System.Drawing.Point(14, 18)
+            New System.Drawing.Point(12, 6)
 
         Me.lblTotalRecordsTitle.Name =
             "lblTotalRecordsTitle"
@@ -1156,13 +1173,13 @@ Partial Class UcGenerateReport
             System.Drawing.Color.FromArgb(68, 37, 22)
 
         Me.lblTotalRecords.Location =
-            New System.Drawing.Point(205, 10)
+            New System.Drawing.Point(150, 5)
 
         Me.lblTotalRecords.Name =
             "lblTotalRecords"
 
         Me.lblTotalRecords.Size =
-            New System.Drawing.Size(50, 35)
+            New System.Drawing.Size(45, 30)
 
         Me.lblTotalRecords.TabIndex =
             1
@@ -1184,13 +1201,13 @@ Partial Class UcGenerateReport
         Me.pnlComplete.Controls.Add(Me.lblCompleteTitle)
 
         Me.pnlComplete.Location =
-            New System.Drawing.Point(305, 42)
+            New System.Drawing.Point(236, 30)
 
         Me.pnlComplete.Name =
             "pnlComplete"
 
         Me.pnlComplete.Size =
-            New System.Drawing.Size(290, 58)
+            New System.Drawing.Size(210, 41)
 
         Me.pnlComplete.TabIndex =
             2
@@ -1209,7 +1226,7 @@ Partial Class UcGenerateReport
             )
 
         Me.lblCompleteTitle.Location =
-            New System.Drawing.Point(14, 18)
+            New System.Drawing.Point(12, 6)
 
         Me.lblCompleteTitle.Name =
             "lblCompleteTitle"
@@ -1238,13 +1255,13 @@ Partial Class UcGenerateReport
             System.Drawing.Color.FromArgb(40, 100, 60)
 
         Me.lblComplete.Location =
-            New System.Drawing.Point(225, 10)
+            New System.Drawing.Point(150, 5)
 
         Me.lblComplete.Name =
             "lblComplete"
 
         Me.lblComplete.Size =
-            New System.Drawing.Size(50, 35)
+            New System.Drawing.Size(45, 30)
 
         Me.lblComplete.TabIndex =
             1
@@ -1266,13 +1283,13 @@ Partial Class UcGenerateReport
         Me.pnlNoTimeOut.Controls.Add(Me.lblNoTimeOutTitle)
 
         Me.pnlNoTimeOut.Location =
-            New System.Drawing.Point(615, 42)
+            New System.Drawing.Point(454, 30)
 
         Me.pnlNoTimeOut.Name =
             "pnlNoTimeOut"
 
         Me.pnlNoTimeOut.Size =
-            New System.Drawing.Size(270, 58)
+            New System.Drawing.Size(210, 41)
 
         Me.pnlNoTimeOut.TabIndex =
             3
@@ -1291,7 +1308,7 @@ Partial Class UcGenerateReport
             )
 
         Me.lblNoTimeOutTitle.Location =
-            New System.Drawing.Point(14, 18)
+            New System.Drawing.Point(12, 6)
 
         Me.lblNoTimeOutTitle.Name =
             "lblNoTimeOutTitle"
@@ -1320,13 +1337,13 @@ Partial Class UcGenerateReport
             System.Drawing.Color.FromArgb(170, 45, 45)
 
         Me.lblNoTimeOut.Location =
-            New System.Drawing.Point(205, 10)
+            New System.Drawing.Point(150, 5)
 
         Me.lblNoTimeOut.Name =
             "lblNoTimeOut"
 
         Me.lblNoTimeOut.Size =
-            New System.Drawing.Size(50, 35)
+            New System.Drawing.Size(45, 30)
 
         Me.lblNoTimeOut.TabIndex =
             1
@@ -1371,13 +1388,13 @@ Partial Class UcGenerateReport
             System.Drawing.Color.White
 
         Me.btnGenerateExcel.Location =
-            New System.Drawing.Point(1025, 42)
+            New System.Drawing.Point(708, 30)
 
         Me.btnGenerateExcel.Name =
             "btnGenerateExcel"
 
         Me.btnGenerateExcel.Size =
-            New System.Drawing.Size(180, 58)
+            New System.Drawing.Size(128, 41)
 
         Me.btnGenerateExcel.TabIndex =
             4
@@ -1422,13 +1439,13 @@ Partial Class UcGenerateReport
             System.Drawing.Color.FromArgb(75, 41, 24)
 
         Me.btnGeneratePDF.Location =
-            New System.Drawing.Point(1220, 42)
+            New System.Drawing.Point(844, 30)
 
         Me.btnGeneratePDF.Name =
             "btnGeneratePDF"
 
         Me.btnGeneratePDF.Size =
-            New System.Drawing.Size(185, 58)
+            New System.Drawing.Size(128, 41)
 
         Me.btnGeneratePDF.TabIndex =
             5
@@ -1444,7 +1461,7 @@ Partial Class UcGenerateReport
         ' Generate_Reports
         '==================================================
         Me.AutoScaleDimensions =
-            New System.Drawing.SizeF(8.0!, 20.0!)
+            New System.Drawing.SizeF(7.0!, 15.0!)
 
         Me.AutoScaleMode =
             System.Windows.Forms.AutoScaleMode.Font
@@ -1467,7 +1484,7 @@ Partial Class UcGenerateReport
             "Generate_Reports"
 
         Me.Size =
-            New System.Drawing.Size(1460, 780)
+            New System.Drawing.Size(1032, 540)
 
 
         '==================================================

@@ -3,6 +3,10 @@ Partial Class UcManageStudent
 
     Inherits System.Windows.Forms.UserControl
 
+
+    '==================================================
+    ' DISPOSE
+    '==================================================
     <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(disposing As Boolean)
 
@@ -13,9 +17,7 @@ Partial Class UcManageStudent
             End If
 
         Finally
-
             MyBase.Dispose(disposing)
-
         End Try
 
     End Sub
@@ -24,1559 +26,1661 @@ Partial Class UcManageStudent
     Private components As System.ComponentModel.IContainer
 
 
+    '==================================================
+    ' INITIALIZE COMPONENT
+    '==================================================
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        '==================================================
-        ' TIMER
-        '==================================================
-        Me.lblDateTime = New System.Windows.Forms.Label()
-        Me.timerClock = New System.Windows.Forms.Timer()
+
+        components = New ComponentModel.Container()
+
         '==================================================
         ' HEADER
         '==================================================
-        Me.pnlHeader = New System.Windows.Forms.Panel()
-        Me.lblTitle = New System.Windows.Forms.Label()
-        Me.lblSubtitle = New System.Windows.Forms.Label()
+        pnlHeader = New Panel()
+        lblDateTime = New Label()
+        lblSubtitle = New Label()
+        lblTitle = New Label()
+
         '==================================================
         ' STUDENT INFORMATION
         '==================================================
-        Me.pnlStudentInfo = New System.Windows.Forms.Panel()
-        Me.pnlStudentInfoHeader = New System.Windows.Forms.Panel()
-        Me.lblStudentInfoTitle = New System.Windows.Forms.Label()
+        pnlStudentInfo = New Panel()
+        pnlStudentInfoHeader = New Panel()
+        lblStudentInfoTitle = New Label()
 
-        Me.lblStudentName = New System.Windows.Forms.Label()
-        Me.txtStudentName = New System.Windows.Forms.TextBox()
+        lblStudentName = New Label()
+        txtStudentName = New TextBox()
 
-        Me.lblYearLevel = New System.Windows.Forms.Label()
-        Me.cboYearLevel = New System.Windows.Forms.ComboBox()
+        lblYearLevel = New Label()
+        cboYearLevel = New ComboBox()
 
-        Me.lblCourse = New System.Windows.Forms.Label()
-        Me.cboCourse = New System.Windows.Forms.ComboBox()
+        lblCourse = New Label()
+        cboCourse = New ComboBox()
 
-        Me.lblParentContact = New System.Windows.Forms.Label()
-        Me.txtParentContact = New System.Windows.Forms.TextBox()
+        lblParentContact = New Label()
+        txtParentContact = New TextBox()
 
-        Me.btnSave = New System.Windows.Forms.Button()
-        Me.btnUpdate = New System.Windows.Forms.Button()
-        Me.btnDelete = New System.Windows.Forms.Button()
-        Me.btnClear = New System.Windows.Forms.Button()
+        btnSave = New Button()
+        btnUpdate = New Button()
+        btnDelete = New Button()
+        btnClear = New Button()
 
         '==================================================
         ' STUDENT LIST
         '==================================================
-        Me.pnlStudents = New System.Windows.Forms.Panel()
-        Me.pnlStudentsHeader = New System.Windows.Forms.Panel()
-        Me.lblStudentsTitle = New System.Windows.Forms.Label()
+        pnlStudents = New Panel()
+        pnlStudentsHeader = New Panel()
+        lblStudentsTitle = New Label()
 
-        Me.lblSearch = New System.Windows.Forms.Label()
-        Me.txtSearch = New System.Windows.Forms.TextBox()
+        lblSearch = New Label()
+        txtSearch = New TextBox()
 
-        Me.lblFilterYear = New System.Windows.Forms.Label()
-        Me.cboFilterYear = New System.Windows.Forms.ComboBox()
+        lblFilterYear = New Label()
+        cboFilterYear = New ComboBox()
 
-        Me.lblFilterCourse = New System.Windows.Forms.Label()
-        Me.cboFilterCourse = New System.Windows.Forms.ComboBox()
+        lblFilterCourse = New Label()
+        cboFilterCourse = New ComboBox()
 
-        Me.dgvStudents = New System.Windows.Forms.DataGridView()
+        dgvStudents = New DataGridView()
 
-        Me.colStudentID = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colStudentName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colYearLevel = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colCourse = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colParentContact = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        colStudentID = New DataGridViewTextBoxColumn()
+        colStudentName = New DataGridViewTextBoxColumn()
+        colYearLevel = New DataGridViewTextBoxColumn()
+        colCourse = New DataGridViewTextBoxColumn()
+        colParentContact = New DataGridViewTextBoxColumn()
 
         '==================================================
         ' SUMMARY
         '==================================================
-        Me.pnlSummary = New System.Windows.Forms.Panel()
-        Me.lblSummaryTitle = New System.Windows.Forms.Label()
+        pnlSummary = New Panel()
+        lblSummaryTitle = New Label()
 
-        Me.pnlTotalStudents = New System.Windows.Forms.Panel()
-        Me.lblTotalStudentsTitle = New System.Windows.Forms.Label()
-        Me.lblTotalStudents = New System.Windows.Forms.Label()
+        pnlTotalStudents = New Panel()
+        lblTotalStudentsTitle = New Label()
+        lblTotalStudents = New Label()
 
-        Me.lblImportTitle = New System.Windows.Forms.Label()
-        Me.lblImportDescription = New System.Windows.Forms.Label()
-        Me.btnImportStudents = New System.Windows.Forms.Button()
+        lblImportTitle = New Label()
+        lblImportDescription = New Label()
+        btnImportStudents = New Button()
+
+        '==================================================
+        ' TIMER
+        '==================================================
+        timerClock = New Timer(components)
 
 
         '==================================================
-        ' SUSPEND
+        ' SUSPEND LAYOUT
         '==================================================
-        Me.pnlHeader.SuspendLayout()
+        pnlHeader.SuspendLayout()
 
-        Me.pnlStudentInfo.SuspendLayout()
-        Me.pnlStudentInfoHeader.SuspendLayout()
+        pnlStudentInfo.SuspendLayout()
+        pnlStudentInfoHeader.SuspendLayout()
 
-        Me.pnlStudents.SuspendLayout()
-        Me.pnlStudentsHeader.SuspendLayout()
+        pnlStudents.SuspendLayout()
+        pnlStudentsHeader.SuspendLayout()
 
         CType(
-            Me.dgvStudents,
-            System.ComponentModel.ISupportInitialize
+            dgvStudents,
+            ComponentModel.ISupportInitialize
         ).BeginInit()
 
-        Me.pnlSummary.SuspendLayout()
-        Me.pnlTotalStudents.SuspendLayout()
+        pnlSummary.SuspendLayout()
+        pnlTotalStudents.SuspendLayout()
 
-        Me.SuspendLayout()
+        SuspendLayout()
 
 
         '==================================================
         ' pnlHeader
+        ' MASTER NAVIGATOR HEADER
         '==================================================
+        pnlHeader.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Left Or
+            AnchorStyles.Right
 
+        pnlHeader.BackColor =
+            Color.FromArgb(255, 253, 252)
 
-        Me.pnlHeader.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Top Or
-                System.Windows.Forms.AnchorStyles.Left Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
+        pnlHeader.BorderStyle =
+            BorderStyle.FixedSingle
 
-        Me.pnlHeader.BackColor =
-            System.Drawing.Color.FromArgb(255, 253, 252)
+        pnlHeader.Controls.Add(lblDateTime)
+        pnlHeader.Controls.Add(lblSubtitle)
+        pnlHeader.Controls.Add(lblTitle)
 
-        Me.pnlHeader.BorderStyle =
-            System.Windows.Forms.BorderStyle.FixedSingle
+        pnlHeader.Location =
+            New Point(18, 14)
 
-        Me.pnlHeader.Controls.Add(Me.lblSubtitle)
-        Me.pnlHeader.Controls.Add(Me.lblTitle)
+        pnlHeader.Margin =
+            New Padding(3, 2, 3, 2)
 
-        Me.pnlHeader.Location =
-            New System.Drawing.Point(15, 15)
-
-        Me.pnlHeader.Name =
+        pnlHeader.Name =
             "pnlHeader"
 
-        Me.pnlHeader.Size =
-            New System.Drawing.Size(1430, 75)
+        pnlHeader.Size =
+            New Size(998, 68)
 
-        Me.pnlHeader.TabIndex = 0
+        pnlHeader.TabIndex =
+            0
 
-        Me.pnlHeader.Controls.Add(Me.lblDateTime)
-        Me.pnlHeader.Controls.Add(Me.lblSubtitle)
-        Me.pnlHeader.Controls.Add(Me.lblTitle)
 
         '==================================================
-        ' lblTitle
+        ' lblDateTime
         '==================================================
-        Me.lblTitle.AutoSize = True
+        lblDateTime.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Right
 
-        Me.lblTitle.Font =
-            New System.Drawing.Font(
-                "Georgia",
-                23.0!,
-                System.Drawing.FontStyle.Bold
+        lblDateTime.Font =
+            New Font(
+                "Segoe UI Semibold",
+                10.0F,
+                FontStyle.Bold
             )
 
-        Me.lblTitle.ForeColor =
-            System.Drawing.Color.FromArgb(68, 37, 22)
+        lblDateTime.ForeColor =
+            Color.FromArgb(68, 37, 22)
 
-        Me.lblTitle.Location =
-            New System.Drawing.Point(20, 8)
+        lblDateTime.Location =
+            New Point(648, 24)
 
-        Me.lblTitle.Name =
-            "lblTitle"
+        lblDateTime.Name =
+            "lblDateTime"
 
-        Me.lblTitle.Size =
-            New System.Drawing.Size(320, 44)
+        lblDateTime.Size =
+            New Size(324, 19)
 
-        Me.lblTitle.TabIndex = 0
+        lblDateTime.TabIndex =
+            2
 
-        Me.lblTitle.Text =
-            "Manage Students"
+        lblDateTime.Text =
+            "Date | Time"
+
+        lblDateTime.TextAlign =
+            ContentAlignment.MiddleRight
 
 
         '==================================================
         ' lblSubtitle
         '==================================================
-        Me.lblSubtitle.AutoSize = True
+        lblSubtitle.AutoSize =
+            True
 
-        Me.lblSubtitle.Font =
-            New System.Drawing.Font(
+        lblSubtitle.Font =
+            New Font(
                 "Segoe UI",
-                9.0!
+                10.0F
             )
 
-        Me.lblSubtitle.ForeColor =
-            System.Drawing.Color.FromArgb(117, 87, 71)
+        lblSubtitle.ForeColor =
+            Color.FromArgb(117, 87, 71)
 
-        Me.lblSubtitle.Location =
-            New System.Drawing.Point(23, 49)
+        lblSubtitle.Location =
+            New Point(23, 44)
 
-        Me.lblSubtitle.Name =
+        lblSubtitle.Name =
             "lblSubtitle"
 
-        Me.lblSubtitle.Size =
-            New System.Drawing.Size(335, 20)
+        lblSubtitle.TabIndex =
+            1
 
-        Me.lblSubtitle.TabIndex = 1
-
-        Me.lblSubtitle.Text =
+        lblSubtitle.Text =
             "Add, update, delete and manage student information"
 
 
         '==================================================
-        ' pnlStudentInfo
+        ' lblTitle
         '==================================================
-        Me.pnlStudentInfo.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Top Or
-                System.Windows.Forms.AnchorStyles.Bottom Or
-                System.Windows.Forms.AnchorStyles.Left,
-                System.Windows.Forms.AnchorStyles
+        lblTitle.AutoSize =
+            True
+
+        lblTitle.Font =
+            New Font(
+                "Georgia",
+                24.0F,
+                FontStyle.Bold
             )
 
-        Me.pnlStudentInfo.BackColor =
-            System.Drawing.Color.FromArgb(255, 253, 252)
+        lblTitle.ForeColor =
+            Color.FromArgb(68, 37, 22)
 
-        Me.pnlStudentInfo.BorderStyle =
-            System.Windows.Forms.BorderStyle.FixedSingle
+        lblTitle.Location =
+            New Point(19, 10)
 
-        Me.pnlStudentInfo.Controls.Add(Me.btnClear)
-        Me.pnlStudentInfo.Controls.Add(Me.btnDelete)
-        Me.pnlStudentInfo.Controls.Add(Me.btnUpdate)
-        Me.pnlStudentInfo.Controls.Add(Me.btnSave)
+        lblTitle.Name =
+            "lblTitle"
 
-        Me.pnlStudentInfo.Controls.Add(Me.txtParentContact)
-        Me.pnlStudentInfo.Controls.Add(Me.lblParentContact)
+        lblTitle.TabIndex =
+            0
 
-        Me.pnlStudentInfo.Controls.Add(Me.cboCourse)
-        Me.pnlStudentInfo.Controls.Add(Me.lblCourse)
+        lblTitle.Text =
+            "Manage Students"
 
-        Me.pnlStudentInfo.Controls.Add(Me.cboYearLevel)
-        Me.pnlStudentInfo.Controls.Add(Me.lblYearLevel)
 
-        Me.pnlStudentInfo.Controls.Add(Me.txtStudentName)
-        Me.pnlStudentInfo.Controls.Add(Me.lblStudentName)
+        '==================================================
+        ' pnlStudentInfo
+        ' SAME LEFT COLUMN AS USER MANAGEMENT
+        '==================================================
+        pnlStudentInfo.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Bottom Or
+            AnchorStyles.Left
 
-        Me.pnlStudentInfo.Controls.Add(Me.pnlStudentInfoHeader)
+        pnlStudentInfo.BackColor =
+            Color.FromArgb(255, 253, 252)
 
-        Me.pnlStudentInfo.Location =
-            New System.Drawing.Point(15, 100)
+        pnlStudentInfo.BorderStyle =
+            BorderStyle.FixedSingle
 
-        Me.pnlStudentInfo.Name =
+        pnlStudentInfo.Controls.Add(btnClear)
+        pnlStudentInfo.Controls.Add(btnDelete)
+        pnlStudentInfo.Controls.Add(btnUpdate)
+        pnlStudentInfo.Controls.Add(btnSave)
+
+        pnlStudentInfo.Controls.Add(txtParentContact)
+        pnlStudentInfo.Controls.Add(lblParentContact)
+
+        pnlStudentInfo.Controls.Add(cboCourse)
+        pnlStudentInfo.Controls.Add(lblCourse)
+
+        pnlStudentInfo.Controls.Add(cboYearLevel)
+        pnlStudentInfo.Controls.Add(lblYearLevel)
+
+        pnlStudentInfo.Controls.Add(txtStudentName)
+        pnlStudentInfo.Controls.Add(lblStudentName)
+
+        pnlStudentInfo.Controls.Add(pnlStudentInfoHeader)
+
+        pnlStudentInfo.Location =
+            New Point(18, 90)
+
+        pnlStudentInfo.Margin =
+            New Padding(3, 2, 3, 2)
+
+        pnlStudentInfo.Name =
             "pnlStudentInfo"
 
-        Me.pnlStudentInfo.Size =
-            New System.Drawing.Size(420, 545)
+        pnlStudentInfo.Size =
+            New Size(320, 342)
 
-        Me.pnlStudentInfo.TabIndex = 1
+        pnlStudentInfo.TabIndex =
+            1
 
 
         '==================================================
         ' pnlStudentInfoHeader
         '==================================================
-        Me.pnlStudentInfoHeader.BackColor =
-            System.Drawing.Color.FromArgb(103, 60, 36)
+        pnlStudentInfoHeader.BackColor =
+            Color.FromArgb(97, 55, 31)
 
-        Me.pnlStudentInfoHeader.Controls.Add(
-            Me.lblStudentInfoTitle
+        pnlStudentInfoHeader.Controls.Add(
+            lblStudentInfoTitle
         )
 
-        Me.pnlStudentInfoHeader.Dock =
-            System.Windows.Forms.DockStyle.Top
+        pnlStudentInfoHeader.Dock =
+            DockStyle.Top
 
-        Me.pnlStudentInfoHeader.Location =
-            New System.Drawing.Point(0, 0)
+        pnlStudentInfoHeader.Location =
+            New Point(0, 0)
 
-        Me.pnlStudentInfoHeader.Name =
+        pnlStudentInfoHeader.Margin =
+            New Padding(3, 2, 3, 2)
+
+        pnlStudentInfoHeader.Name =
             "pnlStudentInfoHeader"
 
-        Me.pnlStudentInfoHeader.Size =
-            New System.Drawing.Size(418, 38)
+        pnlStudentInfoHeader.Size =
+            New Size(318, 38)
 
-        Me.pnlStudentInfoHeader.TabIndex = 0
+        pnlStudentInfoHeader.TabIndex =
+            0
 
 
         '==================================================
         ' lblStudentInfoTitle
         '==================================================
-        Me.lblStudentInfoTitle.AutoSize = True
+        lblStudentInfoTitle.AutoSize =
+            True
 
-        Me.lblStudentInfoTitle.Font =
-            New System.Drawing.Font(
+        lblStudentInfoTitle.Font =
+            New Font(
                 "Segoe UI Semibold",
-                11.0!,
-                System.Drawing.FontStyle.Bold
+                12.0F,
+                FontStyle.Bold
             )
 
-        Me.lblStudentInfoTitle.ForeColor =
-            System.Drawing.Color.White
+        lblStudentInfoTitle.ForeColor =
+            Color.White
 
-        Me.lblStudentInfoTitle.Location =
-            New System.Drawing.Point(15, 7)
+        lblStudentInfoTitle.Location =
+            New Point(14, 8)
 
-        Me.lblStudentInfoTitle.Name =
+        lblStudentInfoTitle.Name =
             "lblStudentInfoTitle"
 
-        Me.lblStudentInfoTitle.Size =
-            New System.Drawing.Size(187, 25)
+        lblStudentInfoTitle.TabIndex =
+            0
 
-        Me.lblStudentInfoTitle.TabIndex = 0
-
-        Me.lblStudentInfoTitle.Text =
+        lblStudentInfoTitle.Text =
             "Student Information"
 
 
         '==================================================
-        ' lblStudentName
+        ' STUDENT NAME
         '==================================================
-        Me.lblStudentName.AutoSize = True
+        lblStudentName.AutoSize =
+            True
 
-        Me.lblStudentName.Font =
-            New System.Drawing.Font(
+        lblStudentName.Font =
+            New Font(
                 "Segoe UI Semibold",
-                9.0!,
-                System.Drawing.FontStyle.Bold
+                9.5F,
+                FontStyle.Bold
             )
 
-        Me.lblStudentName.Location =
-            New System.Drawing.Point(20, 63)
+        lblStudentName.ForeColor =
+            Color.FromArgb(59, 40, 31)
 
-        Me.lblStudentName.Name =
+        lblStudentName.Location =
+            New Point(19, 52)
+
+        lblStudentName.Name =
             "lblStudentName"
 
-        Me.lblStudentName.Size =
-            New System.Drawing.Size(123, 20)
+        lblStudentName.TabIndex =
+            1
 
-        Me.lblStudentName.TabIndex = 1
-
-        Me.lblStudentName.Text =
+        lblStudentName.Text =
             "Student Name *"
 
 
-        '==================================================
-        ' txtStudentName
-        '==================================================
-        Me.txtStudentName.BorderStyle =
-            System.Windows.Forms.BorderStyle.FixedSingle
+        txtStudentName.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Left Or
+            AnchorStyles.Right
 
-        Me.txtStudentName.Font =
-            New System.Drawing.Font(
+        txtStudentName.BorderStyle =
+            BorderStyle.FixedSingle
+
+        txtStudentName.Font =
+            New Font(
                 "Segoe UI",
-                10.0!
+                10.0F
             )
 
-        Me.txtStudentName.Location =
-            New System.Drawing.Point(22, 87)
+        txtStudentName.Location =
+            New Point(22, 71)
 
-        Me.txtStudentName.Name =
+        txtStudentName.Margin =
+            New Padding(3, 2, 3, 2)
+
+        txtStudentName.Name =
             "txtStudentName"
 
-        Me.txtStudentName.Size =
-            New System.Drawing.Size(373, 30)
+        txtStudentName.Size =
+            New Size(274, 25)
 
-        Me.txtStudentName.TabIndex = 2
+        txtStudentName.TabIndex =
+            2
 
 
         '==================================================
-        ' lblYearLevel
+        ' YEAR LEVEL
         '==================================================
-        Me.lblYearLevel.AutoSize = True
+        lblYearLevel.AutoSize =
+            True
 
-        Me.lblYearLevel.Font =
-            New System.Drawing.Font(
+        lblYearLevel.Font =
+            New Font(
                 "Segoe UI Semibold",
-                9.0!,
-                System.Drawing.FontStyle.Bold
+                9.5F,
+                FontStyle.Bold
             )
 
-        Me.lblYearLevel.Location =
-            New System.Drawing.Point(20, 135)
+        lblYearLevel.ForeColor =
+            Color.FromArgb(59, 40, 31)
 
-        Me.lblYearLevel.Name =
+        lblYearLevel.Location =
+            New Point(19, 105)
+
+        lblYearLevel.Name =
             "lblYearLevel"
 
-        Me.lblYearLevel.Size =
-            New System.Drawing.Size(91, 20)
+        lblYearLevel.TabIndex =
+            3
 
-        Me.lblYearLevel.TabIndex = 3
-
-        Me.lblYearLevel.Text =
+        lblYearLevel.Text =
             "Year Level *"
 
 
-        '==================================================
-        ' cboYearLevel
-        '==================================================
-        Me.cboYearLevel.DropDownStyle =
-            System.Windows.Forms.ComboBoxStyle.DropDownList
+        cboYearLevel.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Left Or
+            AnchorStyles.Right
 
-        Me.cboYearLevel.Font =
-            New System.Drawing.Font(
+        cboYearLevel.DropDownStyle =
+            ComboBoxStyle.DropDownList
+
+        cboYearLevel.Font =
+            New Font(
                 "Segoe UI",
-                10.0!
+                10.0F
             )
 
-        Me.cboYearLevel.FormattingEnabled =
+        cboYearLevel.FormattingEnabled =
             True
 
-        Me.cboYearLevel.Location =
-            New System.Drawing.Point(22, 159)
+        cboYearLevel.Location =
+            New Point(22, 124)
 
-        Me.cboYearLevel.Name =
+        cboYearLevel.Margin =
+            New Padding(3, 2, 3, 2)
+
+        cboYearLevel.Name =
             "cboYearLevel"
 
-        Me.cboYearLevel.Size =
-            New System.Drawing.Size(373, 31)
+        cboYearLevel.Size =
+            New Size(274, 25)
 
-        Me.cboYearLevel.TabIndex = 4
+        cboYearLevel.TabIndex =
+            4
 
 
         '==================================================
-        ' lblCourse
+        ' COURSE
         '==================================================
-        Me.lblCourse.AutoSize = True
+        lblCourse.AutoSize =
+            True
 
-        Me.lblCourse.Font =
-            New System.Drawing.Font(
+        lblCourse.Font =
+            New Font(
                 "Segoe UI Semibold",
-                9.0!,
-                System.Drawing.FontStyle.Bold
+                9.5F,
+                FontStyle.Bold
             )
 
-        Me.lblCourse.Location =
-            New System.Drawing.Point(20, 208)
+        lblCourse.ForeColor =
+            Color.FromArgb(59, 40, 31)
 
-        Me.lblCourse.Name =
+        lblCourse.Location =
+            New Point(19, 158)
+
+        lblCourse.Name =
             "lblCourse"
 
-        Me.lblCourse.Size =
-            New System.Drawing.Size(69, 20)
+        lblCourse.TabIndex =
+            5
 
-        Me.lblCourse.TabIndex = 5
-
-        Me.lblCourse.Text =
+        lblCourse.Text =
             "Course *"
 
 
-        '==================================================
-        ' cboCourse
-        '==================================================
-        Me.cboCourse.DropDownStyle =
-            System.Windows.Forms.ComboBoxStyle.DropDownList
+        cboCourse.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Left Or
+            AnchorStyles.Right
 
-        Me.cboCourse.Font =
-            New System.Drawing.Font(
+        cboCourse.DropDownStyle =
+            ComboBoxStyle.DropDownList
+
+        cboCourse.Font =
+            New Font(
                 "Segoe UI",
-                10.0!
+                10.0F
             )
 
-        Me.cboCourse.FormattingEnabled =
+        cboCourse.FormattingEnabled =
             True
 
-        Me.cboCourse.Location =
-            New System.Drawing.Point(22, 232)
+        cboCourse.Location =
+            New Point(22, 176)
 
-        Me.cboCourse.Name =
+        cboCourse.Margin =
+            New Padding(3, 2, 3, 2)
+
+        cboCourse.Name =
             "cboCourse"
 
-        Me.cboCourse.Size =
-            New System.Drawing.Size(373, 31)
+        cboCourse.Size =
+            New Size(274, 25)
 
-        Me.cboCourse.TabIndex = 6
+        cboCourse.TabIndex =
+            6
 
 
         '==================================================
-        ' lblParentContact
+        ' PARENT CONTACT
         '==================================================
-        Me.lblParentContact.AutoSize = True
+        lblParentContact.AutoSize =
+            True
 
-        Me.lblParentContact.Font =
-            New System.Drawing.Font(
+        lblParentContact.Font =
+            New Font(
                 "Segoe UI Semibold",
-                9.0!,
-                System.Drawing.FontStyle.Bold
+                9.5F,
+                FontStyle.Bold
             )
 
-        Me.lblParentContact.Location =
-            New System.Drawing.Point(20, 281)
+        lblParentContact.ForeColor =
+            Color.FromArgb(59, 40, 31)
 
-        Me.lblParentContact.Name =
+        lblParentContact.Location =
+            New Point(19, 210)
+
+        lblParentContact.Name =
             "lblParentContact"
 
-        Me.lblParentContact.Size =
-            New System.Drawing.Size(185, 20)
+        lblParentContact.TabIndex =
+            7
 
-        Me.lblParentContact.TabIndex = 7
-
-        Me.lblParentContact.Text =
+        lblParentContact.Text =
             "Parent Contact Number"
 
 
-        '==================================================
-        ' txtParentContact
-        '==================================================
-        Me.txtParentContact.BorderStyle =
-            System.Windows.Forms.BorderStyle.FixedSingle
+        txtParentContact.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Left Or
+            AnchorStyles.Right
 
-        Me.txtParentContact.Font =
-            New System.Drawing.Font(
+        txtParentContact.BorderStyle =
+            BorderStyle.FixedSingle
+
+        txtParentContact.Font =
+            New Font(
                 "Segoe UI",
-                10.0!
+                10.0F
             )
 
-        Me.txtParentContact.Location =
-            New System.Drawing.Point(22, 305)
+        txtParentContact.Location =
+            New Point(22, 229)
 
-        Me.txtParentContact.Name =
+        txtParentContact.Margin =
+            New Padding(3, 2, 3, 2)
+
+        txtParentContact.Name =
             "txtParentContact"
 
-        Me.txtParentContact.Size =
-            New System.Drawing.Size(373, 30)
+        txtParentContact.Size =
+            New Size(274, 25)
 
-        Me.txtParentContact.TabIndex = 8
+        txtParentContact.TabIndex =
+            8
 
 
         '==================================================
-        ' btnSave
+        ' ADD STUDENT BUTTON
         '==================================================
-        Me.btnSave.BackColor =
-            System.Drawing.Color.FromArgb(103, 60, 36)
+        btnSave.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Left Or
+            AnchorStyles.Right
 
-        Me.btnSave.Cursor =
-            System.Windows.Forms.Cursors.Hand
+        btnSave.BackColor =
+            Color.FromArgb(103, 60, 36)
 
-        Me.btnSave.FlatAppearance.BorderSize =
+        btnSave.Cursor =
+            Cursors.Hand
+
+        btnSave.FlatAppearance.BorderSize =
             0
 
-        Me.btnSave.FlatStyle =
-            System.Windows.Forms.FlatStyle.Flat
+        btnSave.FlatStyle =
+            FlatStyle.Flat
 
-        Me.btnSave.Font =
-            New System.Drawing.Font(
+        btnSave.Font =
+            New Font(
                 "Segoe UI Semibold",
-                10.0!,
-                System.Drawing.FontStyle.Bold
+                10.0F,
+                FontStyle.Bold
             )
 
-        Me.btnSave.ForeColor =
-            System.Drawing.Color.White
+        btnSave.ForeColor =
+            Color.White
 
-        Me.btnSave.Location =
-            New System.Drawing.Point(22, 365)
+        btnSave.Location =
+            New Point(22, 266)
 
-        Me.btnSave.Name =
+        btnSave.Margin =
+            New Padding(3, 2, 3, 2)
+
+        btnSave.Name =
             "btnSave"
 
-        Me.btnSave.Size =
-            New System.Drawing.Size(373, 43)
+        btnSave.Size =
+            New Size(274, 30)
 
-        Me.btnSave.TabIndex = 9
+        btnSave.TabIndex =
+            9
 
-        Me.btnSave.Text =
+        btnSave.Text =
             "Add Student"
 
-        Me.btnSave.UseVisualStyleBackColor =
+        btnSave.UseVisualStyleBackColor =
             False
 
 
         '==================================================
-        ' btnUpdate
+        ' UPDATE BUTTON
         '==================================================
-        Me.btnUpdate.BackColor =
-            System.Drawing.Color.FromArgb(242, 230, 220)
+        btnUpdate.BackColor =
+            Color.FromArgb(242, 230, 220)
 
-        Me.btnUpdate.Cursor =
-            System.Windows.Forms.Cursors.Hand
+        btnUpdate.Cursor =
+            Cursors.Hand
 
-        Me.btnUpdate.Enabled =
+        btnUpdate.Enabled =
             False
 
-        Me.btnUpdate.FlatAppearance.BorderColor =
-            System.Drawing.Color.FromArgb(205, 183, 167)
+        btnUpdate.FlatAppearance.BorderColor =
+            Color.FromArgb(205, 183, 167)
 
-        Me.btnUpdate.FlatStyle =
-            System.Windows.Forms.FlatStyle.Flat
+        btnUpdate.FlatStyle =
+            FlatStyle.Flat
 
-        Me.btnUpdate.Font =
-            New System.Drawing.Font(
+        btnUpdate.Font =
+            New Font(
                 "Segoe UI Semibold",
-                9.0!,
-                System.Drawing.FontStyle.Bold
+                9.5F,
+                FontStyle.Bold
             )
 
-        Me.btnUpdate.ForeColor =
-            System.Drawing.Color.FromArgb(75, 41, 24)
+        btnUpdate.ForeColor =
+            Color.FromArgb(75, 41, 24)
 
-        Me.btnUpdate.Location =
-            New System.Drawing.Point(22, 420)
+        btnUpdate.Location =
+            New Point(22, 304)
 
-        Me.btnUpdate.Name =
+        btnUpdate.Margin =
+            New Padding(3, 2, 3, 2)
+
+        btnUpdate.Name =
             "btnUpdate"
 
-        Me.btnUpdate.Size =
-            New System.Drawing.Size(117, 40)
+        btnUpdate.Size =
+            New Size(86, 26)
 
-        Me.btnUpdate.TabIndex = 10
+        btnUpdate.TabIndex =
+            10
 
-        Me.btnUpdate.Text =
+        btnUpdate.Text =
             "Update"
 
-        Me.btnUpdate.UseVisualStyleBackColor =
+        btnUpdate.UseVisualStyleBackColor =
             False
 
 
         '==================================================
-        ' btnDelete
+        ' DELETE BUTTON
         '==================================================
-        Me.btnDelete.BackColor =
-            System.Drawing.Color.FromArgb(201, 75, 67)
+        btnDelete.BackColor =
+            Color.FromArgb(201, 75, 67)
 
-        Me.btnDelete.Cursor =
-            System.Windows.Forms.Cursors.Hand
+        btnDelete.Cursor =
+            Cursors.Hand
 
-        Me.btnDelete.Enabled =
+        btnDelete.Enabled =
             False
 
-        Me.btnDelete.FlatAppearance.BorderSize =
+        btnDelete.FlatAppearance.BorderSize =
             0
 
-        Me.btnDelete.FlatStyle =
-            System.Windows.Forms.FlatStyle.Flat
+        btnDelete.FlatStyle =
+            FlatStyle.Flat
 
-        Me.btnDelete.Font =
-            New System.Drawing.Font(
+        btnDelete.Font =
+            New Font(
                 "Segoe UI Semibold",
-                9.0!,
-                System.Drawing.FontStyle.Bold
+                9.5F,
+                FontStyle.Bold
             )
 
-        Me.btnDelete.ForeColor =
-            System.Drawing.Color.White
+        btnDelete.ForeColor =
+            Color.White
 
-        Me.btnDelete.Location =
-            New System.Drawing.Point(150, 420)
+        btnDelete.Location =
+            New Point(116, 304)
 
-        Me.btnDelete.Name =
+        btnDelete.Margin =
+            New Padding(3, 2, 3, 2)
+
+        btnDelete.Name =
             "btnDelete"
 
-        Me.btnDelete.Size =
-            New System.Drawing.Size(117, 40)
+        btnDelete.Size =
+            New Size(86, 26)
 
-        Me.btnDelete.TabIndex = 11
+        btnDelete.TabIndex =
+            11
 
-        Me.btnDelete.Text =
+        btnDelete.Text =
             "Delete"
 
-        Me.btnDelete.UseVisualStyleBackColor =
+        btnDelete.UseVisualStyleBackColor =
             False
 
 
         '==================================================
-        ' btnClear
+        ' CLEAR BUTTON
         '==================================================
-        Me.btnClear.BackColor =
-            System.Drawing.Color.FromArgb(242, 230, 220)
+        btnClear.BackColor =
+            Color.FromArgb(242, 230, 220)
 
-        Me.btnClear.Cursor =
-            System.Windows.Forms.Cursors.Hand
+        btnClear.Cursor =
+            Cursors.Hand
 
-        Me.btnClear.FlatAppearance.BorderColor =
-            System.Drawing.Color.FromArgb(205, 183, 167)
+        btnClear.FlatAppearance.BorderColor =
+            Color.FromArgb(205, 183, 167)
 
-        Me.btnClear.FlatStyle =
-            System.Windows.Forms.FlatStyle.Flat
+        btnClear.FlatStyle =
+            FlatStyle.Flat
 
-        Me.btnClear.Font =
-            New System.Drawing.Font(
+        btnClear.Font =
+            New Font(
                 "Segoe UI Semibold",
-                9.0!,
-                System.Drawing.FontStyle.Bold
+                9.5F,
+                FontStyle.Bold
             )
 
-        Me.btnClear.ForeColor =
-            System.Drawing.Color.FromArgb(75, 41, 24)
+        btnClear.ForeColor =
+            Color.FromArgb(75, 41, 24)
 
-        Me.btnClear.Location =
-            New System.Drawing.Point(278, 420)
+        btnClear.Location =
+            New Point(210, 304)
 
-        Me.btnClear.Name =
+        btnClear.Margin =
+            New Padding(3, 2, 3, 2)
+
+        btnClear.Name =
             "btnClear"
 
-        Me.btnClear.Size =
-            New System.Drawing.Size(117, 40)
+        btnClear.Size =
+            New Size(86, 26)
 
-        Me.btnClear.TabIndex = 12
+        btnClear.TabIndex =
+            12
 
-        Me.btnClear.Text =
+        btnClear.Text =
             "Clear"
 
-        Me.btnClear.UseVisualStyleBackColor =
+        btnClear.UseVisualStyleBackColor =
             False
 
 
         '==================================================
         ' pnlStudents
+        ' SAME RIGHT COLUMN AS USER MANAGEMENT
         '==================================================
-        Me.pnlStudents.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Top Or
-                System.Windows.Forms.AnchorStyles.Bottom Or
-                System.Windows.Forms.AnchorStyles.Left Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
+        pnlStudents.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Bottom Or
+            AnchorStyles.Left Or
+            AnchorStyles.Right
 
-        Me.pnlStudents.BackColor =
-            System.Drawing.Color.FromArgb(255, 253, 252)
+        pnlStudents.BackColor =
+            Color.FromArgb(255, 253, 252)
 
-        Me.pnlStudents.BorderStyle =
-            System.Windows.Forms.BorderStyle.FixedSingle
+        pnlStudents.BorderStyle =
+            BorderStyle.FixedSingle
 
-        Me.pnlStudents.Controls.Add(Me.dgvStudents)
+        pnlStudents.Controls.Add(dgvStudents)
 
-        Me.pnlStudents.Controls.Add(Me.cboFilterCourse)
-        Me.pnlStudents.Controls.Add(Me.lblFilterCourse)
+        pnlStudents.Controls.Add(cboFilterCourse)
+        pnlStudents.Controls.Add(lblFilterCourse)
 
-        Me.pnlStudents.Controls.Add(Me.cboFilterYear)
-        Me.pnlStudents.Controls.Add(Me.lblFilterYear)
+        pnlStudents.Controls.Add(cboFilterYear)
+        pnlStudents.Controls.Add(lblFilterYear)
 
-        Me.pnlStudents.Controls.Add(Me.txtSearch)
-        Me.pnlStudents.Controls.Add(Me.lblSearch)
+        pnlStudents.Controls.Add(txtSearch)
+        pnlStudents.Controls.Add(lblSearch)
 
-        Me.pnlStudents.Controls.Add(Me.pnlStudentsHeader)
+        pnlStudents.Controls.Add(pnlStudentsHeader)
 
-        Me.pnlStudents.Location =
-            New System.Drawing.Point(445, 100)
+        pnlStudents.Location =
+            New Point(350, 90)
 
-        Me.pnlStudents.Name =
+        pnlStudents.Margin =
+            New Padding(3, 2, 3, 2)
+
+        pnlStudents.Name =
             "pnlStudents"
 
-        Me.pnlStudents.Size =
-            New System.Drawing.Size(1000, 545)
+        pnlStudents.Size =
+            New Size(665, 342)
 
-        Me.pnlStudents.TabIndex = 2
+        pnlStudents.TabIndex =
+            2
 
 
         '==================================================
         ' pnlStudentsHeader
         '==================================================
-        Me.pnlStudentsHeader.BackColor =
-            System.Drawing.Color.FromArgb(103, 60, 36)
+        pnlStudentsHeader.BackColor =
+            Color.FromArgb(97, 55, 31)
 
-        Me.pnlStudentsHeader.Controls.Add(
-            Me.lblStudentsTitle
+        pnlStudentsHeader.Controls.Add(
+            lblStudentsTitle
         )
 
-        Me.pnlStudentsHeader.Dock =
-            System.Windows.Forms.DockStyle.Top
+        pnlStudentsHeader.Dock =
+            DockStyle.Top
 
-        Me.pnlStudentsHeader.Location =
-            New System.Drawing.Point(0, 0)
+        pnlStudentsHeader.Location =
+            New Point(0, 0)
 
-        Me.pnlStudentsHeader.Name =
+        pnlStudentsHeader.Margin =
+            New Padding(3, 2, 3, 2)
+
+        pnlStudentsHeader.Name =
             "pnlStudentsHeader"
 
-        Me.pnlStudentsHeader.Size =
-            New System.Drawing.Size(998, 38)
+        pnlStudentsHeader.Size =
+            New Size(663, 38)
 
-        Me.pnlStudentsHeader.TabIndex = 0
+        pnlStudentsHeader.TabIndex =
+            0
 
 
         '==================================================
         ' lblStudentsTitle
         '==================================================
-        Me.lblStudentsTitle.AutoSize = True
+        lblStudentsTitle.AutoSize =
+            True
 
-        Me.lblStudentsTitle.Font =
-            New System.Drawing.Font(
+        lblStudentsTitle.Font =
+            New Font(
                 "Segoe UI Semibold",
-                11.0!,
-                System.Drawing.FontStyle.Bold
+                12.0F,
+                FontStyle.Bold
             )
 
-        Me.lblStudentsTitle.ForeColor =
-            System.Drawing.Color.White
+        lblStudentsTitle.ForeColor =
+            Color.White
 
-        Me.lblStudentsTitle.Location =
-            New System.Drawing.Point(15, 7)
+        lblStudentsTitle.Location =
+            New Point(14, 8)
 
-        Me.lblStudentsTitle.Name =
+        lblStudentsTitle.Name =
             "lblStudentsTitle"
 
-        Me.lblStudentsTitle.Size =
-            New System.Drawing.Size(114, 25)
+        lblStudentsTitle.TabIndex =
+            0
 
-        Me.lblStudentsTitle.TabIndex = 0
-
-        Me.lblStudentsTitle.Text =
+        lblStudentsTitle.Text =
             "Student List"
 
 
         '==================================================
-        ' lblSearch
+        ' SEARCH LABEL
         '==================================================
-        Me.lblSearch.AutoSize = True
+        lblSearch.AutoSize =
+            True
 
-        Me.lblSearch.Font =
-            New System.Drawing.Font(
+        lblSearch.Font =
+            New Font(
                 "Segoe UI Semibold",
-                8.5!,
-                System.Drawing.FontStyle.Bold
+                9.0F,
+                FontStyle.Bold
             )
 
-        Me.lblSearch.Location =
-            New System.Drawing.Point(17, 52)
+        lblSearch.ForeColor =
+            Color.FromArgb(59, 40, 31)
 
-        Me.lblSearch.Name =
+        lblSearch.Location =
+            New Point(16, 50)
+
+        lblSearch.Name =
             "lblSearch"
 
-        Me.lblSearch.Size =
-            New System.Drawing.Size(107, 20)
+        lblSearch.TabIndex =
+            1
 
-        Me.lblSearch.TabIndex = 1
-
-        Me.lblSearch.Text =
+        lblSearch.Text =
             "Search Student"
 
 
         '==================================================
-        ' txtSearch
+        ' SEARCH TEXTBOX
         '==================================================
-        Me.txtSearch.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Top Or
-                System.Windows.Forms.AnchorStyles.Left Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
+        txtSearch.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Left Or
+            AnchorStyles.Right
 
-        Me.txtSearch.BorderStyle =
-            System.Windows.Forms.BorderStyle.FixedSingle
+        txtSearch.BorderStyle =
+            BorderStyle.FixedSingle
 
-        Me.txtSearch.Font =
-            New System.Drawing.Font(
+        txtSearch.Font =
+            New Font(
                 "Segoe UI",
-                9.0!
+                10.0F
             )
 
-        Me.txtSearch.Location =
-            New System.Drawing.Point(18, 75)
+        txtSearch.Location =
+            New Point(18, 69)
 
-        Me.txtSearch.Name =
+        txtSearch.Margin =
+            New Padding(3, 2, 3, 2)
+
+        txtSearch.Name =
             "txtSearch"
 
-        Me.txtSearch.Size =
-            New System.Drawing.Size(520, 27)
+        txtSearch.Size =
+            New Size(245, 25)
 
-        Me.txtSearch.TabIndex = 2
+        txtSearch.TabIndex =
+            2
 
 
         '==================================================
-        ' lblFilterYear
+        ' YEAR FILTER LABEL
         '==================================================
-        Me.lblFilterYear.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Top Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
+        lblFilterYear.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Right
 
-        Me.lblFilterYear.AutoSize = True
+        lblFilterYear.AutoSize =
+            True
 
-        Me.lblFilterYear.Font =
-            New System.Drawing.Font(
+        lblFilterYear.Font =
+            New Font(
                 "Segoe UI Semibold",
-                8.5!,
-                System.Drawing.FontStyle.Bold
+                9.0F,
+                FontStyle.Bold
             )
 
-        Me.lblFilterYear.Location =
-            New System.Drawing.Point(557, 52)
+        lblFilterYear.ForeColor =
+            Color.FromArgb(59, 40, 31)
 
-        Me.lblFilterYear.Name =
+        lblFilterYear.Location =
+            New Point(281, 50)
+
+        lblFilterYear.Name =
             "lblFilterYear"
 
-        Me.lblFilterYear.Size =
-            New System.Drawing.Size(79, 20)
+        lblFilterYear.TabIndex =
+            3
 
-        Me.lblFilterYear.TabIndex = 3
-
-        Me.lblFilterYear.Text =
+        lblFilterYear.Text =
             "Year Level"
 
 
         '==================================================
-        ' cboFilterYear
+        ' YEAR FILTER
         '==================================================
-        Me.cboFilterYear.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Top Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
+        cboFilterYear.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Right
 
-        Me.cboFilterYear.DropDownStyle =
-            System.Windows.Forms.ComboBoxStyle.DropDownList
+        cboFilterYear.DropDownStyle =
+            ComboBoxStyle.DropDownList
 
-        Me.cboFilterYear.Font =
-            New System.Drawing.Font(
+        cboFilterYear.Font =
+            New Font(
                 "Segoe UI",
-                9.0!
+                10.0F
             )
 
-        Me.cboFilterYear.FormattingEnabled =
+        cboFilterYear.FormattingEnabled =
             True
 
-        Me.cboFilterYear.Location =
-            New System.Drawing.Point(557, 75)
+        cboFilterYear.Location =
+            New Point(281, 69)
 
-        Me.cboFilterYear.Name =
+        cboFilterYear.Margin =
+            New Padding(3, 2, 3, 2)
+
+        cboFilterYear.Name =
             "cboFilterYear"
 
-        Me.cboFilterYear.Size =
-            New System.Drawing.Size(195, 28)
+        cboFilterYear.Size =
+            New Size(165, 25)
 
-        Me.cboFilterYear.TabIndex = 4
+        cboFilterYear.TabIndex =
+            4
 
 
         '==================================================
-        ' lblFilterCourse
+        ' COURSE FILTER LABEL
         '==================================================
-        Me.lblFilterCourse.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Top Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
+        lblFilterCourse.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Right
 
-        Me.lblFilterCourse.AutoSize = True
+        lblFilterCourse.AutoSize =
+            True
 
-        Me.lblFilterCourse.Font =
-            New System.Drawing.Font(
+        lblFilterCourse.Font =
+            New Font(
                 "Segoe UI Semibold",
-                8.5!,
-                System.Drawing.FontStyle.Bold
+                9.0F,
+                FontStyle.Bold
             )
 
-        Me.lblFilterCourse.Location =
-            New System.Drawing.Point(770, 52)
+        lblFilterCourse.ForeColor =
+            Color.FromArgb(59, 40, 31)
 
-        Me.lblFilterCourse.Name =
+        lblFilterCourse.Location =
+            New Point(464, 50)
+
+        lblFilterCourse.Name =
             "lblFilterCourse"
 
-        Me.lblFilterCourse.Size =
-            New System.Drawing.Size(53, 20)
+        lblFilterCourse.TabIndex =
+            5
 
-        Me.lblFilterCourse.TabIndex = 5
-
-        Me.lblFilterCourse.Text =
+        lblFilterCourse.Text =
             "Course"
 
 
         '==================================================
-        ' cboFilterCourse
+        ' COURSE FILTER
         '==================================================
-        Me.cboFilterCourse.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Top Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
+        cboFilterCourse.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Right
 
-        Me.cboFilterCourse.DropDownStyle =
-            System.Windows.Forms.ComboBoxStyle.DropDownList
+        cboFilterCourse.DropDownStyle =
+            ComboBoxStyle.DropDownList
 
-        Me.cboFilterCourse.Font =
-            New System.Drawing.Font(
+        cboFilterCourse.Font =
+            New Font(
                 "Segoe UI",
-                9.0!
+                10.0F
             )
 
-        Me.cboFilterCourse.FormattingEnabled =
+        cboFilterCourse.FormattingEnabled =
             True
 
-        Me.cboFilterCourse.Location =
-            New System.Drawing.Point(770, 75)
+        cboFilterCourse.Location =
+            New Point(464, 69)
 
-        Me.cboFilterCourse.Name =
+        cboFilterCourse.Margin =
+            New Padding(3, 2, 3, 2)
+
+        cboFilterCourse.Name =
             "cboFilterCourse"
 
-        Me.cboFilterCourse.Size =
-            New System.Drawing.Size(208, 28)
+        cboFilterCourse.Size =
+            New Size(180, 25)
 
-        Me.cboFilterCourse.TabIndex = 6
+        cboFilterCourse.TabIndex =
+            6
 
 
         '==================================================
         ' dgvStudents
         '==================================================
-        Me.dgvStudents.AllowUserToAddRows = False
-        Me.dgvStudents.AllowUserToDeleteRows = False
-        Me.dgvStudents.AllowUserToResizeRows = False
-
-        Me.dgvStudents.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Top Or
-                System.Windows.Forms.AnchorStyles.Bottom Or
-                System.Windows.Forms.AnchorStyles.Left Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
-
-        Me.dgvStudents.AutoGenerateColumns =
+        dgvStudents.AllowUserToAddRows =
             False
 
-        Me.dgvStudents.AutoSizeColumnsMode =
-            System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
+        dgvStudents.AllowUserToDeleteRows =
+            False
 
-        Me.dgvStudents.BackgroundColor =
-            System.Drawing.Color.White
+        dgvStudents.AllowUserToResizeRows =
+            False
 
-        Me.dgvStudents.BorderStyle =
-            System.Windows.Forms.BorderStyle.None
+        dgvStudents.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Bottom Or
+            AnchorStyles.Left Or
+            AnchorStyles.Right
 
-        Me.dgvStudents.CellBorderStyle =
-            System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal
+        dgvStudents.AutoGenerateColumns =
+            False
 
-        Me.dgvStudents.ColumnHeadersHeight =
-            40
+        dgvStudents.AutoSizeColumnsMode =
+            DataGridViewAutoSizeColumnsMode.Fill
 
-        Me.dgvStudents.ColumnHeadersHeightSizeMode =
-            System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+        dgvStudents.BackgroundColor =
+            Color.White
 
-        Me.dgvStudents.Columns.AddRange(
-            New System.Windows.Forms.DataGridViewColumn() {
-                Me.colStudentID,
-                Me.colStudentName,
-                Me.colYearLevel,
-                Me.colCourse,
-                Me.colParentContact
+        dgvStudents.BorderStyle =
+            BorderStyle.None
+
+        dgvStudents.CellBorderStyle =
+            DataGridViewCellBorderStyle.SingleHorizontal
+
+        dgvStudents.ColumnHeadersDefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+        dgvStudents.ColumnHeadersDefaultCellStyle.BackColor =
+            Color.FromArgb(93, 50, 29)
+
+        dgvStudents.ColumnHeadersDefaultCellStyle.Font =
+            New Font(
+                "Segoe UI Semibold",
+                10.0F,
+                FontStyle.Bold
+            )
+
+        dgvStudents.ColumnHeadersDefaultCellStyle.ForeColor =
+            Color.White
+
+        dgvStudents.ColumnHeadersDefaultCellStyle.SelectionBackColor =
+            Color.FromArgb(93, 50, 29)
+
+        dgvStudents.ColumnHeadersDefaultCellStyle.SelectionForeColor =
+            Color.White
+
+        dgvStudents.ColumnHeadersDefaultCellStyle.WrapMode =
+            DataGridViewTriState.True
+
+        dgvStudents.ColumnHeadersHeight =
+            42
+
+        dgvStudents.ColumnHeadersHeightSizeMode =
+            DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+
+        dgvStudents.Columns.AddRange(
+            New DataGridViewColumn() {
+                colStudentID,
+                colStudentName,
+                colYearLevel,
+                colCourse,
+                colParentContact
             }
         )
 
-        Me.dgvStudents.EnableHeadersVisualStyles =
+        dgvStudents.DefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleLeft
+
+        dgvStudents.DefaultCellStyle.BackColor =
+            Color.White
+
+        dgvStudents.DefaultCellStyle.Font =
+            New Font(
+                "Segoe UI",
+                10.0F
+            )
+
+        dgvStudents.DefaultCellStyle.ForeColor =
+            Color.FromArgb(50, 35, 28)
+
+        dgvStudents.DefaultCellStyle.SelectionBackColor =
+            Color.FromArgb(233, 216, 202)
+
+        dgvStudents.DefaultCellStyle.SelectionForeColor =
+            Color.FromArgb(52, 32, 23)
+
+        dgvStudents.DefaultCellStyle.WrapMode =
+            DataGridViewTriState.False
+
+        dgvStudents.EnableHeadersVisualStyles =
             False
 
-        Me.dgvStudents.GridColor =
-            System.Drawing.Color.FromArgb(225, 211, 201)
+        dgvStudents.GridColor =
+            Color.FromArgb(225, 211, 201)
 
-        Me.dgvStudents.Location =
-            New System.Drawing.Point(18, 120)
+        dgvStudents.Location =
+            New Point(18, 109)
 
-        Me.dgvStudents.MultiSelect =
+        dgvStudents.Margin =
+            New Padding(3, 2, 3, 2)
+
+        dgvStudents.MultiSelect =
             False
 
-        Me.dgvStudents.Name =
+        dgvStudents.Name =
             "dgvStudents"
 
-        Me.dgvStudents.ReadOnly =
+        dgvStudents.ReadOnly =
             True
 
-        Me.dgvStudents.RowHeadersVisible =
+        dgvStudents.RowHeadersVisible =
             False
 
-        Me.dgvStudents.RowTemplate.Height =
-            36
+        dgvStudents.RowTemplate.Height =
+            38
 
-        Me.dgvStudents.SelectionMode =
-            System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        dgvStudents.SelectionMode =
+            DataGridViewSelectionMode.FullRowSelect
 
-        Me.dgvStudents.Size =
-            New System.Drawing.Size(960, 400)
+        dgvStudents.Size =
+            New Size(626, 214)
 
-        Me.dgvStudents.TabIndex = 7
-
-
-        '==================================================
-        ' DATAGRIDVIEW HEADER STYLE
-        '==================================================
-        Me.dgvStudents.ColumnHeadersDefaultCellStyle.BackColor =
-            System.Drawing.Color.FromArgb(103, 60, 36)
-
-        Me.dgvStudents.ColumnHeadersDefaultCellStyle.ForeColor =
-            System.Drawing.Color.White
-
-        Me.dgvStudents.ColumnHeadersDefaultCellStyle.Font =
-            New System.Drawing.Font(
-                "Segoe UI Semibold",
-                9.0!,
-                System.Drawing.FontStyle.Bold
-            )
-
-        Me.dgvStudents.ColumnHeadersDefaultCellStyle.Alignment =
-            System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        dgvStudents.TabIndex =
+            7
 
 
         '==================================================
-        ' DATAGRIDVIEW ROW STYLE
+        ' STUDENT ID COLUMN
         '==================================================
-        Me.dgvStudents.DefaultCellStyle.Font =
-            New System.Drawing.Font(
-                "Segoe UI",
-                9.0!
-            )
-
-        Me.dgvStudents.DefaultCellStyle.BackColor =
-            System.Drawing.Color.White
-
-        Me.dgvStudents.DefaultCellStyle.ForeColor =
-            System.Drawing.Color.FromArgb(50, 35, 28)
-
-        Me.dgvStudents.DefaultCellStyle.SelectionBackColor =
-            System.Drawing.Color.FromArgb(233, 216, 202)
-
-        Me.dgvStudents.DefaultCellStyle.SelectionForeColor =
-            System.Drawing.Color.FromArgb(52, 32, 23)
-
-
-        '==================================================
-        ' colStudentID
-        '==================================================
-        Me.colStudentID.DataPropertyName =
+        colStudentID.DataPropertyName =
             "student_id"
 
-        Me.colStudentID.FillWeight =
-            35.0!
+        colStudentID.FillWeight =
+            40.0F
 
-        Me.colStudentID.HeaderText =
+        colStudentID.HeaderText =
             "Student ID"
 
-        Me.colStudentID.Name =
+        colStudentID.Name =
             "colStudentID"
 
-        Me.colStudentID.ReadOnly =
+        colStudentID.ReadOnly =
             True
 
 
         '==================================================
-        ' colStudentName
+        ' STUDENT NAME COLUMN
         '==================================================
-        Me.colStudentName.DataPropertyName =
+        colStudentName.DataPropertyName =
             "student_name"
 
-        Me.colStudentName.FillWeight =
-            85.0!
+        colStudentName.FillWeight =
+            100.0F
 
-        Me.colStudentName.HeaderText =
+        colStudentName.HeaderText =
             "Student Name"
 
-        Me.colStudentName.Name =
+        colStudentName.Name =
             "colStudentName"
 
-        Me.colStudentName.ReadOnly =
+        colStudentName.ReadOnly =
             True
 
 
         '==================================================
-        ' colYearLevel
+        ' YEAR LEVEL COLUMN
         '==================================================
-        Me.colYearLevel.DataPropertyName =
+        colYearLevel.DataPropertyName =
             "year_level"
 
-        Me.colYearLevel.FillWeight =
-            55.0!
+        colYearLevel.FillWeight =
+            55.0F
 
-        Me.colYearLevel.HeaderText =
+        colYearLevel.HeaderText =
             "Year Level"
 
-        Me.colYearLevel.Name =
+        colYearLevel.Name =
             "colYearLevel"
 
-        Me.colYearLevel.ReadOnly =
+        colYearLevel.ReadOnly =
             True
 
 
         '==================================================
-        ' colCourse
+        ' COURSE COLUMN
         '==================================================
-        Me.colCourse.DataPropertyName =
+        colCourse.DataPropertyName =
             "course"
 
-        Me.colCourse.FillWeight =
-            45.0!
+        colCourse.FillWeight =
+            55.0F
 
-        Me.colCourse.HeaderText =
+        colCourse.HeaderText =
             "Course"
 
-        Me.colCourse.Name =
+        colCourse.Name =
             "colCourse"
 
-        Me.colCourse.ReadOnly =
+        colCourse.ReadOnly =
             True
 
 
         '==================================================
-        ' colParentContact
+        ' PARENT CONTACT COLUMN
         '==================================================
-        Me.colParentContact.DataPropertyName =
+        colParentContact.DataPropertyName =
             "parent_contact_number"
 
-        Me.colParentContact.FillWeight =
-            75.0!
+        colParentContact.FillWeight =
+            80.0F
 
-        Me.colParentContact.HeaderText =
+        colParentContact.HeaderText =
             "Parent Contact"
 
-        Me.colParentContact.Name =
+        colParentContact.Name =
             "colParentContact"
 
-        Me.colParentContact.ReadOnly =
+        colParentContact.ReadOnly =
             True
 
 
         '==================================================
         ' pnlSummary
+        ' SAME MASTER POSITION
         '==================================================
-        Me.pnlSummary.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Bottom Or
-                System.Windows.Forms.AnchorStyles.Left Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
+        pnlSummary.Anchor =
+            AnchorStyles.Bottom Or
+            AnchorStyles.Left Or
+            AnchorStyles.Right
 
-        Me.pnlSummary.BackColor =
-            System.Drawing.Color.FromArgb(255, 253, 252)
+        pnlSummary.BackColor =
+            Color.FromArgb(255, 253, 252)
 
-        Me.pnlSummary.BorderStyle =
-            System.Windows.Forms.BorderStyle.FixedSingle
+        pnlSummary.BorderStyle =
+            BorderStyle.FixedSingle
 
-        Me.pnlSummary.Controls.Add(Me.btnImportStudents)
+        pnlSummary.Controls.Add(btnImportStudents)
+        pnlSummary.Controls.Add(lblImportDescription)
+        pnlSummary.Controls.Add(lblImportTitle)
 
-        Me.pnlSummary.Controls.Add(Me.lblImportDescription)
-        Me.pnlSummary.Controls.Add(Me.lblImportTitle)
+        pnlSummary.Controls.Add(pnlTotalStudents)
+        pnlSummary.Controls.Add(lblSummaryTitle)
 
-        Me.pnlSummary.Controls.Add(Me.pnlTotalStudents)
-        Me.pnlSummary.Controls.Add(Me.lblSummaryTitle)
+        pnlSummary.Location =
+            New Point(18, 442)
 
-        Me.pnlSummary.Location =
-            New System.Drawing.Point(15, 655)
+        pnlSummary.Margin =
+            New Padding(3, 2, 3, 2)
 
-        Me.pnlSummary.Name =
+        pnlSummary.Name =
             "pnlSummary"
 
-        Me.pnlSummary.Size =
-            New System.Drawing.Size(1430, 110)
+        pnlSummary.Size =
+            New Size(998, 83)
 
-        Me.pnlSummary.TabIndex = 3
+        pnlSummary.TabIndex =
+            3
 
 
         '==================================================
         ' lblSummaryTitle
         '==================================================
-        Me.lblSummaryTitle.AutoSize = True
+        lblSummaryTitle.AutoSize =
+            True
 
-        Me.lblSummaryTitle.Font =
-            New System.Drawing.Font(
+        lblSummaryTitle.Font =
+            New Font(
                 "Segoe UI Semibold",
-                9.5!,
-                System.Drawing.FontStyle.Bold
+                10.5F,
+                FontStyle.Bold
             )
 
-        Me.lblSummaryTitle.ForeColor =
-            System.Drawing.Color.FromArgb(68, 37, 22)
+        lblSummaryTitle.ForeColor =
+            Color.FromArgb(68, 37, 22)
 
-        Me.lblSummaryTitle.Location =
-            New System.Drawing.Point(15, 8)
+        lblSummaryTitle.Location =
+            New Point(16, 8)
 
-        Me.lblSummaryTitle.Name =
+        lblSummaryTitle.Name =
             "lblSummaryTitle"
 
-        Me.lblSummaryTitle.Size =
-            New System.Drawing.Size(81, 21)
+        lblSummaryTitle.TabIndex =
+            0
 
-        Me.lblSummaryTitle.TabIndex = 0
-
-        Me.lblSummaryTitle.Text =
+        lblSummaryTitle.Text =
             "Summary"
 
 
         '==================================================
-        ' pnlTotalStudents
+        ' TOTAL STUDENTS CARD
+        ' SAME SIZE AS USER MANAGEMENT SUMMARY CARD
         '==================================================
-        Me.pnlTotalStudents.BackColor =
-            System.Drawing.Color.FromArgb(245, 234, 223)
+        pnlTotalStudents.BackColor =
+            Color.FromArgb(245, 234, 223)
 
-        Me.pnlTotalStudents.Controls.Add(Me.lblTotalStudents)
-        Me.pnlTotalStudents.Controls.Add(Me.lblTotalStudentsTitle)
+        pnlTotalStudents.Controls.Add(lblTotalStudents)
+        pnlTotalStudents.Controls.Add(lblTotalStudentsTitle)
 
-        Me.pnlTotalStudents.Location =
-            New System.Drawing.Point(15, 40)
+        pnlTotalStudents.Location =
+            New Point(18, 30)
 
-        Me.pnlTotalStudents.Name =
+        pnlTotalStudents.Margin =
+            New Padding(3, 2, 3, 2)
+
+        pnlTotalStudents.Name =
             "pnlTotalStudents"
 
-        Me.pnlTotalStudents.Size =
-            New System.Drawing.Size(330, 52)
+        pnlTotalStudents.Size =
+            New Size(302, 41)
 
-        Me.pnlTotalStudents.TabIndex = 1
+        pnlTotalStudents.TabIndex =
+            1
 
 
         '==================================================
-        ' lblTotalStudentsTitle
+        ' TOTAL STUDENTS TITLE
         '==================================================
-        Me.lblTotalStudentsTitle.AutoSize = True
+        lblTotalStudentsTitle.AutoSize =
+            True
 
-        Me.lblTotalStudentsTitle.Font =
-            New System.Drawing.Font(
+        lblTotalStudentsTitle.Font =
+            New Font(
                 "Segoe UI",
-                9.0!
+                9.5F
             )
 
-        Me.lblTotalStudentsTitle.Location =
-            New System.Drawing.Point(15, 15)
+        lblTotalStudentsTitle.Location =
+            New Point(12, 6)
 
-        Me.lblTotalStudentsTitle.Name =
+        lblTotalStudentsTitle.Name =
             "lblTotalStudentsTitle"
 
-        Me.lblTotalStudentsTitle.Size =
-            New System.Drawing.Size(102, 20)
+        lblTotalStudentsTitle.TabIndex =
+            0
 
-        Me.lblTotalStudentsTitle.TabIndex = 0
-
-        Me.lblTotalStudentsTitle.Text =
+        lblTotalStudentsTitle.Text =
             "Total Students"
 
 
         '==================================================
-        ' lblTotalStudents
+        ' TOTAL STUDENTS COUNT
         '==================================================
-        Me.lblTotalStudents.Font =
-            New System.Drawing.Font(
+        lblTotalStudents.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Right
+
+        lblTotalStudents.Font =
+            New Font(
                 "Segoe UI",
-                15.0!,
-                System.Drawing.FontStyle.Bold
+                18.0F,
+                FontStyle.Bold
             )
 
-        Me.lblTotalStudents.ForeColor =
-            System.Drawing.Color.FromArgb(68, 37, 22)
+        lblTotalStudents.ForeColor =
+            Color.FromArgb(68, 37, 22)
 
-        Me.lblTotalStudents.Location =
-            New System.Drawing.Point(250, 7)
+        lblTotalStudents.Location =
+            New Point(219, 5)
 
-        Me.lblTotalStudents.Name =
+        lblTotalStudents.Name =
             "lblTotalStudents"
 
-        Me.lblTotalStudents.Size =
-            New System.Drawing.Size(60, 35)
+        lblTotalStudents.Size =
+            New Size(66, 30)
 
-        Me.lblTotalStudents.TabIndex = 1
+        lblTotalStudents.TabIndex =
+            1
 
-        Me.lblTotalStudents.Text =
+        lblTotalStudents.Text =
             "0"
 
-        Me.lblTotalStudents.TextAlign =
-            System.Drawing.ContentAlignment.MiddleRight
+        lblTotalStudents.TextAlign =
+            ContentAlignment.MiddleRight
 
 
         '==================================================
-        ' lblImportTitle
+        ' IMPORT TITLE
         '==================================================
-        Me.lblImportTitle.AutoSize = True
+        lblImportTitle.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Right
 
-        Me.lblImportTitle.Font =
-            New System.Drawing.Font(
+        lblImportTitle.AutoSize =
+            True
+
+        lblImportTitle.Font =
+            New Font(
                 "Segoe UI Semibold",
-                9.5!,
-                System.Drawing.FontStyle.Bold
+                9.5F,
+                FontStyle.Bold
             )
 
-        Me.lblImportTitle.ForeColor =
-            System.Drawing.Color.FromArgb(68, 37, 22)
+        lblImportTitle.ForeColor =
+            Color.FromArgb(68, 37, 22)
 
-        Me.lblImportTitle.Location =
-            New System.Drawing.Point(410, 42)
+        lblImportTitle.Location =
+            New Point(455, 33)
 
-        Me.lblImportTitle.Name =
+        lblImportTitle.Name =
             "lblImportTitle"
 
-        Me.lblImportTitle.Size =
-            New System.Drawing.Size(171, 21)
+        lblImportTitle.TabIndex =
+            2
 
-        Me.lblImportTitle.TabIndex = 2
-
-        Me.lblImportTitle.Text =
+        lblImportTitle.Text =
             "Bulk Student Import"
 
 
         '==================================================
-        ' lblImportDescription
+        ' IMPORT DESCRIPTION
         '==================================================
-        Me.lblImportDescription.AutoSize = True
+        lblImportDescription.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Right
 
-        Me.lblImportDescription.Font =
-            New System.Drawing.Font(
+        lblImportDescription.AutoSize =
+            True
+
+        lblImportDescription.Font =
+            New Font(
                 "Segoe UI",
-                8.5!
+                8.0F
             )
 
-        Me.lblImportDescription.ForeColor =
-            System.Drawing.Color.DimGray
+        lblImportDescription.ForeColor =
+            Color.DimGray
 
-        Me.lblImportDescription.Location =
-            New System.Drawing.Point(410, 67)
+        lblImportDescription.Location =
+            New Point(455, 52)
 
-        Me.lblImportDescription.Name =
+        lblImportDescription.Name =
             "lblImportDescription"
 
-        Me.lblImportDescription.Size =
-            New System.Drawing.Size(337, 20)
+        lblImportDescription.TabIndex =
+            3
 
-        Me.lblImportDescription.TabIndex = 3
-
-        Me.lblImportDescription.Text =
-            "Import multiple student records from an Excel file."
+        lblImportDescription.Text =
+            "Import multiple students from Excel."
 
 
         '==================================================
-        ' btnImportStudents
+        ' IMPORT STUDENTS BUTTON
         '==================================================
-        Me.btnImportStudents.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Top Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
+        btnImportStudents.Anchor =
+            AnchorStyles.Top Or
+            AnchorStyles.Right
 
-        Me.btnImportStudents.BackColor =
-            System.Drawing.Color.FromArgb(103, 60, 36)
+        btnImportStudents.BackColor =
+            Color.FromArgb(103, 60, 36)
 
-        Me.btnImportStudents.Cursor =
-            System.Windows.Forms.Cursors.Hand
+        btnImportStudents.Cursor =
+            Cursors.Hand
 
-        Me.btnImportStudents.FlatAppearance.BorderSize =
+        btnImportStudents.FlatAppearance.BorderSize =
             0
 
-        Me.btnImportStudents.FlatStyle =
-            System.Windows.Forms.FlatStyle.Flat
+        btnImportStudents.FlatStyle =
+            FlatStyle.Flat
 
-        Me.btnImportStudents.Font =
-            New System.Drawing.Font(
+        btnImportStudents.Font =
+            New Font(
                 "Segoe UI Semibold",
-                9.5!,
-                System.Drawing.FontStyle.Bold
+                9.0F,
+                FontStyle.Bold
             )
 
-        Me.btnImportStudents.ForeColor =
-            System.Drawing.Color.White
+        btnImportStudents.ForeColor =
+            Color.White
 
-        Me.btnImportStudents.Location =
-            New System.Drawing.Point(1100, 40)
+        btnImportStudents.Location =
+            New Point(752, 30)
 
-        Me.btnImportStudents.Name =
+        btnImportStudents.Margin =
+            New Padding(3, 2, 3, 2)
+
+        btnImportStudents.Name =
             "btnImportStudents"
 
-        Me.btnImportStudents.Size =
-            New System.Drawing.Size(305, 52)
+        btnImportStudents.Size =
+            New Size(220, 41)
 
-        Me.btnImportStudents.TabIndex = 4
+        btnImportStudents.TabIndex =
+            4
 
-        Me.btnImportStudents.Text =
+        btnImportStudents.Text =
             "Import Students from Excel"
 
-        Me.btnImportStudents.UseVisualStyleBackColor =
+        btnImportStudents.UseVisualStyleBackColor =
             False
 
+
         '==================================================
-        ' lblDateTime
+        ' TIMER
         '==================================================
-        Me.lblDateTime.Anchor =
-        CType(
-            System.Windows.Forms.AnchorStyles.Top Or
-            System.Windows.Forms.AnchorStyles.Right,
-            System.Windows.Forms.AnchorStyles
-        )
-
-        Me.lblDateTime.Font =
-        New System.Drawing.Font(
-            "Segoe UI Semibold",
-            9.0!,
-            System.Drawing.FontStyle.Bold
-        )
-
-        Me.lblDateTime.ForeColor =
-        System.Drawing.Color.FromArgb(68, 37, 22)
-
-        Me.lblDateTime.Location =
-        New System.Drawing.Point(930, 25)
-
-        Me.lblDateTime.Name =
-        "lblDateTime"
-
-        Me.lblDateTime.Size =
-        New System.Drawing.Size(470, 25)
-
-        Me.lblDateTime.TabIndex =
-        2
-
-        Me.lblDateTime.Text =
-        "Date | Time"
-
-        Me.lblDateTime.TextAlign =
-        System.Drawing.ContentAlignment.MiddleRight
+        timerClock.Interval =
+            1000
 
 
         '==================================================
-        ' timerClock
+        ' UcManageStudent
+        ' MASTER NAVIGATOR SIZE
         '==================================================
-        Me.timerClock.Interval =
-         1000
+        AutoScaleDimensions =
+            New SizeF(7.0F, 15.0F)
 
-        '==================================================
-        ' ManageStudent
-        '==================================================
-        Me.AutoScaleDimensions =
-            New System.Drawing.SizeF(8.0!, 20.0!)
+        AutoScaleMode =
+            AutoScaleMode.Font
 
-        Me.AutoScaleMode =
-            System.Windows.Forms.AutoScaleMode.Font
+        BackColor =
+            Color.FromArgb(247, 241, 236)
 
-        Me.BackColor =
-            System.Drawing.Color.FromArgb(247, 241, 236)
+        Controls.Add(pnlSummary)
+        Controls.Add(pnlStudents)
+        Controls.Add(pnlStudentInfo)
+        Controls.Add(pnlHeader)
 
-        Me.Controls.Add(Me.pnlSummary)
-        Me.Controls.Add(Me.pnlStudents)
-        Me.Controls.Add(Me.pnlStudentInfo)
-        Me.Controls.Add(Me.pnlHeader)
-
-        Me.Font =
-            New System.Drawing.Font(
+        Font =
+            New Font(
                 "Segoe UI",
-                9.0!
+                9.0F
             )
 
-        Me.Name =
-            "ManageStudent"
+        Margin =
+            New Padding(3, 2, 3, 2)
 
-        Me.Size =
-            New System.Drawing.Size(1460, 780)
+        Name =
+            "UcManageStudent"
+
+        Size =
+            New Size(1032, 540)
 
 
         '==================================================
-        ' RESUME
+        ' RESUME LAYOUT
         '==================================================
-        Me.pnlHeader.ResumeLayout(False)
-        Me.pnlHeader.PerformLayout()
+        pnlHeader.ResumeLayout(False)
+        pnlHeader.PerformLayout()
 
-        Me.pnlStudentInfoHeader.ResumeLayout(False)
-        Me.pnlStudentInfoHeader.PerformLayout()
+        pnlStudentInfoHeader.ResumeLayout(False)
+        pnlStudentInfoHeader.PerformLayout()
 
-        Me.pnlStudentInfo.ResumeLayout(False)
-        Me.pnlStudentInfo.PerformLayout()
+        pnlStudentInfo.ResumeLayout(False)
+        pnlStudentInfo.PerformLayout()
 
-        Me.pnlStudentsHeader.ResumeLayout(False)
-        Me.pnlStudentsHeader.PerformLayout()
+        pnlStudentsHeader.ResumeLayout(False)
+        pnlStudentsHeader.PerformLayout()
 
         CType(
-            Me.dgvStudents,
-            System.ComponentModel.ISupportInitialize
+            dgvStudents,
+            ComponentModel.ISupportInitialize
         ).EndInit()
 
-        Me.pnlStudents.ResumeLayout(False)
-        Me.pnlStudents.PerformLayout()
+        pnlStudents.ResumeLayout(False)
+        pnlStudents.PerformLayout()
 
-        Me.pnlTotalStudents.ResumeLayout(False)
-        Me.pnlTotalStudents.PerformLayout()
+        pnlTotalStudents.ResumeLayout(False)
+        pnlTotalStudents.PerformLayout()
 
-        Me.pnlSummary.ResumeLayout(False)
-        Me.pnlSummary.PerformLayout()
+        pnlSummary.ResumeLayout(False)
+        pnlSummary.PerformLayout()
 
-        Me.ResumeLayout(False)
+        ResumeLayout(False)
 
     End Sub
 
@@ -1588,6 +1692,8 @@ Partial Class UcManageStudent
     Friend WithEvents pnlHeader As Panel
     Friend WithEvents lblTitle As Label
     Friend WithEvents lblSubtitle As Label
+    Friend WithEvents lblDateTime As Label
+
 
     Friend WithEvents pnlStudentInfo As Panel
     Friend WithEvents pnlStudentInfoHeader As Panel
@@ -1610,6 +1716,7 @@ Partial Class UcManageStudent
     Friend WithEvents btnDelete As Button
     Friend WithEvents btnClear As Button
 
+
     Friend WithEvents pnlStudents As Panel
     Friend WithEvents pnlStudentsHeader As Panel
     Friend WithEvents lblStudentsTitle As Label
@@ -1631,6 +1738,7 @@ Partial Class UcManageStudent
     Friend WithEvents colCourse As DataGridViewTextBoxColumn
     Friend WithEvents colParentContact As DataGridViewTextBoxColumn
 
+
     Friend WithEvents pnlSummary As Panel
     Friend WithEvents lblSummaryTitle As Label
 
@@ -1640,9 +1748,8 @@ Partial Class UcManageStudent
 
     Friend WithEvents lblImportTitle As Label
     Friend WithEvents lblImportDescription As Label
-
     Friend WithEvents btnImportStudents As Button
-    Friend WithEvents lblDateTime As Label
+
     Friend WithEvents timerClock As Timer
 
 End Class

@@ -1,14 +1,16 @@
-﻿Imports System.Data.Odbc
-Imports System.Data.SqlTypes
+﻿Imports System.Data
+Imports System.Data.Odbc
 Imports System.Net.Http
 Imports System.Text
 Imports System.Threading.Tasks
 
 Public Class UserForm
+    Private isProcessingScan As Boolean = False
+    Private lastScannedQR As String = ""
+    Private lastScanTime As DateTime = DateTime.MinValue
 
-    Private Sub AdminForms_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
-        Application.Exit()
-    End Sub
+    Private Const ScanCooldownSeconds As Integer = 3
+
 
     Private Sub timerClock_Tick_1(sender As Object, e As EventArgs) Handles timerClock.Tick
         UpdateDateTime()
@@ -59,36 +61,126 @@ Public Class UserForm
         Call dgvLoaderAttendance("SELECT * FROM attendance_records ORDER BY attendance_id DESC", dgvAttendance)
     End Sub
 
-    Private Async Function SendSmsTimeOut(parentNumber As String, studentName As String) As Task
+    Private Async Function SendSmsTimeOut(
+    studentId As Integer,
+    parentNumber As String,
+    studentName As String
+) As Task
 
-        Dim apiToken As String = "de73dee5c2e1e19b2984f9eba3b0084e9adb82a1"
-        Dim apiUrl As String = "https://sms.iprogtech.com/api/v1/sms_messages?api_token=" & apiToken
+        Dim apiToken As String =
+        Environment.GetEnvironmentVariable("IPROGTECH_API_TOKEN")
 
-        Dim message As String = "Hello, your child " & studentName & " has left the school."
+        Dim message As String =
+        "Hello, your child " &
+        studentName &
+        " has left the school."
+
+
+        '==================================================
+        ' NO CONTACT NUMBER
+        '==================================================
+        If String.IsNullOrWhiteSpace(parentNumber) Then
+
+            SaveAttendanceSmsLog(
+            studentId,
+            "",
+            message,
+            "TIME OUT",
+            "FAILED"
+        )
+
+            MessageBox.Show(
+            "Time Out was recorded, but this student has no parent contact number.",
+            "SMS Not Sent",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Warning
+        )
+
+            Return
+
+        End If
+
+
+        '==================================================
+        ' API TOKEN CHECK
+        '==================================================
+        If String.IsNullOrWhiteSpace(apiToken) Then
+
+            SaveAttendanceSmsLog(
+            studentId,
+            parentNumber,
+            message,
+            "TIME OUT",
+            "FAILED"
+        )
+
+            MessageBox.Show(
+            "Time Out was recorded, but the SMS API is not configured.",
+            "SMS Configuration",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Warning
+        )
+
+            Return
+
+        End If
+
+
+        Dim apiUrl As String =
+        "https://sms.iprogtech.com/api/v1/sms_messages?api_token=" &
+        apiToken
+
 
         Try
 
             Dim jsonBody As String =
-            "{""phone_number"":""" & parentNumber & """,""message"":""" & message & """}"
+            "{""phone_number"":""" &
+            parentNumber &
+            """,""message"":""" &
+            message.Replace("""", "\""") &
+            """}"
+
 
             Using client As New HttpClient()
 
-                Dim content As New StringContent(jsonBody, Encoding.UTF8, "application/json")
+                Dim content As New StringContent(
+                jsonBody,
+                Encoding.UTF8,
+                "application/json"
+            )
 
                 Dim response As HttpResponseMessage =
-                Await client.PostAsync(apiUrl, content)
+                Await client.PostAsync(
+                    apiUrl,
+                    content
+                )
 
                 Dim responseBody As String =
                 Await response.Content.ReadAsStringAsync()
 
+
                 If response.IsSuccessStatusCode Then
 
-                    Console.WriteLine("SMS Sent: " & responseBody)
+                    SaveAttendanceSmsLog(
+                    studentId,
+                    parentNumber,
+                    message,
+                    "TIME OUT",
+                    "SENT"
+                )
 
                 Else
 
+                    SaveAttendanceSmsLog(
+                    studentId,
+                    parentNumber,
+                    message,
+                    "TIME OUT",
+                    "FAILED"
+                )
+
                     MessageBox.Show(
-                    "Attendance saved, but SMS failed." &
+                    "Time Out was recorded, but SMS failed." &
                     vbCrLf &
                     responseBody,
                     "SMS Error",
@@ -100,58 +192,166 @@ Public Class UserForm
 
             End Using
 
+
         Catch ex As HttpRequestException
 
+            SaveAttendanceSmsLog(
+            studentId,
+            parentNumber,
+            message,
+            "TIME OUT",
+            "FAILED"
+        )
+
             MessageBox.Show(
-            "No internet connection.",
+            "Time Out was recorded, but SMS could not be sent because the SMS server could not be reached.",
             "Network Error",
             MessageBoxButtons.OK,
-            MessageBoxIcon.Error
+            MessageBoxIcon.Warning
         )
+
 
         Catch ex As Exception
 
+            SaveAttendanceSmsLog(
+            studentId,
+            parentNumber,
+            message,
+            "TIME OUT",
+            "FAILED"
+        )
+
             MessageBox.Show(
-            "An error occurred while sending SMS.",
+            "Time Out was recorded, but an error occurred while sending the SMS.",
             "SMS Error",
             MessageBoxButtons.OK,
-            MessageBoxIcon.Error
+            MessageBoxIcon.Warning
         )
 
         End Try
 
     End Function
 
-    Private Async Function SendSmsTimeIn(parentNumber As String, studentName As String) As Task
+    Private Async Function SendSmsTimeIn(
+    studentId As Integer,
+    parentNumber As String,
+    studentName As String
+) As Task
 
-        Dim apiToken As String = "de73dee5c2e1e19b2984f9eba3b0084e9adb82a1"
-        Dim apiUrl As String = "https://sms.iprogtech.com/api/v1/sms_messages?api_token=" & apiToken
+        Dim apiToken As String =
+        Environment.GetEnvironmentVariable("IPROGTECH_API_TOKEN")
 
-        Dim message As String = "Hello, your child " & studentName & " has arrived at school."
+        Dim message As String =
+        "Hello, your child " &
+        studentName &
+        " has arrived at school."
+
+
+        '==================================================
+        ' NO CONTACT NUMBER
+        '==================================================
+        If String.IsNullOrWhiteSpace(parentNumber) Then
+
+            SaveAttendanceSmsLog(
+            studentId,
+            "",
+            message,
+            "TIME IN",
+            "FAILED"
+        )
+
+            MessageBox.Show(
+            "Time In was recorded, but this student has no parent contact number.",
+            "SMS Not Sent",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Warning
+        )
+
+            Return
+
+        End If
+
+
+        '==================================================
+        ' API TOKEN CHECK
+        '==================================================
+        If String.IsNullOrWhiteSpace(apiToken) Then
+
+            SaveAttendanceSmsLog(
+            studentId,
+            parentNumber,
+            message,
+            "TIME IN",
+            "FAILED"
+        )
+
+            MessageBox.Show(
+            "Time In was recorded, but the SMS API is not configured.",
+            "SMS Configuration",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Warning
+        )
+
+            Return
+
+        End If
+
+
+        Dim apiUrl As String =
+        "https://sms.iprogtech.com/api/v1/sms_messages?api_token=" &
+        apiToken
+
 
         Try
 
             Dim jsonBody As String =
-            "{""phone_number"":""" & parentNumber & """,""message"":""" & message & """}"
+            "{""phone_number"":""" &
+            parentNumber &
+            """,""message"":""" &
+            message.Replace("""", "\""") &
+            """}"
+
 
             Using client As New HttpClient()
 
-                Dim content As New StringContent(jsonBody, Encoding.UTF8, "application/json")
+                Dim content As New StringContent(
+                jsonBody,
+                Encoding.UTF8,
+                "application/json"
+            )
 
                 Dim response As HttpResponseMessage =
-                Await client.PostAsync(apiUrl, content)
+                Await client.PostAsync(
+                    apiUrl,
+                    content
+                )
 
                 Dim responseBody As String =
                 Await response.Content.ReadAsStringAsync()
 
+
                 If response.IsSuccessStatusCode Then
 
-                    Console.WriteLine("SMS Sent: " & responseBody)
+                    SaveAttendanceSmsLog(
+                    studentId,
+                    parentNumber,
+                    message,
+                    "TIME IN",
+                    "SENT"
+                )
 
                 Else
 
+                    SaveAttendanceSmsLog(
+                    studentId,
+                    parentNumber,
+                    message,
+                    "TIME IN",
+                    "FAILED"
+                )
+
                     MessageBox.Show(
-                    "Attendance saved, but SMS failed." &
+                    "Time In was recorded, but SMS failed." &
                     vbCrLf &
                     responseBody,
                     "SMS Error",
@@ -163,22 +363,40 @@ Public Class UserForm
 
             End Using
 
+
         Catch ex As HttpRequestException
 
+            SaveAttendanceSmsLog(
+            studentId,
+            parentNumber,
+            message,
+            "TIME IN",
+            "FAILED"
+        )
+
             MessageBox.Show(
-            "No internet connection.",
+            "Time In was recorded, but SMS could not be sent because the SMS server could not be reached.",
             "Network Error",
             MessageBoxButtons.OK,
-            MessageBoxIcon.Error
+            MessageBoxIcon.Warning
         )
+
 
         Catch ex As Exception
 
+            SaveAttendanceSmsLog(
+            studentId,
+            parentNumber,
+            message,
+            "TIME IN",
+            "FAILED"
+        )
+
             MessageBox.Show(
-            "An error occurred while sending SMS.",
+            "Time In was recorded, but an error occurred while sending the SMS.",
             "SMS Error",
             MessageBoxButtons.OK,
-            MessageBoxIcon.Error
+            MessageBoxIcon.Warning
         )
 
         End Try
@@ -190,28 +408,130 @@ Public Class UserForm
     e As KeyEventArgs
 ) Handles txtQrCode.KeyDown
 
-        If e.KeyCode = Keys.Enter Then
+        ' Enter lang ang magpo-process
+        If e.KeyCode <> Keys.Enter Then
+            Return
+        End If
 
-            e.SuppressKeyPress = True
+        e.SuppressKeyPress = True
+        e.Handled = True
 
-            Dim scannedQR As String = txtQrCode.Text.Trim()
 
-            If scannedQR = "" Then
-                lblStatus.Text = "Please scan QR Code."
-                lblStudentName.Text = ""
-                lblTime.Text = ""
-                lblAttendance.Text = ""
-                lblYearLevel.Text = ""
-                lblParentNumber.Text = ""
-                Return
-            End If
+        '==================================================
+        ' PREVENT SCAN WHILE CURRENT SCAN IS PROCESSING
+        '==================================================
+        If isProcessingScan Then
 
-            Await MarkAttendance(scannedQR)
+            txtQrCode.Clear()
+
+            Return
+
+        End If
+
+
+        Dim scannedQR As String =
+        txtQrCode.Text.Trim()
+
+
+        '==================================================
+        ' EMPTY QR
+        '==================================================
+        If scannedQR = "" Then
+
+            lblStatus.Text =
+            "Please scan QR Code."
+
+            lblStudentName.Text = ""
+            lblTime.Text = ""
+            lblAttendance.Text = ""
+            lblYearLevel.Text = ""
+            lblParentNumber.Text = ""
 
             txtQrCode.Clear()
             txtQrCode.Focus()
 
+            Return
+
         End If
+
+
+        '==================================================
+        ' DOUBLE-SCAN PROTECTION
+        '==================================================
+        Dim secondsSinceLastScan As Double =
+        (DateTime.Now - lastScanTime).TotalSeconds
+
+
+        If String.Equals(
+        scannedQR,
+        lastScannedQR,
+        StringComparison.OrdinalIgnoreCase
+    ) AndAlso
+       secondsSinceLastScan < ScanCooldownSeconds Then
+
+            lblStatus.Text =
+            "QR Code scanned too quickly. Please wait."
+
+            lblAttendance.Text =
+            "Duplicate scan ignored."
+
+            txtQrCode.Clear()
+            txtQrCode.Focus()
+
+            Return
+
+        End If
+
+
+        '==================================================
+        ' START PROCESSING
+        '==================================================
+        isProcessingScan = True
+
+        txtQrCode.Enabled = False
+
+
+        Try
+
+            Await MarkAttendance(
+            scannedQR
+        )
+
+
+            ' Remember last processed QR
+            lastScannedQR =
+            scannedQR
+
+            lastScanTime =
+            DateTime.Now
+
+
+        Catch ex As Exception
+
+            MessageBox.Show(
+            "Unable to process the QR Code." &
+            vbCrLf &
+            ex.Message,
+            "QR Scan Error",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error
+        )
+
+
+        Finally
+
+            '==================================================
+            ' READY FOR NEXT SCAN
+            '==================================================
+            isProcessingScan = False
+
+            txtQrCode.Clear()
+
+            txtQrCode.Enabled = True
+
+            txtQrCode.Focus()
+
+        End Try
 
     End Sub
 
@@ -379,7 +699,11 @@ Public Class UserForm
                             )
 
                             updateCmd.ExecuteNonQuery()
-                            Await SendSmsTimeOut(parentNumber, studentName)
+                            Await SendSmsTimeOut(
+                                studentId,
+                                parentNumber,
+                                studentName
+                            )
 
                         End Using
 
@@ -433,7 +757,11 @@ Public Class UserForm
                             )
 
                             insertCmd.ExecuteNonQuery()
-                            Await SendSmsTimeIn(parentNumber, studentName)
+                            Await SendSmsTimeIn(
+                                studentId,
+                                parentNumber,
+                                studentName
+                            )
 
                         End Using
 
@@ -477,10 +805,99 @@ Public Class UserForm
 
     End Function
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Me.Hide()
-        Dim lg As New LoginForm()
-        lg.Show()
+    Private Sub Button1_Click(
+        sender As Object,
+        e As EventArgs
+    ) Handles Button1.Click
+
+        Dim result As DialogResult =
+        MessageBox.Show(
+            "Are you sure you want to log out?",
+            "Log Out",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question
+        )
+
+        If result = DialogResult.Yes Then
+            Me.Close()
+        End If
+
+    End Sub
+
+    '==================================================
+    ' SAVE AUTOMATIC SMS LOG
+    '==================================================
+    Private Sub SaveAttendanceSmsLog(
+    studentId As Integer,
+    contactNumber As String,
+    message As String,
+    smsType As String,
+    status As String
+)
+
+        Try
+
+            If con Is Nothing OrElse
+           con.State <> ConnectionState.Open Then
+
+                vbConnection()
+
+            End If
+
+
+            Dim query As String =
+            "INSERT INTO sms_logs " &
+            "(students_id, contact_number, message, sms_type, status) " &
+            "VALUES (?, ?, ?, ?, ?)"
+
+
+            Using cmd As New OdbcCommand(
+            query,
+            con
+        )
+
+                cmd.Parameters.AddWithValue(
+                "@studentId",
+                studentId
+            )
+
+                cmd.Parameters.AddWithValue(
+                "@contact",
+                contactNumber
+            )
+
+                cmd.Parameters.AddWithValue(
+                "@message",
+                message
+            )
+
+                cmd.Parameters.AddWithValue(
+                "@type",
+                smsType
+            )
+
+                cmd.Parameters.AddWithValue(
+                "@status",
+                status
+            )
+
+                cmd.ExecuteNonQuery()
+
+            End Using
+
+
+        Catch ex As Exception
+
+            MessageBox.Show(
+            "Attendance was saved, but the SMS log could not be recorded." &
+            vbCrLf &
+            ex.Message,
+            "SMS Log Error",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Warning
+        )
+
+        End Try
 
     End Sub
 End Class

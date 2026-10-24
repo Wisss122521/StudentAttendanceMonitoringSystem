@@ -1,7 +1,7 @@
 ﻿Imports System.Data.Odbc
 Imports System.Data.SqlTypes
 
-Public Class UserManagement
+Public Class UcUserManagement
 
     Private selectedUserId As Integer = 0
     Private selectedUserRole As String = ""
@@ -462,6 +462,10 @@ Public Class UserManagement
             If con Is Nothing OrElse con.State <> ConnectionState.Open Then
                 vbConnection()
             End If
+            Dim hashedPassword As String =
+                HashPassword(
+                    txtPassword.Text
+                )
 
 
             Dim query As String =
@@ -470,22 +474,25 @@ Public Class UserManagement
                 "VALUES (?, ?, ?)"
 
 
-            Using cmd As New OdbcCommand(query, con)
+            Using cmd As New OdbcCommand(
+                query,
+                con
+            )
 
                 cmd.Parameters.AddWithValue(
-                    "@username",
-                    txtUsername.Text.Trim()
-                )
+                "@username",
+                txtUsername.Text.Trim()
+            )
 
                 cmd.Parameters.AddWithValue(
-                    "@password",
-                    txtPassword.Text
-                )
+                "@password",
+                hashedPassword
+            )
 
                 cmd.Parameters.AddWithValue(
-                    "@role",
-                    cboRole.Text
-                )
+                "@role",
+                cboRole.Text
+            )
 
 
                 cmd.ExecuteNonQuery()
@@ -621,6 +628,40 @@ Public Class UserManagement
 
         End If
 
+        '==================================================
+        ' PROTECT LAST ADMIN ACCOUNT
+        '==================================================
+        If String.Equals(
+            selectedUserRole,
+            "Admin",
+            StringComparison.OrdinalIgnoreCase
+        ) AndAlso
+        Not String.Equals(
+            cboRole.Text,
+            "Admin",
+            StringComparison.OrdinalIgnoreCase
+        ) Then
+
+            If GetAdminCount() <= 1 Then
+
+                MessageBox.Show(
+                    "The last Admin account cannot be changed to Guard." &
+                    vbCrLf &
+                    vbCrLf &
+                    "Create another Admin account first.",
+                    "Cannot Change Admin Role",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                )
+
+                cboRole.Text = "Admin"
+                cboRole.Focus()
+
+                Return
+
+            End If
+
+        End If
 
         Dim changePassword As Boolean =
             txtPassword.Text <> ""
@@ -680,9 +721,14 @@ Public Class UserManagement
 
                 If changePassword Then
 
+                    Dim hashedPassword As String =
+                        HashPassword(
+                            txtPassword.Text
+                        )
+
                     cmd.Parameters.AddWithValue(
                         "@password",
-                        txtPassword.Text
+                        hashedPassword
                     )
 
                 End If

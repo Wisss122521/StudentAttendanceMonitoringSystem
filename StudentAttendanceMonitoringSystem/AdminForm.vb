@@ -24,19 +24,6 @@ Public Class AdminForm
 
 
     '==================================================
-    ' FORM CLOSED
-    '==================================================
-    Private Sub AdminForm_FormClosed(
-        sender As Object,
-        e As FormClosedEventArgs
-    ) Handles Me.FormClosed
-
-        Application.Exit()
-
-    End Sub
-
-
-    '==================================================
     ' LOAD USER CONTROL
     '==================================================
     Private Sub LoadUserControl(
@@ -146,7 +133,8 @@ Public Class AdminForm
             lblQRCode,
             lblReports,
             lblSMS,
-            lblUserManagement
+            lblUserManagement,
+            lblLogout
         }
 
 
@@ -236,7 +224,7 @@ Public Class AdminForm
     ) Handles lblSMS.Click
 
         OpenPage(
-            New SmsNotifications(),
+            New UcSmsNotifications(),
             lblSMS
         )
 
@@ -252,7 +240,7 @@ Public Class AdminForm
     ) Handles lblUserManagement.Click
 
         OpenPage(
-            New UserManagement(),
+            New UcUserManagement(),
             lblUserManagement
         )
 
@@ -276,13 +264,7 @@ Public Class AdminForm
         )
 
         If result = DialogResult.Yes Then
-
-            Dim login As New LoginForm()
-
-            login.Show()
-
-            Me.Hide()
-
+            Me.Close()
         End If
 
     End Sub

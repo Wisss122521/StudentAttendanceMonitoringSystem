@@ -97,7 +97,7 @@ Public Class UcGenerateReport
 
             MessageBox.Show(
                 "Load Course Error: " & ex.Message,
-                "Attendance Reports",
+                "Student Entry/Exit Report",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
             )
@@ -233,7 +233,7 @@ Public Class UcGenerateReport
 
             MessageBox.Show(
                 "Load Attendance Error: " & ex.Message,
-                "Attendance Reports",
+                "Student Entry/Exit Report",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
             )
@@ -357,7 +357,7 @@ Public Class UcGenerateReport
 
             MessageBox.Show(
                 "Summary Error: " & ex.Message,
-                "Attendance Reports",
+                "Student Entry/Exit Report",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
             )
@@ -555,7 +555,7 @@ Public Class UcGenerateReport
                     ws.Range("A1:F1").Merge()
 
                     ws.Cell("A1").Value =
-                    "COLEGIO DE STA. TERESA DE AVILLA"
+                    "COLEGIO DE STA. TERESA DE AVILA"
 
                     With ws.Cell("A1").Style
                         .Font.Bold = True
@@ -945,11 +945,11 @@ Public Class UcGenerateReport
             If dt.Rows.Count = 0 Then
 
                 MessageBox.Show(
-                "No attendance records found for the selected filters.",
-                "Generate PDF",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            )
+                    "No entry/exit records found for the selected filters.",
+                    "Generate PDF",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                )
 
                 Return
 
@@ -961,7 +961,7 @@ Public Class UcGenerateReport
                 save.Filter = "PDF File|*.pdf"
 
                 save.FileName =
-                "Attendance_Report_" &
+                "Student_Entry_Exit_Report_" &
                 DateTime.Now.ToString("yyyy-MM-dd_HHmmss") &
                 ".pdf"
 
@@ -1036,7 +1036,7 @@ Public Class UcGenerateReport
                 ' SCHOOL HEADER
                 '========================================
                 Dim schoolName As New Paragraph(
-                "COLEGIO DE STA. TERESA DE AVILLA",
+                "COLEGIO DE STA. TERESA DE AVILA",
                 schoolFont
             )
 
@@ -1559,7 +1559,7 @@ Public Class UcGenerateReport
 
                 MessageBox.Show(
                 "PDF report generated successfully.",
-                "Attendance Report",
+                "Student Entry/Exit Report",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
             )
