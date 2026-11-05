@@ -3,6 +3,7 @@ Partial Class UcQrCode
 
     Inherits System.Windows.Forms.UserControl
 
+
     <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(disposing As Boolean)
 
@@ -53,16 +54,20 @@ Partial Class UcQrCode
         pnlPreviewHeader = New Panel()
         lblPreviewTitle = New Label()
         pnlSummary = New Panel()
-        pnlNotGenerated = New Panel()
-        lblNotGeneratedCount = New Label()
-        lblNotGeneratedTitle = New Label()
-        pnlGenerated = New Panel()
-        lblGeneratedCount = New Label()
-        lblGeneratedTitle = New Label()
-        pnlTotalStudents = New Panel()
-        lblTotalStudents = New Label()
-        lblTotalStudentsTitle = New Label()
         lblSummaryTitle = New Label()
+        tlpSummary = New TableLayoutPanel()
+        pnlTotalStudents = New Panel()
+        picTotalStudentsIcon = New PictureBox()
+        lblTotalStudentsTitle = New Label()
+        lblTotalStudents = New Label()
+        pnlGenerated = New Panel()
+        picGeneratedIcon = New PictureBox()
+        lblGeneratedTitle = New Label()
+        lblGeneratedCount = New Label()
+        pnlNotGenerated = New Panel()
+        picNotGeneratedIcon = New PictureBox()
+        lblNotGeneratedTitle = New Label()
+        lblNotGeneratedCount = New Label()
         timerClock = New Timer(components)
         pnlHeader.SuspendLayout()
         pnlStudents.SuspendLayout()
@@ -72,9 +77,13 @@ Partial Class UcQrCode
         CType(picQRCode, ComponentModel.ISupportInitialize).BeginInit()
         pnlPreviewHeader.SuspendLayout()
         pnlSummary.SuspendLayout()
-        pnlNotGenerated.SuspendLayout()
-        pnlGenerated.SuspendLayout()
+        tlpSummary.SuspendLayout()
         pnlTotalStudents.SuspendLayout()
+        CType(picTotalStudentsIcon, ComponentModel.ISupportInitialize).BeginInit()
+        pnlGenerated.SuspendLayout()
+        CType(picGeneratedIcon, ComponentModel.ISupportInitialize).BeginInit()
+        pnlNotGenerated.SuspendLayout()
+        CType(picNotGeneratedIcon, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' pnlHeader
@@ -88,15 +97,15 @@ Partial Class UcQrCode
         pnlHeader.Location = New Point(18, 14)
         pnlHeader.Margin = New Padding(3, 2, 3, 2)
         pnlHeader.Name = "pnlHeader"
-        pnlHeader.Size = New Size(998, 68)
+        pnlHeader.Size = New Size(1135, 68)
         pnlHeader.TabIndex = 0
         ' 
         ' lblDateTime
         ' 
         lblDateTime.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        lblDateTime.Font = New Font("Segoe UI Semibold", 10.0F, FontStyle.Bold)
+        lblDateTime.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
         lblDateTime.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
-        lblDateTime.Location = New Point(648, 24)
+        lblDateTime.Location = New Point(785, 24)
         lblDateTime.Name = "lblDateTime"
         lblDateTime.Size = New Size(324, 19)
         lblDateTime.TabIndex = 2
@@ -106,7 +115,7 @@ Partial Class UcQrCode
         ' lblSubtitle
         ' 
         lblSubtitle.AutoSize = True
-        lblSubtitle.Font = New Font("Segoe UI", 10.0F)
+        lblSubtitle.Font = New Font("Segoe UI", 10F)
         lblSubtitle.ForeColor = Color.FromArgb(CByte(117), CByte(87), CByte(71))
         lblSubtitle.Location = New Point(23, 44)
         lblSubtitle.Name = "lblSubtitle"
@@ -117,9 +126,9 @@ Partial Class UcQrCode
         ' lblTitle
         ' 
         lblTitle.AutoSize = True
-        lblTitle.Font = New Font("Georgia", 24.0F, FontStyle.Bold)
+        lblTitle.Font = New Font("Georgia", 24F, FontStyle.Bold)
         lblTitle.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
-        lblTitle.Location = New Point(19, 10)
+        lblTitle.Location = New Point(19, 6)
         lblTitle.Name = "lblTitle"
         lblTitle.Size = New Size(382, 38)
         lblTitle.TabIndex = 0
@@ -140,7 +149,7 @@ Partial Class UcQrCode
         pnlStudents.Location = New Point(18, 90)
         pnlStudents.Margin = New Padding(3, 2, 3, 2)
         pnlStudents.Name = "pnlStudents"
-        pnlStudents.Size = New Size(665, 342)
+        pnlStudents.Size = New Size(802, 408)
         pnlStudents.TabIndex = 1
         ' 
         ' btnGenerateMissing
@@ -150,11 +159,11 @@ Partial Class UcQrCode
         btnGenerateMissing.Cursor = Cursors.Hand
         btnGenerateMissing.FlatAppearance.BorderSize = 0
         btnGenerateMissing.FlatStyle = FlatStyle.Flat
-        btnGenerateMissing.Font = New Font("Segoe UI Semibold", 8.0F, FontStyle.Bold)
+        btnGenerateMissing.Font = New Font("Segoe UI Semibold", 8F, FontStyle.Bold)
         btnGenerateMissing.ForeColor = Color.White
-        btnGenerateMissing.Location = New Point(468, 315)
+        btnGenerateMissing.Location = New Point(605, 370)
         btnGenerateMissing.Name = "btnGenerateMissing"
-        btnGenerateMissing.Size = New Size(180, 22)
+        btnGenerateMissing.Size = New Size(180, 33)
         btnGenerateMissing.TabIndex = 4
         btnGenerateMissing.Text = "Generate All Missing QR"
         btnGenerateMissing.UseVisualStyleBackColor = False
@@ -171,7 +180,7 @@ Partial Class UcQrCode
         dgvStudents.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
         DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(93), CByte(50), CByte(29))
-        DataGridViewCellStyle1.Font = New Font("Segoe UI Semibold", 10.0F, FontStyle.Bold)
+        DataGridViewCellStyle1.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
         DataGridViewCellStyle1.ForeColor = Color.White
         DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(93), CByte(50), CByte(29))
         DataGridViewCellStyle1.SelectionForeColor = Color.White
@@ -179,9 +188,9 @@ Partial Class UcQrCode
         dgvStudents.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         dgvStudents.ColumnHeadersHeight = 42
         dgvStudents.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle2.BackColor = Color.White
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 10.0F)
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 10F)
         DataGridViewCellStyle2.ForeColor = Color.FromArgb(CByte(50), CByte(35), CByte(28))
         DataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(CByte(233), CByte(216), CByte(202))
         DataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(CByte(52), CByte(32), CByte(23))
@@ -197,29 +206,26 @@ Partial Class UcQrCode
         dgvStudents.RowHeadersVisible = False
         dgvStudents.RowTemplate.Height = 38
         dgvStudents.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvStudents.Size = New Size(626, 214)
+        dgvStudents.Size = New Size(763, 256)
         dgvStudents.TabIndex = 5
         ' 
         ' cboQRStatus
         ' 
-        cboQRStatus.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         cboQRStatus.DropDownStyle = ComboBoxStyle.DropDownList
-        cboQRStatus.Font = New Font("Segoe UI", 10.0F)
+        cboQRStatus.Font = New Font("Segoe UI", 10F)
         cboQRStatus.FormattingEnabled = True
         cboQRStatus.Items.AddRange(New Object() {"All", "Generated", "Not Generated"})
-        cboQRStatus.Location = New Point(464, 69)
-        cboQRStatus.Margin = New Padding(3, 2, 3, 2)
+        cboQRStatus.Location = New Point(355, 69)
         cboQRStatus.Name = "cboQRStatus"
         cboQRStatus.Size = New Size(180, 25)
         cboQRStatus.TabIndex = 4
         ' 
         ' lblQRStatusFilter
         ' 
-        lblQRStatusFilter.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         lblQRStatusFilter.AutoSize = True
-        lblQRStatusFilter.Font = New Font("Segoe UI Semibold", 9.0F, FontStyle.Bold)
+        lblQRStatusFilter.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         lblQRStatusFilter.ForeColor = Color.FromArgb(CByte(59), CByte(40), CByte(31))
-        lblQRStatusFilter.Location = New Point(464, 50)
+        lblQRStatusFilter.Location = New Point(355, 50)
         lblQRStatusFilter.Name = "lblQRStatusFilter"
         lblQRStatusFilter.Size = New Size(59, 15)
         lblQRStatusFilter.TabIndex = 3
@@ -227,19 +233,17 @@ Partial Class UcQrCode
         ' 
         ' txtSearch
         ' 
-        txtSearch.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         txtSearch.BorderStyle = BorderStyle.FixedSingle
-        txtSearch.Font = New Font("Segoe UI", 10.0F)
+        txtSearch.Font = New Font("Segoe UI", 10F)
         txtSearch.Location = New Point(18, 69)
-        txtSearch.Margin = New Padding(3, 2, 3, 2)
         txtSearch.Name = "txtSearch"
-        txtSearch.Size = New Size(425, 25)
+        txtSearch.Size = New Size(325, 25)
         txtSearch.TabIndex = 2
         ' 
         ' lblSearchStudent
         ' 
         lblSearchStudent.AutoSize = True
-        lblSearchStudent.Font = New Font("Segoe UI Semibold", 9.0F, FontStyle.Bold)
+        lblSearchStudent.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         lblSearchStudent.ForeColor = Color.FromArgb(CByte(59), CByte(40), CByte(31))
         lblSearchStudent.Location = New Point(16, 50)
         lblSearchStudent.Name = "lblSearchStudent"
@@ -254,13 +258,13 @@ Partial Class UcQrCode
         pnlStudentsHeader.Dock = DockStyle.Top
         pnlStudentsHeader.Location = New Point(0, 0)
         pnlStudentsHeader.Name = "pnlStudentsHeader"
-        pnlStudentsHeader.Size = New Size(663, 38)
+        pnlStudentsHeader.Size = New Size(800, 38)
         pnlStudentsHeader.TabIndex = 0
         ' 
         ' lblStudentsTitle
         ' 
         lblStudentsTitle.AutoSize = True
-        lblStudentsTitle.Font = New Font("Segoe UI Semibold", 12.0F, FontStyle.Bold)
+        lblStudentsTitle.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
         lblStudentsTitle.ForeColor = Color.White
         lblStudentsTitle.Location = New Point(14, 8)
         lblStudentsTitle.Name = "lblStudentsTitle"
@@ -285,10 +289,9 @@ Partial Class UcQrCode
         pnlPreview.Controls.Add(lblStudentNameCaption)
         pnlPreview.Controls.Add(picQRCode)
         pnlPreview.Controls.Add(pnlPreviewHeader)
-        pnlPreview.Location = New Point(695, 90)
-        pnlPreview.Margin = New Padding(3, 2, 3, 2)
+        pnlPreview.Location = New Point(832, 90)
         pnlPreview.Name = "pnlPreview"
-        pnlPreview.Size = New Size(320, 342)
+        pnlPreview.Size = New Size(320, 408)
         pnlPreview.TabIndex = 2
         ' 
         ' btnDownloadQR
@@ -298,7 +301,7 @@ Partial Class UcQrCode
         btnDownloadQR.Enabled = False
         btnDownloadQR.FlatAppearance.BorderColor = Color.FromArgb(CByte(205), CByte(183), CByte(167))
         btnDownloadQR.FlatStyle = FlatStyle.Flat
-        btnDownloadQR.Font = New Font("Segoe UI Semibold", 9.0F, FontStyle.Bold)
+        btnDownloadQR.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         btnDownloadQR.ForeColor = Color.FromArgb(CByte(75), CByte(41), CByte(24))
         btnDownloadQR.Location = New Point(210, 304)
         btnDownloadQR.Name = "btnDownloadQR"
@@ -327,7 +330,7 @@ Partial Class UcQrCode
         lblQRStatus.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         lblQRStatus.BackColor = Color.FromArgb(CByte(247), CByte(241), CByte(236))
         lblQRStatus.BorderStyle = BorderStyle.FixedSingle
-        lblQRStatus.Font = New Font("Segoe UI Semibold", 9.0F, FontStyle.Bold)
+        lblQRStatus.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         lblQRStatus.Location = New Point(22, 269)
         lblQRStatus.Name = "lblQRStatus"
         lblQRStatus.Padding = New Padding(6, 0, 0, 0)
@@ -352,7 +355,7 @@ Partial Class UcQrCode
         lblYearCourse.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         lblYearCourse.BackColor = Color.FromArgb(CByte(247), CByte(241), CByte(236))
         lblYearCourse.BorderStyle = BorderStyle.FixedSingle
-        lblYearCourse.Font = New Font("Segoe UI", 9.0F)
+        lblYearCourse.Font = New Font("Segoe UI", 9F)
         lblYearCourse.Location = New Point(116, 225)
         lblYearCourse.Name = "lblYearCourse"
         lblYearCourse.Padding = New Padding(6, 0, 0, 0)
@@ -376,7 +379,7 @@ Partial Class UcQrCode
         ' 
         lblStudentID.BackColor = Color.FromArgb(CByte(247), CByte(241), CByte(236))
         lblStudentID.BorderStyle = BorderStyle.FixedSingle
-        lblStudentID.Font = New Font("Segoe UI", 9.0F)
+        lblStudentID.Font = New Font("Segoe UI", 9F)
         lblStudentID.Location = New Point(22, 225)
         lblStudentID.Name = "lblStudentID"
         lblStudentID.Padding = New Padding(6, 0, 0, 0)
@@ -401,7 +404,7 @@ Partial Class UcQrCode
         lblStudentName.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         lblStudentName.BackColor = Color.FromArgb(CByte(247), CByte(241), CByte(236))
         lblStudentName.BorderStyle = BorderStyle.FixedSingle
-        lblStudentName.Font = New Font("Segoe UI", 9.0F)
+        lblStudentName.Font = New Font("Segoe UI", 9F)
         lblStudentName.Location = New Point(22, 181)
         lblStudentName.Name = "lblStudentName"
         lblStudentName.Padding = New Padding(6, 0, 0, 0)
@@ -445,7 +448,7 @@ Partial Class UcQrCode
         ' lblPreviewTitle
         ' 
         lblPreviewTitle.AutoSize = True
-        lblPreviewTitle.Font = New Font("Segoe UI Semibold", 12.0F, FontStyle.Bold)
+        lblPreviewTitle.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
         lblPreviewTitle.ForeColor = Color.White
         lblPreviewTitle.Location = New Point(14, 8)
         lblPreviewTitle.Name = "lblPreviewTitle"
@@ -458,116 +461,13 @@ Partial Class UcQrCode
         pnlSummary.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         pnlSummary.BackColor = Color.FromArgb(CByte(255), CByte(253), CByte(252))
         pnlSummary.BorderStyle = BorderStyle.FixedSingle
-        pnlSummary.Controls.Add(pnlNotGenerated)
-        pnlSummary.Controls.Add(pnlGenerated)
-        pnlSummary.Controls.Add(pnlTotalStudents)
         pnlSummary.Controls.Add(lblSummaryTitle)
-        pnlSummary.Location = New Point(18, 442)
+        pnlSummary.Controls.Add(tlpSummary)
+        pnlSummary.Location = New Point(18, 513)
         pnlSummary.Margin = New Padding(3, 2, 3, 2)
         pnlSummary.Name = "pnlSummary"
-        pnlSummary.Size = New Size(998, 83)
+        pnlSummary.Size = New Size(1135, 98)
         pnlSummary.TabIndex = 3
-        ' 
-        ' pnlNotGenerated
-        ' 
-        pnlNotGenerated.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        pnlNotGenerated.BackColor = Color.FromArgb(CByte(248), CByte(224), CByte(220))
-        pnlNotGenerated.Controls.Add(lblNotGeneratedCount)
-        pnlNotGenerated.Controls.Add(lblNotGeneratedTitle)
-        pnlNotGenerated.Location = New Point(674, 30)
-        pnlNotGenerated.Margin = New Padding(3, 2, 3, 2)
-        pnlNotGenerated.Name = "pnlNotGenerated"
-        pnlNotGenerated.Size = New Size(302, 41)
-        pnlNotGenerated.TabIndex = 3
-        ' 
-        ' lblNotGeneratedCount
-        ' 
-        lblNotGeneratedCount.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        lblNotGeneratedCount.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold)
-        lblNotGeneratedCount.ForeColor = Color.FromArgb(CByte(170), CByte(45), CByte(45))
-        lblNotGeneratedCount.Location = New Point(219, 5)
-        lblNotGeneratedCount.Name = "lblNotGeneratedCount"
-        lblNotGeneratedCount.Size = New Size(66, 30)
-        lblNotGeneratedCount.TabIndex = 1
-        lblNotGeneratedCount.Text = "0"
-        lblNotGeneratedCount.TextAlign = ContentAlignment.MiddleRight
-        ' 
-        ' lblNotGeneratedTitle
-        ' 
-        lblNotGeneratedTitle.AutoSize = True
-        lblNotGeneratedTitle.Font = New Font("Segoe UI", 9.5F)
-        lblNotGeneratedTitle.Location = New Point(12, 6)
-        lblNotGeneratedTitle.Name = "lblNotGeneratedTitle"
-        lblNotGeneratedTitle.Size = New Size(95, 17)
-        lblNotGeneratedTitle.TabIndex = 0
-        lblNotGeneratedTitle.Text = "Not Generated"
-        ' 
-        ' pnlGenerated
-        ' 
-        pnlGenerated.Anchor = AnchorStyles.Top
-        pnlGenerated.BackColor = Color.FromArgb(CByte(226), CByte(242), CByte(230))
-        pnlGenerated.Controls.Add(lblGeneratedCount)
-        pnlGenerated.Controls.Add(lblGeneratedTitle)
-        pnlGenerated.Location = New Point(346, 30)
-        pnlGenerated.Margin = New Padding(3, 2, 3, 2)
-        pnlGenerated.Name = "pnlGenerated"
-        pnlGenerated.Size = New Size(302, 41)
-        pnlGenerated.TabIndex = 2
-        ' 
-        ' lblGeneratedCount
-        ' 
-        lblGeneratedCount.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        lblGeneratedCount.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold)
-        lblGeneratedCount.ForeColor = Color.FromArgb(CByte(40), CByte(100), CByte(60))
-        lblGeneratedCount.Location = New Point(219, 5)
-        lblGeneratedCount.Name = "lblGeneratedCount"
-        lblGeneratedCount.Size = New Size(66, 30)
-        lblGeneratedCount.TabIndex = 1
-        lblGeneratedCount.Text = "0"
-        lblGeneratedCount.TextAlign = ContentAlignment.MiddleRight
-        ' 
-        ' lblGeneratedTitle
-        ' 
-        lblGeneratedTitle.AutoSize = True
-        lblGeneratedTitle.Font = New Font("Segoe UI", 9.5F)
-        lblGeneratedTitle.Location = New Point(12, 6)
-        lblGeneratedTitle.Name = "lblGeneratedTitle"
-        lblGeneratedTitle.Size = New Size(69, 17)
-        lblGeneratedTitle.TabIndex = 0
-        lblGeneratedTitle.Text = "Generated"
-        ' 
-        ' pnlTotalStudents
-        ' 
-        pnlTotalStudents.BackColor = Color.FromArgb(CByte(245), CByte(234), CByte(223))
-        pnlTotalStudents.Controls.Add(lblTotalStudents)
-        pnlTotalStudents.Controls.Add(lblTotalStudentsTitle)
-        pnlTotalStudents.Location = New Point(18, 30)
-        pnlTotalStudents.Margin = New Padding(3, 2, 3, 2)
-        pnlTotalStudents.Name = "pnlTotalStudents"
-        pnlTotalStudents.Size = New Size(302, 41)
-        pnlTotalStudents.TabIndex = 1
-        ' 
-        ' lblTotalStudents
-        ' 
-        lblTotalStudents.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        lblTotalStudents.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold)
-        lblTotalStudents.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
-        lblTotalStudents.Location = New Point(219, 5)
-        lblTotalStudents.Name = "lblTotalStudents"
-        lblTotalStudents.Size = New Size(66, 30)
-        lblTotalStudents.TabIndex = 1
-        lblTotalStudents.Text = "0"
-        lblTotalStudents.TextAlign = ContentAlignment.MiddleRight
-        ' 
-        ' lblTotalStudentsTitle
-        ' 
-        lblTotalStudentsTitle.AutoSize = True
-        lblTotalStudentsTitle.Font = New Font("Segoe UI", 9.5F)
-        lblTotalStudentsTitle.Location = New Point(12, 6)
-        lblTotalStudentsTitle.Name = "lblTotalStudentsTitle"
-        lblTotalStudentsTitle.Size = New Size(90, 17)
-        lblTotalStudentsTitle.TabIndex = 0
-        lblTotalStudentsTitle.Text = "Total Students"
         ' 
         ' lblSummaryTitle
         ' 
@@ -580,23 +480,182 @@ Partial Class UcQrCode
         lblSummaryTitle.TabIndex = 0
         lblSummaryTitle.Text = "Summary"
         ' 
+        ' tlpSummary
+        ' 
+        tlpSummary.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        tlpSummary.ColumnCount = 3
+        tlpSummary.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.33333F))
+        tlpSummary.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.33333F))
+        tlpSummary.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.33334F))
+        tlpSummary.Controls.Add(pnlTotalStudents, 0, 0)
+        tlpSummary.Controls.Add(pnlGenerated, 1, 0)
+        tlpSummary.Controls.Add(pnlNotGenerated, 2, 0)
+        tlpSummary.Location = New Point(18, 30)
+        tlpSummary.Margin = New Padding(0)
+        tlpSummary.Name = "tlpSummary"
+        tlpSummary.RowCount = 1
+        tlpSummary.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
+        tlpSummary.Size = New Size(1097, 56)
+        tlpSummary.TabIndex = 1
+        ' 
+        ' pnlTotalStudents
+        ' 
+        pnlTotalStudents.BackColor = Color.FromArgb(CByte(245), CByte(234), CByte(223))
+        pnlTotalStudents.Controls.Add(picTotalStudentsIcon)
+        pnlTotalStudents.Controls.Add(lblTotalStudentsTitle)
+        pnlTotalStudents.Controls.Add(lblTotalStudents)
+        pnlTotalStudents.Dock = DockStyle.Fill
+        pnlTotalStudents.Location = New Point(0, 0)
+        pnlTotalStudents.Margin = New Padding(0, 0, 6, 0)
+        pnlTotalStudents.Name = "pnlTotalStudents"
+        pnlTotalStudents.Size = New Size(359, 56)
+        pnlTotalStudents.TabIndex = 0
+        ' 
+        ' picTotalStudentsIcon
+        ' 
+        picTotalStudentsIcon.BackColor = Color.Transparent
+        picTotalStudentsIcon.Image = My.Resources.Resources.dashboard_students
+        picTotalStudentsIcon.Location = New Point(1, 0)
+        picTotalStudentsIcon.Name = "picTotalStudentsIcon"
+        picTotalStudentsIcon.Size = New Size(66, 56)
+        picTotalStudentsIcon.SizeMode = PictureBoxSizeMode.Zoom
+        picTotalStudentsIcon.TabIndex = 2
+        picTotalStudentsIcon.TabStop = False
+        ' 
+        ' lblTotalStudentsTitle
+        ' 
+        lblTotalStudentsTitle.AutoSize = True
+        lblTotalStudentsTitle.Font = New Font("Segoe UI", 9.5F)
+        lblTotalStudentsTitle.ForeColor = Color.FromArgb(CByte(75), CByte(54), CByte(43))
+        lblTotalStudentsTitle.Location = New Point(73, 18)
+        lblTotalStudentsTitle.Name = "lblTotalStudentsTitle"
+        lblTotalStudentsTitle.Size = New Size(90, 17)
+        lblTotalStudentsTitle.TabIndex = 0
+        lblTotalStudentsTitle.Text = "Total Students"
+        ' 
+        ' lblTotalStudents
+        ' 
+        lblTotalStudents.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        lblTotalStudents.Font = New Font("Segoe UI", 18F, FontStyle.Bold)
+        lblTotalStudents.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
+        lblTotalStudents.Location = New Point(296, 11)
+        lblTotalStudents.Name = "lblTotalStudents"
+        lblTotalStudents.Size = New Size(60, 30)
+        lblTotalStudents.TabIndex = 1
+        lblTotalStudents.Text = "0"
+        lblTotalStudents.TextAlign = ContentAlignment.MiddleRight
+        ' 
+        ' pnlGenerated
+        ' 
+        pnlGenerated.BackColor = Color.FromArgb(CByte(226), CByte(242), CByte(230))
+        pnlGenerated.Controls.Add(picGeneratedIcon)
+        pnlGenerated.Controls.Add(lblGeneratedTitle)
+        pnlGenerated.Controls.Add(lblGeneratedCount)
+        pnlGenerated.Dock = DockStyle.Fill
+        pnlGenerated.Location = New Point(368, 0)
+        pnlGenerated.Margin = New Padding(3, 0, 3, 0)
+        pnlGenerated.Name = "pnlGenerated"
+        pnlGenerated.Size = New Size(359, 56)
+        pnlGenerated.TabIndex = 1
+        ' 
+        ' picGeneratedIcon
+        ' 
+        picGeneratedIcon.BackColor = Color.Transparent
+        picGeneratedIcon.Image = My.Resources.Resources.dashboard_qr_generated
+        picGeneratedIcon.Location = New Point(0, 0)
+        picGeneratedIcon.Name = "picGeneratedIcon"
+        picGeneratedIcon.Size = New Size(66, 56)
+        picGeneratedIcon.SizeMode = PictureBoxSizeMode.Zoom
+        picGeneratedIcon.TabIndex = 2
+        picGeneratedIcon.TabStop = False
+        ' 
+        ' lblGeneratedTitle
+        ' 
+        lblGeneratedTitle.AutoSize = True
+        lblGeneratedTitle.Font = New Font("Segoe UI", 9.5F)
+        lblGeneratedTitle.ForeColor = Color.FromArgb(CByte(50), CByte(90), CByte(60))
+        lblGeneratedTitle.Location = New Point(72, 18)
+        lblGeneratedTitle.Name = "lblGeneratedTitle"
+        lblGeneratedTitle.Size = New Size(69, 17)
+        lblGeneratedTitle.TabIndex = 0
+        lblGeneratedTitle.Text = "Generated"
+        ' 
+        ' lblGeneratedCount
+        ' 
+        lblGeneratedCount.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        lblGeneratedCount.Font = New Font("Segoe UI", 18F, FontStyle.Bold)
+        lblGeneratedCount.ForeColor = Color.FromArgb(CByte(40), CByte(100), CByte(60))
+        lblGeneratedCount.Location = New Point(296, 11)
+        lblGeneratedCount.Name = "lblGeneratedCount"
+        lblGeneratedCount.Size = New Size(60, 30)
+        lblGeneratedCount.TabIndex = 1
+        lblGeneratedCount.Text = "0"
+        lblGeneratedCount.TextAlign = ContentAlignment.MiddleRight
+        ' 
+        ' pnlNotGenerated
+        ' 
+        pnlNotGenerated.BackColor = Color.FromArgb(CByte(248), CByte(224), CByte(220))
+        pnlNotGenerated.Controls.Add(picNotGeneratedIcon)
+        pnlNotGenerated.Controls.Add(lblNotGeneratedTitle)
+        pnlNotGenerated.Controls.Add(lblNotGeneratedCount)
+        pnlNotGenerated.Dock = DockStyle.Fill
+        pnlNotGenerated.Location = New Point(736, 0)
+        pnlNotGenerated.Margin = New Padding(6, 0, 0, 0)
+        pnlNotGenerated.Name = "pnlNotGenerated"
+        pnlNotGenerated.Size = New Size(361, 56)
+        pnlNotGenerated.TabIndex = 2
+        ' 
+        ' picNotGeneratedIcon
+        ' 
+        picNotGeneratedIcon.BackColor = Color.Transparent
+        picNotGeneratedIcon.Image = My.Resources.Resources.dashboard_qr_warning
+        picNotGeneratedIcon.Location = New Point(3, 0)
+        picNotGeneratedIcon.Name = "picNotGeneratedIcon"
+        picNotGeneratedIcon.Size = New Size(66, 56)
+        picNotGeneratedIcon.SizeMode = PictureBoxSizeMode.Zoom
+        picNotGeneratedIcon.TabIndex = 2
+        picNotGeneratedIcon.TabStop = False
+        ' 
+        ' lblNotGeneratedTitle
+        ' 
+        lblNotGeneratedTitle.AutoSize = True
+        lblNotGeneratedTitle.Font = New Font("Segoe UI", 9.5F)
+        lblNotGeneratedTitle.ForeColor = Color.FromArgb(CByte(135), CByte(55), CByte(55))
+        lblNotGeneratedTitle.Location = New Point(82, 22)
+        lblNotGeneratedTitle.Name = "lblNotGeneratedTitle"
+        lblNotGeneratedTitle.Size = New Size(95, 17)
+        lblNotGeneratedTitle.TabIndex = 0
+        lblNotGeneratedTitle.Text = "Not Generated"
+        ' 
+        ' lblNotGeneratedCount
+        ' 
+        lblNotGeneratedCount.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        lblNotGeneratedCount.Font = New Font("Segoe UI", 18F, FontStyle.Bold)
+        lblNotGeneratedCount.ForeColor = Color.FromArgb(CByte(170), CByte(45), CByte(45))
+        lblNotGeneratedCount.Location = New Point(295, 11)
+        lblNotGeneratedCount.Name = "lblNotGeneratedCount"
+        lblNotGeneratedCount.Size = New Size(60, 30)
+        lblNotGeneratedCount.TabIndex = 1
+        lblNotGeneratedCount.Text = "0"
+        lblNotGeneratedCount.TextAlign = ContentAlignment.MiddleRight
+        ' 
         ' timerClock
         ' 
         timerClock.Interval = 1000
         ' 
         ' UcQrCode
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(247), CByte(241), CByte(236))
         Controls.Add(pnlSummary)
         Controls.Add(pnlPreview)
         Controls.Add(pnlStudents)
         Controls.Add(pnlHeader)
-        Font = New Font("Segoe UI", 9.0F)
+        Font = New Font("Segoe UI", 9F)
         Margin = New Padding(3, 2, 3, 2)
         Name = "UcQrCode"
-        Size = New Size(1032, 540)
+        Size = New Size(1169, 626)
         pnlHeader.ResumeLayout(False)
         pnlHeader.PerformLayout()
         pnlStudents.ResumeLayout(False)
@@ -611,12 +670,16 @@ Partial Class UcQrCode
         pnlPreviewHeader.PerformLayout()
         pnlSummary.ResumeLayout(False)
         pnlSummary.PerformLayout()
-        pnlNotGenerated.ResumeLayout(False)
-        pnlNotGenerated.PerformLayout()
-        pnlGenerated.ResumeLayout(False)
-        pnlGenerated.PerformLayout()
+        tlpSummary.ResumeLayout(False)
         pnlTotalStudents.ResumeLayout(False)
         pnlTotalStudents.PerformLayout()
+        CType(picTotalStudentsIcon, ComponentModel.ISupportInitialize).EndInit()
+        pnlGenerated.ResumeLayout(False)
+        pnlGenerated.PerformLayout()
+        CType(picGeneratedIcon, ComponentModel.ISupportInitialize).EndInit()
+        pnlNotGenerated.ResumeLayout(False)
+        pnlNotGenerated.PerformLayout()
+        CType(picNotGeneratedIcon, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
 
     End Sub
@@ -674,18 +737,26 @@ Partial Class UcQrCode
 
     Friend WithEvents pnlSummary As Panel
     Friend WithEvents lblSummaryTitle As Label
+    Friend WithEvents tlpSummary As TableLayoutPanel
+
 
     Friend WithEvents pnlTotalStudents As Panel
+    Friend WithEvents picTotalStudentsIcon As PictureBox
     Friend WithEvents lblTotalStudentsTitle As Label
     Friend WithEvents lblTotalStudents As Label
 
+
     Friend WithEvents pnlGenerated As Panel
+    Friend WithEvents picGeneratedIcon As PictureBox
     Friend WithEvents lblGeneratedTitle As Label
     Friend WithEvents lblGeneratedCount As Label
 
+
     Friend WithEvents pnlNotGenerated As Panel
+    Friend WithEvents picNotGeneratedIcon As PictureBox
     Friend WithEvents lblNotGeneratedTitle As Label
     Friend WithEvents lblNotGeneratedCount As Label
+
 
     Friend WithEvents btnGenerateMissing As Button
 

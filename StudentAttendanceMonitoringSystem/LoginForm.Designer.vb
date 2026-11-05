@@ -6,11 +6,18 @@ Partial Class LoginForm
     Protected Overrides Sub Dispose(disposing As Boolean)
 
         Try
-            If disposing AndAlso components IsNot Nothing Then
+
+            If disposing AndAlso
+               components IsNot Nothing Then
+
                 components.Dispose()
+
             End If
+
         Finally
+
             MyBase.Dispose(disposing)
+
         End Try
 
     End Sub
@@ -23,7 +30,6 @@ Partial Class LoginForm
     Private Sub InitializeComponent()
         TableLayoutPanel1 = New TableLayoutPanel()
         Panel2 = New Panel()
-        lblQuote = New Label()
         lblMotto = New Label()
         pnlLineBottom = New Panel()
         lblSystemName = New Label()
@@ -43,6 +49,7 @@ Partial Class LoginForm
         txtUsername = New TextBox()
         lblPassword = New Label()
         txtPassword = New TextBox()
+        chkShowPassword = New CheckBox()
         btnLogin = New Button()
         TableLayoutPanel1.SuspendLayout()
         Panel2.SuspendLayout()
@@ -72,9 +79,8 @@ Partial Class LoginForm
         ' Panel2
         ' 
         Panel2.BackColor = Color.FromArgb(CByte(55), CByte(29), CByte(17))
-        Panel2.BackgroundImage = My.Resources.Resources.ChatGPT_Image_Sep_22__2026__01_35_50_PM__2_
+        Panel2.BackgroundImage = My.Resources.Resources.BG_LEFT_CARD
         Panel2.BackgroundImageLayout = ImageLayout.Stretch
-        Panel2.Controls.Add(lblQuote)
         Panel2.Controls.Add(lblMotto)
         Panel2.Controls.Add(pnlLineBottom)
         Panel2.Controls.Add(lblSystemName)
@@ -87,19 +93,6 @@ Partial Class LoginForm
         Panel2.Name = "Panel2"
         Panel2.Size = New Size(550, 650)
         Panel2.TabIndex = 0
-        ' 
-        ' lblQuote
-        ' 
-        lblQuote.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
-        lblQuote.BackColor = Color.Transparent
-        lblQuote.Font = New Font("Georgia", 9.5F, FontStyle.Italic)
-        lblQuote.ForeColor = Color.FromArgb(CByte(235), CByte(220), CByte(205))
-        lblQuote.Location = New Point(35, 545)
-        lblQuote.Name = "lblQuote"
-        lblQuote.Size = New Size(250, 60)
-        lblQuote.TabIndex = 6
-        lblQuote.Text = "Nurturing Minds," & vbCrLf & "Building Character"
-        lblQuote.TextAlign = ContentAlignment.MiddleLeft
         ' 
         ' lblMotto
         ' 
@@ -133,7 +126,7 @@ Partial Class LoginForm
         lblSystemName.Name = "lblSystemName"
         lblSystemName.Size = New Size(410, 25)
         lblSystemName.TabIndex = 3
-        lblSystemName.Text = "STUDENT TIME-IN / TIME-OUT MONITORING SYSTEM"
+        lblSystemName.Text = "STUDENT ENTRY / EXIT MONITORING SYSTEM"
         lblSystemName.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' lblSchoolName
@@ -236,6 +229,7 @@ Partial Class LoginForm
         Panel1.Controls.Add(txtUsername)
         Panel1.Controls.Add(lblPassword)
         Panel1.Controls.Add(txtPassword)
+        Panel1.Controls.Add(chkShowPassword)
         Panel1.Controls.Add(btnLogin)
         Panel1.Dock = DockStyle.Fill
         Panel1.Location = New Point(35, 35)
@@ -250,17 +244,18 @@ Partial Class LoginForm
         pnlLoginLine.Location = New Point(20, 345)
         pnlLoginLine.Name = "pnlLoginLine"
         pnlLoginLine.Size = New Size(282, 1)
-        pnlLoginLine.TabIndex = 8
+        pnlLoginLine.TabIndex = 9
         ' 
         ' lblLoginMessage
         ' 
         lblLoginMessage.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         lblLoginMessage.Font = New Font("Segoe UI", 8.0F)
         lblLoginMessage.ForeColor = Color.FromArgb(CByte(190), CByte(50), CByte(45))
-        lblLoginMessage.Location = New Point(20, 257)
+        lblLoginMessage.Location = New Point(15, 271)
         lblLoginMessage.Name = "lblLoginMessage"
-        lblLoginMessage.Size = New Size(282, 22)
-        lblLoginMessage.TabIndex = 6
+        lblLoginMessage.Size = New Size(292, 22)
+        lblLoginMessage.TabIndex = 7
+        lblLoginMessage.TextAlign = ContentAlignment.MiddleLeft
         ' 
         ' Label2
         ' 
@@ -329,6 +324,20 @@ Partial Class LoginForm
         txtPassword.TabIndex = 5
         txtPassword.UseSystemPasswordChar = True
         ' 
+        ' chkShowPassword
+        ' 
+        chkShowPassword.AutoSize = True
+        chkShowPassword.BackColor = Color.Transparent
+        chkShowPassword.Cursor = Cursors.Hand
+        chkShowPassword.Font = New Font("Segoe UI", 8.5F)
+        chkShowPassword.ForeColor = Color.FromArgb(CByte(110), CByte(92), CByte(82))
+        chkShowPassword.Location = New Point(15, 249)
+        chkShowPassword.Name = "chkShowPassword"
+        chkShowPassword.Size = New Size(108, 19)
+        chkShowPassword.TabIndex = 6
+        chkShowPassword.Text = "Show Password"
+        chkShowPassword.UseVisualStyleBackColor = True
+        ' 
         ' btnLogin
         ' 
         btnLogin.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
@@ -338,10 +347,10 @@ Partial Class LoginForm
         btnLogin.FlatStyle = FlatStyle.Flat
         btnLogin.Font = New Font("Segoe UI Semibold", 10.0F, FontStyle.Bold)
         btnLogin.ForeColor = Color.White
-        btnLogin.Location = New Point(15, 290)
+        btnLogin.Location = New Point(15, 300)
         btnLogin.Name = "btnLogin"
         btnLogin.Size = New Size(292, 42)
-        btnLogin.TabIndex = 7
+        btnLogin.TabIndex = 8
         btnLogin.Text = "LOGIN"
         btnLogin.UseVisualStyleBackColor = False
         ' 
@@ -381,7 +390,6 @@ Partial Class LoginForm
     Friend WithEvents lblSchoolName As Label
     Friend WithEvents lblSystemName As Label
     Friend WithEvents lblMotto As Label
-    Friend WithEvents lblQuote As Label
 
     Friend WithEvents Panel3 As Panel
     Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
@@ -397,6 +405,8 @@ Partial Class LoginForm
 
     Friend WithEvents lblPassword As Label
     Friend WithEvents txtPassword As TextBox
+
+    Friend WithEvents chkShowPassword As CheckBox
 
     Friend WithEvents lblLoginMessage As Label
 

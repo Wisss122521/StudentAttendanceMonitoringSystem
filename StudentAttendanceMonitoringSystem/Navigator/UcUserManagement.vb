@@ -1,10 +1,12 @@
-﻿Imports System.Data.Odbc
-Imports System.Data.SqlTypes
+﻿Imports System.Data
+Imports System.Data.Odbc
+Imports System.Drawing
 
 Public Class UcUserManagement
 
     Private selectedUserId As Integer = 0
     Private selectedUserRole As String = ""
+    Private isLoading As Boolean = False
 
 
     '==================================================
@@ -17,15 +19,20 @@ Public Class UcUserManagement
 
         Try
 
-            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
-                vbConnection()
-            End If
+            isLoading = True
+
+            EnsureDatabaseConnection()
+
+            timerClock.Interval = 1000
+            timerClock.Start()
 
             If cboRoleFilter.Items.Count > 0 Then
+
                 cboRoleFilter.SelectedIndex = 0
+
             End If
 
-            timerClock.Start()
+            isLoading = False
 
             LoadUsers()
             UpdateSummary()
@@ -35,13 +42,33 @@ Public Class UcUserManagement
         Catch ex As Exception
 
             MessageBox.Show(
-                "User Management Error: " & ex.Message,
+                "User Management Error: " &
+                ex.Message,
                 "User Management",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
             )
 
+        Finally
+
+            isLoading = False
+
         End Try
+
+    End Sub
+
+
+    '==================================================
+    ' DATABASE CONNECTION
+    '==================================================
+    Private Sub EnsureDatabaseConnection()
+
+        If con Is Nothing OrElse
+           con.State <> ConnectionState.Open Then
+
+            vbConnection()
+
+        End If
 
     End Sub
 
@@ -53,42 +80,61 @@ Public Class UcUserManagement
 
         Try
 
-            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
-                vbConnection()
-            End If
+            EnsureDatabaseConnection()
 
 
             Dim query As String =
-                "SELECT UserId, Username, Role " &
+                "SELECT " &
+                "UserId, " &
+                "Username, " &
+                "Role " &
                 "FROM login_table " &
                 "WHERE 1=1 "
 
 
+            '==================================================
             ' SEARCH
-            If txtSearchUser.Text.Trim() <> "" Then
-                query &= "AND Username LIKE ? "
+            '==================================================
+            If Not String.IsNullOrWhiteSpace(
+                txtSearchUser.Text
+            ) Then
+
+                query &=
+                    "AND Username LIKE ? "
+
             End If
 
 
+            '==================================================
             ' ROLE FILTER
+            '==================================================
             If cboRoleFilter.Text <> "" AndAlso
                cboRoleFilter.Text <> "All" Then
 
-                query &= "AND Role = ? "
+                query &=
+                    "AND UPPER(Role) = UPPER(?) "
 
             End If
 
 
-            query &= "ORDER BY Username ASC"
+            query &=
+                "ORDER BY Username ASC"
 
 
-            Using cmd As New OdbcCommand(query, con)
+            Using cmd As New OdbcCommand(
+                query,
+                con
+            )
 
-                If txtSearchUser.Text.Trim() <> "" Then
+                If Not String.IsNullOrWhiteSpace(
+                    txtSearchUser.Text
+                ) Then
 
                     cmd.Parameters.AddWithValue(
                         "@search",
-                        "%" & txtSearchUser.Text.Trim() & "%"
+                        "%" &
+                        txtSearchUser.Text.Trim() &
+                        "%"
                     )
 
                 End If
@@ -99,28 +145,38 @@ Public Class UcUserManagement
 
                     cmd.Parameters.AddWithValue(
                         "@role",
-                        cboRoleFilter.Text
+                        cboRoleFilter.Text.Trim()
                     )
 
                 End If
 
 
-                Dim adapter As New OdbcDataAdapter(cmd)
-                Dim dt As New DataTable()
+                Using adapter As New OdbcDataAdapter(
+                    cmd
+                )
 
-                adapter.Fill(dt)
+                    Dim dt As New DataTable()
 
-                dgvUsers.DataSource = dt
+                    adapter.Fill(dt)
+
+                    dgvUsers.DataSource =
+                        dt
+
+                End Using
 
             End Using
 
 
+            FormatUsersGrid()
+
             dgvUsers.ClearSelection()
+
 
         Catch ex As Exception
 
             MessageBox.Show(
-                "Load Users Error: " & ex.Message,
+                "Load Users Error: " &
+                ex.Message,
                 "User Management",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
@@ -132,55 +188,206 @@ Public Class UcUserManagement
 
 
     '==================================================
+    ' FORMAT USERS TABLE
+    '==================================================
+    Private Sub FormatUsersGrid()
+
+        If dgvUsers Is Nothing OrElse
+           dgvUsers.Columns.Count = 0 Then
+
+            Return
+
+        End If
+
+
+        '==================================================
+        ' GENERAL TABLE STYLE
+        '==================================================
+        dgvUsers.AutoSizeColumnsMode =
+            DataGridViewAutoSizeColumnsMode.Fill
+
+        dgvUsers.ColumnHeadersDefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+        dgvUsers.DefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+        dgvUsers.RowsDefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+        dgvUsers.AlternatingRowsDefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+        dgvUsers.RowHeadersVisible =
+            False
+
+        dgvUsers.AllowUserToResizeRows =
+            False
+
+        dgvUsers.RowTemplate.Height =
+            30
+
+
+        For Each row As DataGridViewRow In
+            dgvUsers.Rows
+
+            row.Height =
+                30
+
+        Next
+
+
+        '==================================================
+        ' COLUMN STYLE
+        '==================================================
+        For Each column As DataGridViewColumn In
+            dgvUsers.Columns
+
+            Dim columnKey As String =
+                column.DataPropertyName
+
+
+            If String.IsNullOrWhiteSpace(
+                columnKey
+            ) Then
+
+                columnKey =
+                    column.Name
+
+            End If
+
+
+            columnKey =
+                columnKey.
+                Trim().
+                ToLowerInvariant()
+
+
+            Select Case columnKey
+
+                '==================================================
+                ' USER ID
+                '==================================================
+                Case "userid",
+                     "coluserid"
+
+                    column.HeaderText =
+                        "User ID"
+
+                    column.FillWeight =
+                        60
+
+
+                '==================================================
+                ' USERNAME
+                '==================================================
+                Case "username",
+                     "colusername"
+
+                    column.HeaderText =
+                        "Username"
+
+                    column.FillWeight =
+                        130
+
+
+                '==================================================
+                ' ROLE
+                '==================================================
+                Case "role",
+                     "colrole"
+
+                    column.HeaderText =
+                        "Role"
+
+                    column.FillWeight =
+                        80
+
+            End Select
+
+
+            column.DefaultCellStyle.Alignment =
+                DataGridViewContentAlignment.MiddleCenter
+
+        Next
+
+    End Sub
+
+
+    '==================================================
     ' SUMMARY
     '==================================================
     Private Sub UpdateSummary()
 
         Try
 
-            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
-                vbConnection()
-            End If
+            EnsureDatabaseConnection()
 
 
             Dim query As String =
                 "SELECT " &
                 "COUNT(*) AS total_count, " &
-                "SUM(CASE WHEN Role = 'Admin' THEN 1 ELSE 0 END) AS admin_count, " &
-                "SUM(CASE WHEN Role = 'Guard' THEN 1 ELSE 0 END) AS guard_count " &
+                "COALESCE(SUM(" &
+                "CASE WHEN UPPER(Role) = 'ADMIN' " &
+                "THEN 1 ELSE 0 END" &
+                "), 0) AS admin_count, " &
+                "COALESCE(SUM(" &
+                "CASE WHEN UPPER(Role) = 'GUARD' " &
+                "THEN 1 ELSE 0 END" &
+                "), 0) AS guard_count " &
                 "FROM login_table"
 
 
-            Using cmd As New OdbcCommand(query, con)
+            Using cmd As New OdbcCommand(
+                query,
+                con
+            )
 
-                Using reader As OdbcDataReader = cmd.ExecuteReader()
+                Using reader As OdbcDataReader =
+                    cmd.ExecuteReader()
 
                     If reader.Read() Then
 
                         lblTotalUsers.Text =
-                            reader("total_count").ToString()
+                            Convert.ToInt32(
+                                reader(
+                                    "total_count"
+                                )
+                            ).ToString()
 
 
-                        If IsDBNull(reader("admin_count")) Then
-                            lblAdminCount.Text = "0"
-                        Else
-                            lblAdminCount.Text =
-                                reader("admin_count").ToString()
-                        End If
+                        lblAdminCount.Text =
+                            Convert.ToInt32(
+                                reader(
+                                    "admin_count"
+                                )
+                            ).ToString()
 
 
-                        If IsDBNull(reader("guard_count")) Then
-                            lblGuardCount.Text = "0"
-                        Else
-                            lblGuardCount.Text =
-                                reader("guard_count").ToString()
-                        End If
+                        lblGuardCount.Text =
+                            Convert.ToInt32(
+                                reader(
+                                    "guard_count"
+                                )
+                            ).ToString()
+
+                    Else
+
+                        lblTotalUsers.Text =
+                            "0"
+
+                        lblAdminCount.Text =
+                            "0"
+
+                        lblGuardCount.Text =
+                            "0"
 
                     End If
 
                 End Using
 
             End Using
+
 
         Catch ex As Exception
 
@@ -201,7 +408,12 @@ Public Class UcUserManagement
     ) As Boolean
 
 
-        If txtUsername.Text.Trim() = "" Then
+        '==================================================
+        ' USERNAME
+        '==================================================
+        If String.IsNullOrWhiteSpace(
+            txtUsername.Text
+        ) Then
 
             MessageBox.Show(
                 "Please enter a username.",
@@ -217,7 +429,13 @@ Public Class UcUserManagement
         End If
 
 
-        If cboRole.SelectedIndex = -1 Then
+        '==================================================
+        ' ROLE
+        '==================================================
+        If cboRole.SelectedIndex = -1 OrElse
+           String.IsNullOrWhiteSpace(
+               cboRole.Text
+           ) Then
 
             MessageBox.Show(
                 "Please select a role.",
@@ -233,7 +451,23 @@ Public Class UcUserManagement
         End If
 
 
-        If requirePassword Then
+        '==================================================
+        ' PASSWORD
+        '
+        ' New account = password required.
+        ' Updating account = password optional.
+        '
+        ' If either password field has content,
+        ' validate both fields.
+        '==================================================
+        Dim passwordEntered As Boolean =
+            txtPassword.Text <> "" OrElse
+            txtConfirmPassword.Text <> ""
+
+
+        If requirePassword OrElse
+           passwordEntered Then
+
 
             If txtPassword.Text = "" Then
 
@@ -266,15 +500,32 @@ Public Class UcUserManagement
 
             End If
 
-        End If
+
+            '==================================================
+            ' MINIMUM PASSWORD LENGTH
+            '==================================================
+            If txtPassword.Text.Length < 8 Then
+
+                MessageBox.Show(
+                    "Password must contain at least 8 characters.",
+                    "Weak Password",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                )
+
+                txtPassword.Focus()
+                txtPassword.SelectAll()
+
+                Return False
+
+            End If
 
 
-        ' If either password box has content,
-        ' both must match.
-        If txtPassword.Text <> "" OrElse
-           txtConfirmPassword.Text <> "" Then
-
-            If txtPassword.Text <> txtConfirmPassword.Text Then
+            '==================================================
+            ' PASSWORD MATCH
+            '==================================================
+            If txtPassword.Text <>
+               txtConfirmPassword.Text Then
 
                 MessageBox.Show(
                     "Passwords do not match.",
@@ -284,6 +535,7 @@ Public Class UcUserManagement
                 )
 
                 txtConfirmPassword.Focus()
+                txtConfirmPassword.SelectAll()
 
                 Return False
 
@@ -298,7 +550,7 @@ Public Class UcUserManagement
 
 
     '==================================================
-    ' USERNAME EXISTS
+    ' CHECK USERNAME EXISTS
     '==================================================
     Private Function UsernameExists(
         username As String,
@@ -307,27 +559,32 @@ Public Class UcUserManagement
 
         Try
 
-            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
-                vbConnection()
-            End If
+            EnsureDatabaseConnection()
 
 
             Dim query As String =
                 "SELECT COUNT(*) " &
                 "FROM login_table " &
-                "WHERE Username = ? "
+                "WHERE LOWER(TRIM(Username)) = " &
+                "LOWER(TRIM(?)) "
 
 
             If excludeUserId > 0 Then
-                query &= "AND UserId <> ?"
+
+                query &=
+                    "AND UserId <> ? "
+
             End If
 
 
-            Using cmd As New OdbcCommand(query, con)
+            Using cmd As New OdbcCommand(
+                query,
+                con
+            )
 
                 cmd.Parameters.AddWithValue(
                     "@username",
-                    username
+                    username.Trim()
                 )
 
 
@@ -341,84 +598,168 @@ Public Class UcUserManagement
                 End If
 
 
-                Dim count As Integer =
-                    Convert.ToInt32(
-                        cmd.ExecuteScalar()
-                    )
+                Dim result As Object =
+                    cmd.ExecuteScalar()
 
-                Return count > 0
+
+                If result Is Nothing OrElse
+                   IsDBNull(result) Then
+
+                    Return False
+
+                End If
+
+
+                Return Convert.ToInt32(
+                    result
+                ) > 0
 
             End Using
+
 
         Catch ex As Exception
 
             MessageBox.Show(
-                "Username Check Error: " & ex.Message
+                "Username Check Error: " &
+                ex.Message,
+                "User Management",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
             )
 
+            ' Sa database error, treat as existing
+            ' para hindi makagawa ng duplicate accidentally.
             Return True
 
         End Try
 
     End Function
 
+
+    '==================================================
+    ' BUTTON APPEARANCE
+    '==================================================
     Private Sub UpdateButtonAppearance()
 
+        '==================================================
         ' ADD USER
+        '==================================================
         If btnAddUser.Enabled Then
 
-            btnAddUser.BackColor = Color.FromArgb(103, 60, 36)
-            btnAddUser.ForeColor = Color.White
-            btnAddUser.Cursor = Cursors.Hand
+            btnAddUser.BackColor =
+                Color.FromArgb(
+                    103,
+                    60,
+                    36
+                )
+
+            btnAddUser.ForeColor =
+                Color.White
+
+            btnAddUser.Cursor =
+                Cursors.Hand
 
         Else
 
-            btnAddUser.BackColor = Color.FromArgb(220, 220, 220)
-            btnAddUser.ForeColor = Color.Gray
-            btnAddUser.Cursor = Cursors.No
+            btnAddUser.BackColor =
+                Color.FromArgb(
+                    220,
+                    220,
+                    220
+                )
+
+            btnAddUser.ForeColor =
+                Color.Gray
+
+            btnAddUser.Cursor =
+                Cursors.No
 
         End If
 
 
+        '==================================================
         ' UPDATE
+        '==================================================
         If btnUpdate.Enabled Then
 
-            btnUpdate.BackColor = Color.FromArgb(103, 60, 36)
-            btnUpdate.ForeColor = Color.White
-            btnUpdate.Cursor = Cursors.Hand
+            btnUpdate.BackColor =
+                Color.FromArgb(
+                    103,
+                    60,
+                    36
+                )
+
+            btnUpdate.ForeColor =
+                Color.White
+
+            btnUpdate.Cursor =
+                Cursors.Hand
 
         Else
 
-            btnUpdate.BackColor = Color.FromArgb(220, 220, 220)
-            btnUpdate.ForeColor = Color.Gray
-            btnUpdate.Cursor = Cursors.No
+            btnUpdate.BackColor =
+                Color.FromArgb(
+                    220,
+                    220,
+                    220
+                )
+
+            btnUpdate.ForeColor =
+                Color.Gray
+
+            btnUpdate.Cursor =
+                Cursors.No
 
         End If
 
 
+        '==================================================
         ' DELETE
+        '==================================================
         If btnDelete.Enabled Then
 
-            btnDelete.BackColor = Color.FromArgb(201, 75, 67)
-            btnDelete.ForeColor = Color.White
-            btnDelete.Cursor = Cursors.Hand
+            btnDelete.BackColor =
+                Color.FromArgb(
+                    201,
+                    75,
+                    67
+                )
+
+            btnDelete.ForeColor =
+                Color.White
+
+            btnDelete.Cursor =
+                Cursors.Hand
 
         Else
 
-            btnDelete.BackColor = Color.FromArgb(220, 220, 220)
-            btnDelete.ForeColor = Color.Gray
-            btnDelete.Cursor = Cursors.No
+            btnDelete.BackColor =
+                Color.FromArgb(
+                    220,
+                    220,
+                    220
+                )
+
+            btnDelete.ForeColor =
+                Color.Gray
+
+            btnDelete.Cursor =
+                Cursors.No
 
         End If
 
     End Sub
 
+
+    '==================================================
+    ' BUTTON ENABLED CHANGED
+    '==================================================
     Private Sub Buttons_EnabledChanged(
-    sender As Object,
-    e As EventArgs
-) Handles btnAddUser.EnabledChanged,
-          btnUpdate.EnabledChanged,
-          btnDelete.EnabledChanged
+        sender As Object,
+        e As EventArgs
+    ) Handles btnAddUser.EnabledChanged,
+              btnUpdate.EnabledChanged,
+              btnDelete.EnabledChanged
 
         UpdateButtonAppearance()
 
@@ -434,8 +775,12 @@ Public Class UcUserManagement
     ) Handles btnAddUser.Click
 
 
-        If Not ValidateUserForm(True) Then
+        If Not ValidateUserForm(
+            True
+        ) Then
+
             Return
+
         End If
 
 
@@ -459,9 +804,9 @@ Public Class UcUserManagement
 
         Try
 
-            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
-                vbConnection()
-            End If
+            EnsureDatabaseConnection()
+
+
             Dim hashedPassword As String =
                 HashPassword(
                     txtPassword.Text
@@ -480,22 +825,32 @@ Public Class UcUserManagement
             )
 
                 cmd.Parameters.AddWithValue(
-                "@username",
-                txtUsername.Text.Trim()
-            )
+                    "@username",
+                    txtUsername.Text.Trim()
+                )
 
                 cmd.Parameters.AddWithValue(
-                "@password",
-                hashedPassword
-            )
+                    "@password",
+                    hashedPassword
+                )
 
                 cmd.Parameters.AddWithValue(
-                "@role",
-                cboRole.Text
-            )
+                    "@role",
+                    cboRole.Text.Trim()
+                )
 
 
-                cmd.ExecuteNonQuery()
+                Dim rowsAffected As Integer =
+                    cmd.ExecuteNonQuery()
+
+
+                If rowsAffected <= 0 Then
+
+                    Throw New Exception(
+                        "The user account was not created."
+                    )
+
+                End If
 
             End Using
 
@@ -512,10 +867,12 @@ Public Class UcUserManagement
             UpdateSummary()
             ClearFields()
 
+
         Catch ex As Exception
 
             MessageBox.Show(
-                "Add User Error: " & ex.Message,
+                "Add User Error: " &
+                ex.Message,
                 "User Management",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
@@ -530,54 +887,139 @@ Public Class UcUserManagement
     ' DATAGRIDVIEW CLICK
     '==================================================
     Private Sub dgvUsers_CellClick(
-    sender As Object,
-    e As DataGridViewCellEventArgs
-) Handles dgvUsers.CellClick
+        sender As Object,
+        e As DataGridViewCellEventArgs
+    ) Handles dgvUsers.CellClick
+
 
         If e.RowIndex < 0 Then
+
             Return
+
         End If
+
+
+        If e.RowIndex >=
+           dgvUsers.Rows.Count Then
+
+            Return
+
+        End If
+
 
         Try
 
             Dim row As DataGridViewRow =
-            dgvUsers.Rows(e.RowIndex)
+                dgvUsers.Rows(
+                    e.RowIndex
+                )
 
-            Dim data As DataRowView =
-            TryCast(row.DataBoundItem, DataRowView)
 
-            If data Is Nothing Then
-                MessageBox.Show("Unable to read selected user.")
+            If row Is Nothing Then
+
                 Return
+
             End If
 
+
+            Dim data As DataRowView =
+                TryCast(
+                    row.DataBoundItem,
+                    DataRowView
+                )
+
+
+            If data Is Nothing Then
+
+                MessageBox.Show(
+                    "Unable to read the selected user.",
+                    "User Management",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                )
+
+                Return
+
+            End If
+
+
+            If IsDBNull(
+                data(
+                    "UserId"
+                )
+            ) Then
+
+                Return
+
+            End If
+
+
             selectedUserId =
-            Convert.ToInt32(data("UserId"))
+                Convert.ToInt32(
+                    data(
+                        "UserId"
+                    )
+                )
+
 
             txtUsername.Text =
-            data("Username").ToString()
+                If(
+                    IsDBNull(
+                        data(
+                            "Username"
+                        )
+                    ),
+                    "",
+                    data(
+                        "Username"
+                    ).ToString()
+                )
+
 
             selectedUserRole =
-            data("Role").ToString()
+                If(
+                    IsDBNull(
+                        data(
+                            "Role"
+                        )
+                    ),
+                    "",
+                    data(
+                        "Role"
+                    ).ToString()
+                )
+
 
             cboRole.Text =
-            selectedUserRole
+                selectedUserRole
 
+
+            '==================================================
+            ' PASSWORD IS NEVER LOADED INTO FORM
+            '==================================================
             txtPassword.Clear()
             txtConfirmPassword.Clear()
 
-            btnAddUser.Enabled = False
-            btnUpdate.Enabled = True
-            btnDelete.Enabled = True
+
+            btnAddUser.Enabled =
+                False
+
+            btnUpdate.Enabled =
+                True
+
+            btnDelete.Enabled =
+                True
+
 
         Catch ex As Exception
 
             MessageBox.Show(
-            "Cell Click Error: " & ex.Message,
-            "User Management",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Error
-        )
+                "User Selection Error: " &
+                ex.Message,
+                "User Management",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+            )
 
         End Try
 
@@ -593,7 +1035,7 @@ Public Class UcUserManagement
     ) Handles btnUpdate.Click
 
 
-        If selectedUserId = 0 Then
+        If selectedUserId <= 0 Then
 
             MessageBox.Show(
                 "Please select a user first.",
@@ -607,8 +1049,12 @@ Public Class UcUserManagement
         End If
 
 
-        If Not ValidateUserForm(False) Then
+        If Not ValidateUserForm(
+            False
+        ) Then
+
             Return
+
         End If
 
 
@@ -624,9 +1070,12 @@ Public Class UcUserManagement
                 MessageBoxIcon.Warning
             )
 
+            txtUsername.Focus()
+
             Return
 
         End If
+
 
         '==================================================
         ' PROTECT LAST ADMIN ACCOUNT
@@ -637,10 +1086,11 @@ Public Class UcUserManagement
             StringComparison.OrdinalIgnoreCase
         ) AndAlso
         Not String.Equals(
-            cboRole.Text,
+            cboRole.Text.Trim(),
             "Admin",
             StringComparison.OrdinalIgnoreCase
         ) Then
+
 
             If GetAdminCount() <= 1 Then
 
@@ -654,7 +1104,9 @@ Public Class UcUserManagement
                     MessageBoxIcon.Warning
                 )
 
-                cboRole.Text = "Admin"
+                cboRole.Text =
+                    "Admin"
+
                 cboRole.Focus()
 
                 Return
@@ -663,8 +1115,11 @@ Public Class UcUserManagement
 
         End If
 
+
         Dim changePassword As Boolean =
-            txtPassword.Text <> ""
+            Not String.IsNullOrEmpty(
+                txtPassword.Text
+            )
 
 
         Dim result As DialogResult =
@@ -676,16 +1131,16 @@ Public Class UcUserManagement
             )
 
 
-        If result = DialogResult.No Then
+        If result <> DialogResult.Yes Then
+
             Return
+
         End If
 
 
         Try
 
-            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
-                vbConnection()
-            End If
+            EnsureDatabaseConnection()
 
 
             Dim query As String
@@ -711,7 +1166,10 @@ Public Class UcUserManagement
             End If
 
 
-            Using cmd As New OdbcCommand(query, con)
+            Using cmd As New OdbcCommand(
+                query,
+                con
+            )
 
                 cmd.Parameters.AddWithValue(
                     "@username",
@@ -736,7 +1194,7 @@ Public Class UcUserManagement
 
                 cmd.Parameters.AddWithValue(
                     "@role",
-                    cboRole.Text
+                    cboRole.Text.Trim()
                 )
 
                 cmd.Parameters.AddWithValue(
@@ -745,7 +1203,17 @@ Public Class UcUserManagement
                 )
 
 
-                cmd.ExecuteNonQuery()
+                Dim rowsAffected As Integer =
+                    cmd.ExecuteNonQuery()
+
+
+                If rowsAffected <= 0 Then
+
+                    Throw New Exception(
+                        "The user account was not found or no changes were made."
+                    )
+
+                End If
 
             End Using
 
@@ -762,10 +1230,12 @@ Public Class UcUserManagement
             UpdateSummary()
             ClearFields()
 
+
         Catch ex As Exception
 
             MessageBox.Show(
-                "Update User Error: " & ex.Message,
+                "Update User Error: " &
+                ex.Message,
                 "User Management",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
@@ -783,26 +1253,40 @@ Public Class UcUserManagement
 
         Try
 
-            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
-                vbConnection()
-            End If
+            EnsureDatabaseConnection()
 
 
             Dim query As String =
                 "SELECT COUNT(*) " &
                 "FROM login_table " &
-                "WHERE Role = 'Admin'"
+                "WHERE UPPER(Role) = 'ADMIN'"
 
 
-            Using cmd As New OdbcCommand(query, con)
+            Using cmd As New OdbcCommand(
+                query,
+                con
+            )
+
+                Dim result As Object =
+                    cmd.ExecuteScalar()
+
+
+                If result Is Nothing OrElse
+                   IsDBNull(result) Then
+
+                    Return 0
+
+                End If
+
 
                 Return Convert.ToInt32(
-                    cmd.ExecuteScalar()
+                    result
                 )
 
             End Using
 
-        Catch
+
+        Catch ex As Exception
 
             Return 0
 
@@ -820,7 +1304,7 @@ Public Class UcUserManagement
     ) Handles btnDelete.Click
 
 
-        If selectedUserId = 0 Then
+        If selectedUserId <= 0 Then
 
             MessageBox.Show(
                 "Please select a user first.",
@@ -834,8 +1318,14 @@ Public Class UcUserManagement
         End If
 
 
-        ' Do not allow deleting final Admin account
-        If selectedUserRole = "Admin" AndAlso
+        '==================================================
+        ' DO NOT ALLOW DELETING FINAL ADMIN ACCOUNT
+        '==================================================
+        If String.Equals(
+            selectedUserRole,
+            "Admin",
+            StringComparison.OrdinalIgnoreCase
+        ) AndAlso
            GetAdminCount() <= 1 Then
 
             MessageBox.Show(
@@ -867,16 +1357,16 @@ Public Class UcUserManagement
             )
 
 
-        If result = DialogResult.No Then
+        If result <> DialogResult.Yes Then
+
             Return
+
         End If
 
 
         Try
 
-            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
-                vbConnection()
-            End If
+            EnsureDatabaseConnection()
 
 
             Dim query As String =
@@ -884,14 +1374,28 @@ Public Class UcUserManagement
                 "WHERE UserId = ?"
 
 
-            Using cmd As New OdbcCommand(query, con)
+            Using cmd As New OdbcCommand(
+                query,
+                con
+            )
 
                 cmd.Parameters.AddWithValue(
                     "@id",
                     selectedUserId
                 )
 
-                cmd.ExecuteNonQuery()
+
+                Dim rowsAffected As Integer =
+                    cmd.ExecuteNonQuery()
+
+
+                If rowsAffected <= 0 Then
+
+                    Throw New Exception(
+                        "The user account was not found."
+                    )
+
+                End If
 
             End Using
 
@@ -908,10 +1412,12 @@ Public Class UcUserManagement
             UpdateSummary()
             ClearFields()
 
+
         Catch ex As Exception
 
             MessageBox.Show(
-                "Delete User Error: " & ex.Message,
+                "Delete User Error: " &
+                ex.Message,
                 "User Management",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
@@ -943,20 +1449,41 @@ Public Class UcUserManagement
         selectedUserId = 0
         selectedUserRole = ""
 
+
         txtUsername.Clear()
 
         txtPassword.Clear()
         txtConfirmPassword.Clear()
 
-        cboRole.SelectedIndex = -1
+        cboRole.SelectedIndex =
+            -1
 
-        dgvUsers.ClearSelection()
 
-        btnAddUser.Enabled = True
-        btnUpdate.Enabled = False
-        btnDelete.Enabled = False
+        If dgvUsers IsNot Nothing Then
 
-        txtUsername.Focus()
+            dgvUsers.ClearSelection()
+
+        End If
+
+
+        btnAddUser.Enabled =
+            True
+
+        btnUpdate.Enabled =
+            False
+
+        btnDelete.Enabled =
+            False
+
+
+        UpdateButtonAppearance()
+
+
+        If txtUsername.CanFocus Then
+
+            txtUsername.Focus()
+
+        End If
 
     End Sub
 
@@ -968,6 +1495,14 @@ Public Class UcUserManagement
         sender As Object,
         e As EventArgs
     ) Handles txtSearchUser.TextChanged
+
+
+        If isLoading Then
+
+            Return
+
+        End If
+
 
         LoadUsers()
 
@@ -981,6 +1516,14 @@ Public Class UcUserManagement
         sender As Object,
         e As EventArgs
     ) Handles cboRoleFilter.SelectedIndexChanged
+
+
+        If isLoading Then
+
+            Return
+
+        End If
+
 
         LoadUsers()
 

@@ -1,4 +1,5 @@
-﻿Imports System.Data.Odbc
+﻿Imports System.Data
+Imports System.Data.Odbc
 Imports System.Net.Http
 Imports System.Text
 Imports System.Threading.Tasks
@@ -24,19 +25,12 @@ Public Class UcSmsNotifications
 
         Try
 
-            If con Is Nothing OrElse
-               con.State <> ConnectionState.Open Then
-
-                vbConnection()
-
-            End If
-
+            EnsureDatabaseConnection()
 
             txtMessage.MaxLength = 160
 
             timerClock.Interval = 1000
             timerClock.Start()
-
 
             LoadStudents()
             LoadSmsLogs()
@@ -47,17 +41,32 @@ Public Class UcSmsNotifications
             UpdateDateTime()
             UpdateSendButtonAppearance()
 
-
         Catch ex As Exception
 
             MessageBox.Show(
-                "Notifications Error: " & ex.Message,
+                "Notifications Error: " &
+                ex.Message,
                 "SMS Notifications",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
             )
 
         End Try
+
+    End Sub
+
+
+    '==================================================
+    ' DATABASE CONNECTION
+    '==================================================
+    Private Sub EnsureDatabaseConnection()
+
+        If con Is Nothing OrElse
+           con.State <> ConnectionState.Open Then
+
+            vbConnection()
+
+        End If
 
     End Sub
 
@@ -96,12 +105,7 @@ Public Class UcSmsNotifications
 
         Try
 
-            If con Is Nothing OrElse
-               con.State <> ConnectionState.Open Then
-
-                vbConnection()
-
-            End If
+            EnsureDatabaseConnection()
 
 
             Dim query As String =
@@ -154,19 +158,23 @@ Public Class UcSmsNotifications
                 End If
 
 
-                Dim adapter As New OdbcDataAdapter(
+                Using adapter As New OdbcDataAdapter(
                     cmd
                 )
 
-                Dim dt As New DataTable()
+                    Dim dt As New DataTable()
 
-                adapter.Fill(dt)
+                    adapter.Fill(dt)
 
-                dgvStudents.DataSource =
-                    dt
+                    dgvStudents.DataSource =
+                        dt
+
+                End Using
 
             End Using
 
+
+            FormatStudentsGrid()
 
             dgvStudents.ClearSelection()
 
@@ -182,6 +190,140 @@ Public Class UcSmsNotifications
             )
 
         End Try
+
+    End Sub
+
+
+    '==================================================
+    ' FORMAT STUDENTS TABLE
+    '==================================================
+    Private Sub FormatStudentsGrid()
+
+        If dgvStudents Is Nothing OrElse
+           dgvStudents.Columns.Count = 0 Then
+
+            Return
+
+        End If
+
+
+        dgvStudents.AutoSizeColumnsMode =
+            DataGridViewAutoSizeColumnsMode.Fill
+
+        dgvStudents.ColumnHeadersDefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+        dgvStudents.DefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+        dgvStudents.RowsDefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+        dgvStudents.AlternatingRowsDefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+
+        dgvStudents.RowsDefaultCellStyle.BackColor =
+            Color.White
+
+        dgvStudents.RowsDefaultCellStyle.ForeColor =
+            Color.Black
+
+        dgvStudents.AlternatingRowsDefaultCellStyle.BackColor =
+            Color.White
+
+        dgvStudents.AlternatingRowsDefaultCellStyle.ForeColor =
+            Color.Black
+
+
+        dgvStudents.DefaultCellStyle.SelectionBackColor =
+            Color.FromArgb(
+                230,
+                220,
+                210
+            )
+
+        dgvStudents.DefaultCellStyle.SelectionForeColor =
+            Color.Black
+
+
+        dgvStudents.RowHeadersVisible =
+            False
+
+        dgvStudents.AllowUserToResizeRows =
+            False
+
+        dgvStudents.RowTemplate.Height =
+            30
+
+
+        For Each row As DataGridViewRow In dgvStudents.Rows
+
+            row.Height = 30
+
+        Next
+
+
+        For Each column As DataGridViewColumn In dgvStudents.Columns
+
+            Dim columnKey As String =
+                column.DataPropertyName
+
+
+            If String.IsNullOrWhiteSpace(
+                columnKey
+            ) Then
+
+                columnKey =
+                    column.Name
+
+            End If
+
+
+            columnKey =
+                columnKey.
+                Trim().
+                ToLowerInvariant()
+
+
+            Select Case columnKey
+
+                Case "student_id",
+                     "colstudentid"
+
+                    column.HeaderText =
+                        "Student ID"
+
+                    column.FillWeight =
+                        60
+
+
+                Case "student_name",
+                     "colstudentname"
+
+                    column.HeaderText =
+                        "Student Name"
+
+                    column.FillWeight =
+                        130
+
+
+                Case "year_course",
+                     "colyearcourse"
+
+                    column.HeaderText =
+                        "Year / Course"
+
+                    column.FillWeight =
+                        100
+
+            End Select
+
+
+            column.DefaultCellStyle.Alignment =
+                DataGridViewContentAlignment.MiddleCenter
+
+        Next
 
     End Sub
 
@@ -230,7 +372,9 @@ Public Class UcSmsNotifications
 
             Dim studentId As Integer =
                 Convert.ToInt32(
-                    rowView("student_id")
+                    rowView(
+                        "student_id"
+                    )
                 )
 
 
@@ -263,12 +407,7 @@ Public Class UcSmsNotifications
 
         Try
 
-            If con Is Nothing OrElse
-               con.State <> ConnectionState.Open Then
-
-                vbConnection()
-
-            End If
+            EnsureDatabaseConnection()
 
 
             Dim query As String =
@@ -318,14 +457,16 @@ Public Class UcSmsNotifications
                             )
                         ) Then
 
-                            selectedContactNumber = ""
+                            selectedContactNumber =
+                                ""
 
                         Else
 
                             selectedContactNumber =
                                 reader(
                                     "parent_contact_number"
-                                ).ToString().Trim()
+                                ).ToString().
+                                Trim()
 
                         End If
 
@@ -359,6 +500,10 @@ Public Class UcSmsNotifications
 
                         btnSendSMS.Enabled =
                             selectedContactNumber <> ""
+
+                    Else
+
+                        ClearSelectedStudent()
 
                     End If
 
@@ -428,10 +573,9 @@ Public Class UcSmsNotifications
         e As EventArgs
     ) Handles btnSendSMS.Click
 
-
-        '----------------------------------------------
-        ' NO STUDENT SELECTED
-        '----------------------------------------------
+        '==================================================
+        ' STUDENT CHECK
+        '==================================================
         If selectedStudentId = 0 Then
 
             MessageBox.Show(
@@ -446,10 +590,12 @@ Public Class UcSmsNotifications
         End If
 
 
-        '----------------------------------------------
+        '==================================================
         ' NO CONTACT NUMBER
-        '----------------------------------------------
-        If selectedContactNumber.Trim() = "" Then
+        '==================================================
+        If String.IsNullOrWhiteSpace(
+            selectedContactNumber
+        ) Then
 
             MessageBox.Show(
                 "The selected student has no parent contact number.",
@@ -463,10 +609,40 @@ Public Class UcSmsNotifications
         End If
 
 
-        '----------------------------------------------
-        ' EMPTY MESSAGE
-        '----------------------------------------------
-        If txtMessage.Text.Trim() = "" Then
+        '==================================================
+        ' VALIDATE / NORMALIZE NUMBER
+        '==================================================
+        Dim normalizedNumber As String = ""
+
+        If Not TryNormalizePhilippineMobileNumber(
+            selectedContactNumber,
+            normalizedNumber
+        ) Then
+
+            MessageBox.Show(
+                "The parent's contact number is invalid." &
+                vbCrLf &
+                vbCrLf &
+                "Please update the student's contact number first." &
+                vbCrLf &
+                vbCrLf &
+                "Example: 09171234567",
+                "Invalid Contact Number",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning
+            )
+
+            Return
+
+        End If
+
+
+        '==================================================
+        ' MESSAGE CHECK
+        '==================================================
+        If String.IsNullOrWhiteSpace(
+            txtMessage.Text
+        ) Then
 
             MessageBox.Show(
                 "Please enter a message.",
@@ -486,9 +662,9 @@ Public Class UcSmsNotifications
             txtMessage.Text.Trim()
 
 
-        '----------------------------------------------
-        ' CONFIRMATION
-        '----------------------------------------------
+        '==================================================
+        ' CONFIRM SEND
+        '==================================================
         Dim result As DialogResult =
             MessageBox.Show(
                 "Send this message to the parent/guardian of " &
@@ -498,7 +674,7 @@ Public Class UcSmsNotifications
                 vbCrLf &
                 "Contact Number:" &
                 vbCrLf &
-                selectedContactNumber &
+                normalizedNumber &
                 vbCrLf &
                 vbCrLf &
                 "Message:" &
@@ -526,7 +702,7 @@ Public Class UcSmsNotifications
 
             Dim sent As Boolean =
                 Await SendManualSMS(
-                    selectedContactNumber,
+                    normalizedNumber,
                     messageToSend
                 )
 
@@ -535,7 +711,7 @@ Public Class UcSmsNotifications
 
                 SaveSmsLog(
                     selectedStudentId,
-                    selectedContactNumber,
+                    normalizedNumber,
                     messageToSend,
                     "MANUAL",
                     "SENT"
@@ -556,7 +732,7 @@ Public Class UcSmsNotifications
 
                 SaveSmsLog(
                     selectedStudentId,
-                    selectedContactNumber,
+                    normalizedNumber,
                     messageToSend,
                     "MANUAL",
                     "FAILED"
@@ -565,11 +741,25 @@ Public Class UcSmsNotifications
             End If
 
 
-            ' Refresh logs + summary automatically
             LoadSmsLogs()
 
 
         Catch ex As Exception
+
+            '==================================================
+            ' UNEXPECTED FAILURE
+            '==================================================
+            SaveSmsLog(
+                selectedStudentId,
+                normalizedNumber,
+                messageToSend,
+                "MANUAL",
+                "FAILED"
+            )
+
+
+            LoadSmsLogs()
+
 
             MessageBox.Show(
                 "Send SMS Error: " &
@@ -586,11 +776,129 @@ Public Class UcSmsNotifications
                 "Send SMS"
 
             btnSendSMS.Enabled =
-                selectedContactNumber <> ""
+                Not String.IsNullOrWhiteSpace(
+                    selectedContactNumber
+                )
 
         End Try
 
     End Sub
+
+
+    '==================================================
+    ' NORMALIZE / VALIDATE PHILIPPINE MOBILE NUMBER
+    '==================================================
+    Private Function TryNormalizePhilippineMobileNumber(
+        input As String,
+        ByRef normalized As String
+    ) As Boolean
+
+        normalized = ""
+
+
+        If String.IsNullOrWhiteSpace(
+            input
+        ) Then
+
+            Return False
+
+        End If
+
+
+        Dim number As String =
+            input.Trim().
+            Replace(" ", "").
+            Replace("-", "").
+            Replace("(", "").
+            Replace(")", "").
+            Replace(".", "")
+
+
+        '==================================================
+        ' +639XXXXXXXXX -> 09XXXXXXXXX
+        '==================================================
+        If number.StartsWith(
+            "+63",
+            StringComparison.Ordinal
+        ) Then
+
+            number =
+                "0" &
+                number.Substring(3)
+
+
+            '==================================================
+            ' 639XXXXXXXXX -> 09XXXXXXXXX
+            '==================================================
+        ElseIf number.StartsWith(
+            "63",
+            StringComparison.Ordinal
+        ) Then
+
+            number =
+                "0" &
+                number.Substring(2)
+
+
+            '==================================================
+            ' 9XXXXXXXXX -> 09XXXXXXXXX
+            '==================================================
+        ElseIf number.Length = 10 AndAlso
+               number.StartsWith(
+                   "9",
+                   StringComparison.Ordinal
+               ) Then
+
+            number =
+                "0" &
+                number
+
+        End If
+
+
+        '==================================================
+        ' MUST BE 11 DIGITS
+        '==================================================
+        If number.Length <> 11 Then
+            Return False
+        End If
+
+
+        '==================================================
+        ' MUST START WITH 09
+        '==================================================
+        If Not number.StartsWith(
+            "09",
+            StringComparison.Ordinal
+        ) Then
+
+            Return False
+
+        End If
+
+
+        '==================================================
+        ' NUMBERS ONLY
+        '==================================================
+        For Each character As Char In number
+
+            If Not Char.IsDigit(
+                character
+            ) Then
+
+                Return False
+
+            End If
+
+        Next
+
+
+        normalized =
+            number
+
+        Return True
+
+    End Function
 
 
     '==================================================
@@ -601,13 +909,65 @@ Public Class UcSmsNotifications
         message As String
     ) As Task(Of Boolean)
 
-
-        ' Put your working iProgTech API token here.
-        ' Do not post the token publicly.
+        '==================================================
+        ' GET API TOKEN FROM WINDOWS ENVIRONMENT VARIABLE
+        '==================================================
         Dim apiToken As String =
-            "de73dee5c2e1e19b2984f9eba3b0084e9adb82a1"
+            Environment.GetEnvironmentVariable(
+                "IPROGTECH_API_TOKEN"
+            )
 
 
+        '==================================================
+        ' API TOKEN CHECK
+        '==================================================
+        If String.IsNullOrWhiteSpace(
+            apiToken
+        ) Then
+
+            MessageBox.Show(
+                "The SMS API is not configured." &
+                vbCrLf &
+                vbCrLf &
+                "The IPROGTECH_API_TOKEN environment variable is missing.",
+                "SMS Configuration",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning
+            )
+
+            Return False
+
+        End If
+
+
+        '==================================================
+        ' VALIDATE CONTACT AGAIN FOR SAFETY
+        '==================================================
+        Dim normalizedNumber As String = ""
+
+        If Not TryNormalizePhilippineMobileNumber(
+            parentNumber,
+            normalizedNumber
+        ) Then
+
+            MessageBox.Show(
+                "The parent's contact number is invalid." &
+                vbCrLf &
+                vbCrLf &
+                "The SMS was not sent.",
+                "Invalid Contact Number",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning
+            )
+
+            Return False
+
+        End If
+
+
+        '==================================================
+        ' API URL
+        '==================================================
         Dim apiUrl As String =
             "https://sms.iprogtech.com/api/v1/sms_messages?api_token=" &
             apiToken
@@ -615,10 +975,14 @@ Public Class UcSmsNotifications
 
         Try
 
+            '==================================================
+            ' PREPARE JSON
+            '==================================================
             Dim safeNumber As String =
                 EscapeJson(
-                    parentNumber
+                    normalizedNumber
                 )
+
 
             Dim safeMessage As String =
                 EscapeJson(
@@ -634,7 +998,14 @@ Public Class UcSmsNotifications
                 """}"
 
 
+            '==================================================
+            ' SEND HTTP REQUEST
+            '==================================================
             Using client As New HttpClient()
+
+                client.Timeout =
+                    TimeSpan.FromSeconds(20)
+
 
                 Dim content As New StringContent(
                     jsonBody,
@@ -655,25 +1026,27 @@ Public Class UcSmsNotifications
                     ReadAsStringAsync()
 
 
+                '==================================================
+                ' SUCCESS
+                '==================================================
                 If response.IsSuccessStatusCode Then
 
                     Return True
 
-                Else
-
-                    MessageBox.Show(
-                        "SMS failed to send." &
-                        vbCrLf &
-                        vbCrLf &
-                        responseBody,
-                        "SMS Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning
-                    )
-
-                    Return False
-
                 End If
+
+
+                '==================================================
+                ' API / PROVIDER ERROR
+                '==================================================
+                ShowSmsProviderError(
+                    CInt(
+                        response.StatusCode
+                    ),
+                    responseBody
+                )
+
+                Return False
 
             End Using
 
@@ -681,7 +1054,11 @@ Public Class UcSmsNotifications
         Catch ex As HttpRequestException
 
             MessageBox.Show(
-                "No internet connection or the SMS server cannot be reached.",
+                "The SMS could not be sent because the internet connection " &
+                "or SMS server is unavailable." &
+                vbCrLf &
+                vbCrLf &
+                "Please check the internet connection and try again.",
                 "Network Error",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
@@ -693,7 +1070,12 @@ Public Class UcSmsNotifications
         Catch ex As TaskCanceledException
 
             MessageBox.Show(
-                "The SMS request timed out.",
+                "The SMS request timed out." &
+                vbCrLf &
+                vbCrLf &
+                "The SMS server took too long to respond." &
+                vbCrLf &
+                "Please try again.",
                 "SMS Timeout",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning
@@ -705,7 +1087,8 @@ Public Class UcSmsNotifications
         Catch ex As Exception
 
             MessageBox.Show(
-                "An error occurred while sending the SMS." &
+                "An unexpected error occurred while sending the SMS." &
+                vbCrLf &
                 vbCrLf &
                 ex.Message,
                 "SMS Error",
@@ -716,6 +1099,192 @@ Public Class UcSmsNotifications
             Return False
 
         End Try
+
+    End Function
+
+
+    '==================================================
+    ' SHOW SMS PROVIDER ERROR
+    '==================================================
+    Private Sub ShowSmsProviderError(
+        statusCode As Integer,
+        responseBody As String
+    )
+
+        Dim errorText As String = ""
+
+
+        Select Case statusCode
+
+            '==================================================
+            ' BAD REQUEST
+            '==================================================
+            Case 400
+
+                errorText =
+                    "The SMS provider rejected the request." &
+                    vbCrLf &
+                    vbCrLf &
+                    "Please check the phone number and message."
+
+
+            '==================================================
+            ' INVALID API TOKEN
+            '==================================================
+            Case 401, 403
+
+                errorText =
+                    "The SMS API authentication failed." &
+                    vbCrLf &
+                    vbCrLf &
+                    "Please check the IPROGTECH_API_TOKEN configuration."
+
+
+            '==================================================
+            ' PAYMENT / CREDIT PROBLEM
+            '==================================================
+            Case 402
+
+                errorText =
+                    "The SMS could not be sent." &
+                    vbCrLf &
+                    vbCrLf &
+                    "Please check your SMS account or available credits."
+
+
+            '==================================================
+            ' NOT FOUND
+            '==================================================
+            Case 404
+
+                errorText =
+                    "The SMS service endpoint could not be found."
+
+
+            '==================================================
+            ' TIMEOUT
+            '==================================================
+            Case 408
+
+                errorText =
+                    "The SMS provider timed out while processing the request."
+
+
+            '==================================================
+            ' VALIDATION ERROR
+            '==================================================
+            Case 422
+
+                errorText =
+                    "The SMS provider rejected the phone number or message." &
+                    vbCrLf &
+                    vbCrLf &
+                    "Please check the information and try again."
+
+
+            '==================================================
+            ' TOO MANY REQUESTS
+            '==================================================
+            Case 429
+
+                errorText =
+                    "Too many SMS requests were sent." &
+                    vbCrLf &
+                    vbCrLf &
+                    "Please try again later."
+
+
+            '==================================================
+            ' PROVIDER SERVER ERROR
+            '==================================================
+            Case 500 To 599
+
+                errorText =
+                    "The SMS provider is currently experiencing a server problem." &
+                    vbCrLf &
+                    vbCrLf &
+                    "Please try again later."
+
+
+                '==================================================
+                ' OTHER ERROR
+                '==================================================
+            Case Else
+
+                errorText =
+                    "The SMS provider rejected the request." &
+                    vbCrLf &
+                    vbCrLf &
+                    "HTTP Status: " &
+                    statusCode.ToString()
+
+        End Select
+
+
+        Dim providerResponse As String =
+            GetSafeProviderResponse(
+                responseBody
+            )
+
+
+        If providerResponse <> "" Then
+
+            errorText &=
+                vbCrLf &
+                vbCrLf &
+                "Provider Response:" &
+                vbCrLf &
+                providerResponse
+
+        End If
+
+
+        MessageBox.Show(
+            errorText,
+            "SMS Failed",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Warning
+        )
+
+    End Sub
+
+
+    '==================================================
+    ' SAFE PROVIDER RESPONSE
+    '==================================================
+    Private Function GetSafeProviderResponse(
+        responseBody As String
+    ) As String
+
+        If String.IsNullOrWhiteSpace(
+            responseBody
+        ) Then
+
+            Return ""
+
+        End If
+
+
+        Dim result As String =
+            responseBody.Trim()
+
+
+        '==================================================
+        ' LIMIT VERY LONG SERVER RESPONSE
+        '==================================================
+        If result.Length > 500 Then
+
+            result =
+                result.Substring(
+                    0,
+                    500
+                ) &
+                "..."
+
+        End If
+
+
+        Return result
 
     End Function
 
@@ -756,14 +1325,11 @@ Public Class UcSmsNotifications
         lblSelectedStudent.Text =
             "No student selected"
 
-
         lblYearCourse.Text =
             "-"
 
-
         lblContactNumber.Text =
             "-"
-
 
         btnSendSMS.Enabled =
             False
@@ -784,12 +1350,7 @@ Public Class UcSmsNotifications
 
         Try
 
-            If con Is Nothing OrElse
-               con.State <> ConnectionState.Open Then
-
-                vbConnection()
-
-            End If
+            EnsureDatabaseConnection()
 
 
             Dim query As String =
@@ -856,12 +1417,7 @@ Public Class UcSmsNotifications
 
         Try
 
-            If con Is Nothing OrElse
-               con.State <> ConnectionState.Open Then
-
-                vbConnection()
-
-            End If
+            EnsureDatabaseConnection()
 
 
             Dim query As String =
@@ -883,24 +1439,26 @@ Public Class UcSmsNotifications
                 con
             )
 
-                Dim adapter As New OdbcDataAdapter(
+                Using adapter As New OdbcDataAdapter(
                     cmd
                 )
 
-                Dim dt As New DataTable()
+                    Dim dt As New DataTable()
 
-                adapter.Fill(dt)
+                    adapter.Fill(dt)
 
-                dgvSMSLogs.DataSource =
-                    dt
+                    dgvSMSLogs.DataSource =
+                        dt
+
+                End Using
 
             End Using
 
 
+            FormatSmsLogsGrid()
+
             dgvSMSLogs.ClearSelection()
 
-
-            ' Refresh summary every time logs load
             LoadSmsSummary()
 
 
@@ -920,25 +1478,190 @@ Public Class UcSmsNotifications
 
 
     '==================================================
+    ' FORMAT SMS LOGS TABLE
+    '==================================================
+    Private Sub FormatSmsLogsGrid()
+
+        If dgvSMSLogs Is Nothing OrElse
+           dgvSMSLogs.Columns.Count = 0 Then
+
+            Return
+
+        End If
+
+
+        dgvSMSLogs.AutoSizeColumnsMode =
+            DataGridViewAutoSizeColumnsMode.Fill
+
+        dgvSMSLogs.ColumnHeadersDefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+        dgvSMSLogs.DefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+        dgvSMSLogs.RowsDefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+        dgvSMSLogs.AlternatingRowsDefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+
+        dgvSMSLogs.RowsDefaultCellStyle.BackColor =
+            Color.White
+
+        dgvSMSLogs.RowsDefaultCellStyle.ForeColor =
+            Color.Black
+
+        dgvSMSLogs.AlternatingRowsDefaultCellStyle.BackColor =
+            Color.White
+
+        dgvSMSLogs.AlternatingRowsDefaultCellStyle.ForeColor =
+            Color.Black
+
+
+        dgvSMSLogs.DefaultCellStyle.SelectionBackColor =
+            Color.FromArgb(
+                230,
+                220,
+                210
+            )
+
+        dgvSMSLogs.DefaultCellStyle.SelectionForeColor =
+            Color.Black
+
+
+        dgvSMSLogs.RowHeadersVisible =
+            False
+
+        dgvSMSLogs.AllowUserToResizeRows =
+            False
+
+        dgvSMSLogs.RowTemplate.Height =
+            30
+
+
+        For Each row As DataGridViewRow In dgvSMSLogs.Rows
+
+            row.Height = 30
+
+        Next
+
+
+        For Each column As DataGridViewColumn In dgvSMSLogs.Columns
+
+            Dim columnKey As String =
+                column.DataPropertyName
+
+
+            If String.IsNullOrWhiteSpace(
+                columnKey
+            ) Then
+
+                columnKey =
+                    column.Name
+
+            End If
+
+
+            columnKey =
+                columnKey.
+                Trim().
+                ToLowerInvariant()
+
+
+            Select Case columnKey
+
+                Case "student_name",
+                     "collogstudentname"
+
+                    column.HeaderText =
+                        "Student Name"
+
+                    column.FillWeight =
+                        120
+
+
+                Case "contact_number",
+                     "collogcontactnumber"
+
+                    column.HeaderText =
+                        "Contact Number"
+
+                    column.FillWeight =
+                        90
+
+
+                Case "sms_type",
+                     "collogsmstype"
+
+                    column.HeaderText =
+                        "SMS Type"
+
+                    column.FillWeight =
+                        75
+
+
+                Case "message",
+                     "collogmessage"
+
+                    column.HeaderText =
+                        "Message"
+
+                    column.FillWeight =
+                        190
+
+                    column.DefaultCellStyle.WrapMode =
+                        DataGridViewTriState.False
+
+
+                Case "sent_at",
+                     "collogsentat"
+
+                    column.HeaderText =
+                        "Sent At"
+
+                    column.FillWeight =
+                        110
+
+                    column.DefaultCellStyle.Format =
+                        "MMM dd, yyyy hh:mm tt"
+
+
+                Case "status",
+                     "collogstatus"
+
+                    column.HeaderText =
+                        "Status"
+
+                    column.FillWeight =
+                        65
+
+            End Select
+
+
+            column.DefaultCellStyle.Alignment =
+                DataGridViewContentAlignment.MiddleCenter
+
+        Next
+
+    End Sub
+
+
+    '==================================================
     ' SMS SUMMARY
     '==================================================
     Private Sub LoadSmsSummary()
 
         Try
 
-            If con Is Nothing OrElse
-               con.State <> ConnectionState.Open Then
-
-                vbConnection()
-
-            End If
+            EnsureDatabaseConnection()
 
 
             Dim query As String =
                 "SELECT " &
                 "COUNT(*) AS total_logs, " &
-                "SUM(CASE WHEN UPPER(status) = 'SENT' THEN 1 ELSE 0 END) AS sent_count, " &
-                "SUM(CASE WHEN UPPER(status) = 'FAILED' THEN 1 ELSE 0 END) AS failed_count " &
+                "COALESCE(SUM(CASE WHEN UPPER(status) = 'SENT' THEN 1 ELSE 0 END), 0) AS sent_count, " &
+                "COALESCE(SUM(CASE WHEN UPPER(status) = 'FAILED' THEN 1 ELSE 0 END), 0) AS failed_count " &
                 "FROM sms_logs"
 
 
@@ -953,45 +1676,25 @@ Public Class UcSmsNotifications
                     If reader.Read() Then
 
                         lblTotalLogs.Text =
-                            If(
-                                IsDBNull(
-                                    reader(
-                                        "total_logs"
-                                    )
-                                ),
-                                "0",
-                                reader(
-                                    "total_logs"
-                                ).ToString()
-                            )
-
+                            reader(
+                                "total_logs"
+                            ).ToString()
 
                         lblSentCount.Text =
-                            If(
-                                IsDBNull(
-                                    reader(
-                                        "sent_count"
-                                    )
-                                ),
-                                "0",
-                                reader(
-                                    "sent_count"
-                                ).ToString()
-                            )
-
+                            reader(
+                                "sent_count"
+                            ).ToString()
 
                         lblFailedCount.Text =
-                            If(
-                                IsDBNull(
-                                    reader(
-                                        "failed_count"
-                                    )
-                                ),
-                                "0",
-                                reader(
-                                    "failed_count"
-                                ).ToString()
-                            )
+                            reader(
+                                "failed_count"
+                            ).ToString()
+
+                    Else
+
+                        lblTotalLogs.Text = "0"
+                        lblSentCount.Text = "0"
+                        lblFailedCount.Text = "0"
 
                     End If
 
@@ -1032,7 +1735,6 @@ Public Class UcSmsNotifications
         e As DataGridViewCellFormattingEventArgs
     ) Handles dgvSMSLogs.CellFormatting
 
-        ' Invalid row or column
         If e.RowIndex < 0 OrElse
            e.ColumnIndex < 0 Then
 
@@ -1041,7 +1743,6 @@ Public Class UcSmsNotifications
         End If
 
 
-        ' Make sure the column index exists
         If e.ColumnIndex >=
            dgvSMSLogs.Columns.Count Then
 
@@ -1050,7 +1751,6 @@ Public Class UcSmsNotifications
         End If
 
 
-        ' Get the actual column being formatted
         Dim currentColumn As DataGridViewColumn =
             dgvSMSLogs.Columns(
                 e.ColumnIndex
@@ -1062,12 +1762,28 @@ Public Class UcSmsNotifications
         End If
 
 
-        ' Only color the Status column
-        If Not String.Equals(
-            currentColumn.Name,
-            "colLogStatus",
-            StringComparison.OrdinalIgnoreCase
+        Dim columnKey As String =
+            currentColumn.DataPropertyName
+
+
+        If String.IsNullOrWhiteSpace(
+            columnKey
         ) Then
+
+            columnKey =
+                currentColumn.Name
+
+        End If
+
+
+        columnKey =
+            columnKey.
+            Trim().
+            ToLowerInvariant()
+
+
+        If columnKey <> "status" AndAlso
+           columnKey <> "collogstatus" Then
 
             Return
 

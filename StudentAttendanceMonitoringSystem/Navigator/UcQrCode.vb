@@ -45,7 +45,7 @@ Public Class UcQrCode
 
         lblDateTime.Text =
         DateTime.Now.ToString("dddd, MMMM dd, yyyy") &
-        "     |     " &
+        "   |   " &
         DateTime.Now.ToString("hh:mm:ss tt")
 
     End Sub
@@ -54,9 +54,13 @@ Public Class UcQrCode
 
         Try
 
-            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
+            If con Is Nothing OrElse
+           con.State <> ConnectionState.Open Then
+
                 vbConnection()
+
             End If
+
 
             Dim query As String =
             "SELECT " &
@@ -71,50 +75,97 @@ Public Class UcQrCode
             "FROM students " &
             "WHERE 1=1 "
 
+
             If txtSearch.Text.Trim() <> "" Then
-                query &= "AND (students_name LIKE ? OR CAST(students_id AS CHAR) LIKE ?) "
+
+                query &=
+                "AND (" &
+                "students_name LIKE ? " &
+                "OR CAST(students_id AS CHAR) LIKE ?" &
+                ") "
+
             End If
+
 
             If cboQRStatus.Text = "Generated" Then
 
-                query &= "AND qr_code_data IS NOT NULL AND qr_code_data <> '' "
+                query &=
+                "AND qr_code_data IS NOT NULL " &
+                "AND qr_code_data <> '' "
 
             ElseIf cboQRStatus.Text = "Not Generated" Then
 
-                query &= "AND (qr_code_data IS NULL OR qr_code_data = '') "
+                query &=
+                "AND (" &
+                "qr_code_data IS NULL " &
+                "OR qr_code_data = ''" &
+                ") "
 
             End If
 
-            query &= "ORDER BY students_name ASC"
 
-            Using cmd As New OdbcCommand(query, con)
+            query &=
+            "ORDER BY students_name ASC"
+
+
+            Using cmd As New OdbcCommand(
+            query,
+            con
+        )
 
                 If txtSearch.Text.Trim() <> "" Then
 
                     Dim searchValue As String =
-                    "%" & txtSearch.Text.Trim() & "%"
+                    "%" &
+                    txtSearch.Text.Trim() &
+                    "%"
 
-                    cmd.Parameters.AddWithValue("@search1", searchValue)
-                    cmd.Parameters.AddWithValue("@search2", searchValue)
+
+                    cmd.Parameters.AddWithValue(
+                    "@search1",
+                    searchValue
+                )
+
+                    cmd.Parameters.AddWithValue(
+                    "@search2",
+                    searchValue
+                )
 
                 End If
 
-                Dim adapter As New OdbcDataAdapter(cmd)
-                Dim dt As New DataTable()
 
-                adapter.Fill(dt)
+                Using adapter As New OdbcDataAdapter(
+                cmd
+            )
 
-                dgvStudents.DataSource = dt
+                    Dim dt As New DataTable()
+
+                    adapter.Fill(dt)
+
+                    dgvStudents.DataSource =
+                    dt
+
+                End Using
 
             End Using
 
+
+            '==================================================
+            ' CLEAN TABLE HEADERS
+            '==================================================
+            FormatStudentsGrid()
+
+            dgvStudents.ClearSelection()
+
             UpdateSummary()
+
 
         Catch ex As Exception
 
             MessageBox.Show(
+            "Load Students Error: " &
             ex.Message,
-            "Load Students Error",
+            "QR Code Management",
             MessageBoxButtons.OK,
             MessageBoxIcon.Error
         )
@@ -124,7 +175,133 @@ Public Class UcQrCode
     End Sub
 
 
+    '==================================================
+    ' FORMAT STUDENTS TABLE
+    '==================================================
+    Private Sub FormatStudentsGrid()
 
+        If dgvStudents Is Nothing OrElse
+           dgvStudents.Columns.Count = 0 Then
+
+            Return
+
+        End If
+
+
+        '==================================================
+        ' CENTER HEADERS
+        '==================================================
+        dgvStudents.ColumnHeadersDefaultCellStyle.Alignment =
+        DataGridViewContentAlignment.MiddleCenter
+
+
+        '==================================================
+        ' CENTER ALL ROW TEXT
+        '==================================================
+        dgvStudents.DefaultCellStyle.Alignment =
+        DataGridViewContentAlignment.MiddleCenter
+
+        dgvStudents.RowsDefaultCellStyle.Alignment =
+        DataGridViewContentAlignment.MiddleCenter
+
+        dgvStudents.AlternatingRowsDefaultCellStyle.Alignment =
+        DataGridViewContentAlignment.MiddleCenter
+
+
+        '==================================================
+        ' COLUMN STYLE
+        '==================================================
+        For Each column As DataGridViewColumn In
+        dgvStudents.Columns
+
+
+            Dim columnKey As String =
+            column.DataPropertyName
+
+
+            If String.IsNullOrWhiteSpace(
+            columnKey
+        ) Then
+
+                columnKey =
+                column.Name
+
+            End If
+
+
+            columnKey =
+            columnKey.
+            Trim().
+            ToLowerInvariant()
+
+
+            Select Case columnKey
+
+            '==================================================
+            ' STUDENT ID
+            '==================================================
+                Case "students_id",
+                 "student_id",
+                 "colstudentid"
+
+                    column.HeaderText =
+                    "Student ID"
+
+                    column.FillWeight =
+                    55
+
+
+            '==================================================
+            ' STUDENT NAME
+            '==================================================
+                Case "students_name",
+                 "student_name",
+                 "colstudentname"
+
+                    column.HeaderText =
+                    "Student Name"
+
+                    column.FillWeight =
+                    130
+
+
+            '==================================================
+            ' YEAR / COURSE
+            '==================================================
+                Case "year_course",
+                 "colyearcourse"
+
+                    column.HeaderText =
+                    "Year / Course"
+
+                    column.FillWeight =
+                    100
+
+
+            '==================================================
+            ' QR STATUS
+            '==================================================
+                Case "qr_status",
+                 "colqrstatus"
+
+                    column.HeaderText =
+                    "QR Status"
+
+                    column.FillWeight =
+                    80
+
+            End Select
+
+
+            '==================================================
+            ' CENTER EVERY COLUMN
+            '==================================================
+            column.DefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+        Next
+
+    End Sub
 
     Private Sub UC_QRCodeGenerate_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -161,96 +338,260 @@ Public Class UcQrCode
     End Sub
 
     Private Sub dgvStudents_CellClick(
-    sender As Object,
-    e As DataGridViewCellEventArgs
-) Handles dgvStudents.CellClick
+        sender As Object,
+        e As DataGridViewCellEventArgs
+    ) Handles dgvStudents.CellClick
 
-        If e.RowIndex < 0 Then Return
+        If e.RowIndex < 0 Then
+            Return
+        End If
 
-        Dim studentId As Integer =
-        Convert.ToInt32(
-            dgvStudents.Rows(e.RowIndex).
-            Cells("colStudentID").Value
+        Try
+
+            Dim selectedRow As DataGridViewRow =
+            dgvStudents.Rows(e.RowIndex)
+
+            If selectedRow Is Nothing Then
+                Return
+            End If
+
+
+            Dim rowView As DataRowView =
+            TryCast(
+                selectedRow.DataBoundItem,
+                DataRowView
+            )
+
+            If rowView Is Nothing Then
+
+                MessageBox.Show(
+                "Unable to read the selected student.",
+                "QR Code Management",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning
+            )
+
+                Return
+
+            End If
+
+
+            If Not rowView.Row.Table.Columns.Contains(
+            "students_id"
+        ) Then
+
+                MessageBox.Show(
+                "Student ID column was not found.",
+                "QR Code Management",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning
+            )
+
+                Return
+
+            End If
+
+
+            If IsDBNull(rowView("students_id")) Then
+                Return
+            End If
+
+
+            Dim studentId As Integer =
+            Convert.ToInt32(
+                rowView("students_id")
+            )
+
+
+            LoadStudentPreview(studentId)
+
+
+        Catch ex As Exception
+
+            MessageBox.Show(
+            "Student Selection Error: " &
+            ex.Message,
+            "QR Code Management",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error
         )
 
-        LoadStudentPreview(studentId)
+        End Try
 
     End Sub
 
-    Private Sub LoadStudentPreview(studentId As Integer)
+    Private Sub LoadStudentPreview(
+        studentId As Integer
+    )
 
         Try
 
             If con Is Nothing OrElse
-                con.State <> ConnectionState.Open Then
+           con.State <> ConnectionState.Open Then
 
                 vbConnection()
 
             End If
 
+
             Dim query As String =
-                "SELECT students_id, students_name, " &
-                "year_level, course, qr_code_data " &
-                "FROM students " &
-                "WHERE students_id = ?"
+            "SELECT " &
+            "students_id, " &
+            "students_name, " &
+            "year_level, " &
+            "course, " &
+            "qr_code_data " &
+            "FROM students " &
+            "WHERE students_id = ?"
 
-            Using cmd As New OdbcCommand(query, con)
 
-                cmd.Parameters.AddWithValue("@id", studentId)
+            Using cmd As New OdbcCommand(
+            query,
+            con
+        )
+
+                cmd.Parameters.AddWithValue(
+                "@id",
+                studentId
+            )
+
 
                 Using reader As OdbcDataReader =
-                    cmd.ExecuteReader()
+                cmd.ExecuteReader()
 
                     If reader.Read() Then
 
                         selectedStudentId =
-                            Convert.ToInt32(reader("students_id"))
+                        Convert.ToInt32(
+                            reader("students_id")
+                        )
+
 
                         selectedStudentName =
-                            reader("students_name").ToString()
+                        If(
+                            IsDBNull(
+                                reader("students_name")
+                            ),
+                            "",
+                            reader(
+                                "students_name"
+                            ).ToString()
+                        )
+
 
                         selectedQRToken =
-                            If(
-                                IsDBNull(reader("qr_code_data")),
-                                "",
-                                reader("qr_code_data").ToString()
-                            )
+                        If(
+                            IsDBNull(
+                                reader("qr_code_data")
+                            ),
+                            "",
+                            reader(
+                                "qr_code_data"
+                            ).ToString().Trim()
+                        )
+
+
+                        Dim yearLevel As String =
+                        If(
+                            IsDBNull(
+                                reader("year_level")
+                            ),
+                            "",
+                            reader(
+                                "year_level"
+                            ).ToString()
+                        )
+
+
+                        Dim course As String =
+                        If(
+                            IsDBNull(
+                                reader("course")
+                            ),
+                            "",
+                            reader(
+                                "course"
+                            ).ToString()
+                        )
+
 
                         lblStudentName.Text =
-                            selectedStudentName
+                        selectedStudentName
 
                         lblStudentID.Text =
-                            selectedStudentId.ToString()
+                        selectedStudentId.ToString()
 
-                        lblYearCourse.Text =
-                            reader("year_level").ToString() &
+
+                        If yearLevel <> "" AndAlso
+                       course <> "" Then
+
+                            lblYearCourse.Text =
+                            yearLevel &
                             " - " &
-                            reader("course").ToString()
+                            course
 
-                        If selectedQRToken = "" Then
+                        ElseIf yearLevel <> "" Then
 
-                            lblQRStatus.Text = "NOT GENERATED"
+                            lblYearCourse.Text =
+                            yearLevel
 
-                            picQRCode.Image = Nothing
+                        ElseIf course <> "" Then
 
-                            btnGenerateQR.Text =
-                                "Generate QR Code"
-
-                            btnDownloadQR.Enabled = False
+                            lblYearCourse.Text =
+                            course
 
                         Else
 
-                            lblQRStatus.Text = "GENERATED"
-
-                            picQRCode.Image =
-                                CreateQRCode(selectedQRToken)
-
-                            btnGenerateQR.Text =
-                                "Generate New QR"
-
-                            btnDownloadQR.Enabled = True
+                            lblYearCourse.Text =
+                            "-"
 
                         End If
+
+
+                        If String.IsNullOrWhiteSpace(
+                        selectedQRToken
+                    ) Then
+
+                            lblQRStatus.Text =
+                            "NOT GENERATED"
+
+                            picQRCode.Image =
+                            Nothing
+
+                            btnGenerateQR.Text =
+                            "Generate QR Code"
+
+                            btnDownloadQR.Enabled =
+                            False
+
+                        Else
+
+                            lblQRStatus.Text =
+                            "GENERATED"
+
+                            picQRCode.Image =
+                            CreateQRCode(
+                                selectedQRToken
+                            )
+
+                            btnGenerateQR.Text =
+                            "Generate New QR"
+
+                            btnDownloadQR.Enabled =
+                            True
+
+                        End If
+
+                    Else
+
+                        ClearPreview()
+
+                        MessageBox.Show(
+                        "Student record was not found.",
+                        "QR Code Management",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    )
 
                     End If
 
@@ -258,14 +599,16 @@ Public Class UcQrCode
 
             End Using
 
+
         Catch ex As Exception
 
             MessageBox.Show(
-                ex.Message,
-                "Preview Error",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error
-            )
+            "Preview Error: " &
+            ex.Message,
+            "QR Code Management",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error
+        )
 
         End Try
 

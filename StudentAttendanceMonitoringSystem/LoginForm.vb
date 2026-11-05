@@ -30,6 +30,17 @@ Public Class LoginForm
             txtUsername.Clear()
             txtPassword.Clear()
 
+
+            '==================================================
+            ' PASSWORD DEFAULT STATE
+            '==================================================
+            chkShowPassword.Checked =
+                False
+
+            txtPassword.UseSystemPasswordChar =
+                True
+
+
             txtUsername.Focus()
 
 
@@ -81,7 +92,8 @@ Public Class LoginForm
         '==============================================
         ' VALIDATION
         '==============================================
-        If username = "" AndAlso password = "" Then
+        If username = "" AndAlso
+           password = "" Then
 
             ShowLoginError(
                 "Please enter your username and password."
@@ -120,8 +132,11 @@ Public Class LoginForm
         End If
 
 
-        ' Prevent multiple clicks while checking
-        btnLogin.Enabled = False
+        '==============================================
+        ' PREVENT MULTIPLE CLICKS
+        '==============================================
+        btnLogin.Enabled =
+            False
 
 
         Try
@@ -156,7 +171,8 @@ Public Class LoginForm
                     "@username",
                     OdbcType.VarChar,
                     50
-                ).Value = username
+                ).Value =
+                    username
 
 
                 Using reader As OdbcDataReader =
@@ -176,17 +192,26 @@ Public Class LoginForm
 
 
                     Dim dbUsername As String =
-                        reader("Username").ToString()
+                        reader(
+                            "Username"
+                        ).ToString()
+
 
                     Dim dbPassword As String =
-                        reader("Password").ToString()
+                        reader(
+                            "Password"
+                        ).ToString()
+
 
                     Dim userRole As String =
-                        reader("Role").ToString().Trim()
+                        reader(
+                            "Role"
+                        ).ToString().
+                        Trim()
 
 
                     '======================================
-                    ' CHECK PASSWORD
+                    ' CHECK USERNAME
                     '======================================
                     Dim usernameCorrect As Boolean =
                         String.Equals(
@@ -196,11 +221,14 @@ Public Class LoginForm
                         )
 
 
+                    '======================================
+                    ' CHECK PASSWORD
+                    '======================================
                     Dim passwordCorrect As Boolean =
-                    VerifyPassword(
-                        password,
-                        dbPassword
-                    )
+                        VerifyPassword(
+                            password,
+                            dbPassword
+                        )
 
 
                     If Not usernameCorrect OrElse
@@ -212,15 +240,18 @@ Public Class LoginForm
 
                     End If
 
+
                     '==============================================
                     ' UPGRADE OLD PLAINTEXT PASSWORD
                     '==============================================
-                    If Not IsHashedPassword(dbPassword) Then
+                    If Not IsHashedPassword(
+                        dbPassword
+                    ) Then
 
                         UpgradePasswordHash(
-                        dbUsername,
-                        password
-                    )
+                            dbUsername,
+                            password
+                        )
 
                     End If
 
@@ -228,7 +259,9 @@ Public Class LoginForm
                     '======================================
                     ' LOGIN SUCCESS
                     '======================================
-                    loginAttempts = 0
+                    loginAttempts =
+                        0
+
 
                     lblLoginMessage.ForeColor =
                         Color.FromArgb(
@@ -237,11 +270,14 @@ Public Class LoginForm
                             55
                         )
 
+
                     lblLoginMessage.Text =
                         "Login successful."
 
 
-                    ' Save role before reader closes
+                    '======================================
+                    ' SAVE ROLE BEFORE READER CLOSES
+                    '======================================
                     Dim role As String =
                         userRole
 
@@ -249,7 +285,9 @@ Public Class LoginForm
                     '======================================
                     ' OPEN CORRECT FORM
                     '======================================
-                    OpenUserForm(role)
+                    OpenUserForm(
+                        role
+                    )
 
                 End Using
 
@@ -286,8 +324,11 @@ Public Class LoginForm
 
         Finally
 
-            btnLogin.Enabled = True
-            btnLogin.Text = "LOGIN"
+            btnLogin.Enabled =
+                True
+
+            btnLogin.Text =
+                "LOGIN"
 
         End Try
 
@@ -303,10 +344,21 @@ Public Class LoginForm
 
 
         Dim remainingAttempts As Integer =
-            MaxLoginAttempts - loginAttempts
+            MaxLoginAttempts -
+            loginAttempts
 
 
         txtPassword.Clear()
+
+
+        '==================================================
+        ' HIDE PASSWORD AGAIN AFTER FAILED LOGIN
+        '==================================================
+        chkShowPassword.Checked =
+            False
+
+        txtPassword.UseSystemPasswordChar =
+            True
 
 
         If remainingAttempts > 0 Then
@@ -402,10 +454,22 @@ Public Class LoginForm
             '==============================================
             Me.Show()
 
+
             txtUsername.Clear()
             txtPassword.Clear()
 
             lblLoginMessage.Text = ""
+
+
+            '==============================================
+            ' RESET SHOW PASSWORD
+            '==============================================
+            chkShowPassword.Checked =
+                False
+
+            txtPassword.UseSystemPasswordChar =
+                True
+
 
             txtUsername.Focus()
 
@@ -443,9 +507,25 @@ Public Class LoginForm
     ) Handles txtUsername.TextChanged,
               txtPassword.TextChanged
 
-        lblLoginMessage.Text = ""
+        lblLoginMessage.Text =
+            ""
 
     End Sub
+
+
+    '==================================================
+    ' SHOW / HIDE PASSWORD
+    '==================================================
+    Private Sub chkShowPassword_CheckedChanged(
+        sender As Object,
+        e As EventArgs
+    ) Handles chkShowPassword.CheckedChanged
+
+        txtPassword.UseSystemPasswordChar =
+            Not chkShowPassword.Checked
+
+    End Sub
+
 
     '==================================================
     ' UPGRADE OLD PASSWORD TO HASH
@@ -478,14 +558,16 @@ Public Class LoginForm
                     "@password",
                     OdbcType.VarChar,
                     255
-                ).Value = hashedPassword
+                ).Value =
+                    hashedPassword
 
 
                 cmd.Parameters.Add(
                     "@username",
                     OdbcType.VarChar,
                     50
-                ).Value = username
+                ).Value =
+                    username
 
 
                 cmd.ExecuteNonQuery()

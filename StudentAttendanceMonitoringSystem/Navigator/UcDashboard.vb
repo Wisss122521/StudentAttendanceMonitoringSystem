@@ -13,6 +13,7 @@ Public Class UcDashboard
     ) Handles MyBase.Load
 
         Try
+
             EnsureDatabaseConnection()
 
             Me.AutoScroll = True
@@ -92,11 +93,16 @@ Public Class UcDashboard
     '==================================================
     ' GET COUNT FROM DATABASE
     '==================================================
-    Private Function GetCount(query As String) As Integer
+    Private Function GetCount(
+        query As String
+    ) As Integer
 
         EnsureDatabaseConnection()
 
-        Using cmd As New OdbcCommand(query, con)
+        Using cmd As New OdbcCommand(
+            query,
+            con
+        )
 
             Dim result As Object =
                 cmd.ExecuteScalar()
@@ -108,7 +114,9 @@ Public Class UcDashboard
 
             End If
 
-            Return Convert.ToInt32(result)
+            Return Convert.ToInt32(
+                result
+            )
 
         End Using
 
@@ -122,7 +130,12 @@ Public Class UcDashboard
 
         Try
 
-            ' Total registered students
+            EnsureDatabaseConnection()
+
+
+            '==================================================
+            ' TOTAL REGISTERED STUDENTS
+            '==================================================
             lblTotalStudents.Text =
                 GetCount(
                     "SELECT COUNT(*) " &
@@ -130,7 +143,9 @@ Public Class UcDashboard
                 ).ToString()
 
 
-            ' Students with generated QR code
+            '==================================================
+            ' STUDENTS WITH GENERATED QR
+            '==================================================
             lblQRGenerated.Text =
                 GetCount(
                     "SELECT COUNT(*) " &
@@ -140,26 +155,32 @@ Public Class UcDashboard
                 ).ToString()
 
 
-            ' Entry records today
+            '==================================================
+            ' ENTRY RECORDS TODAY
+            '==================================================
             lblTodayEntry.Text =
                 GetCount(
-                    "SELECT COUNT(DISTINCT students_id) " &
+                    "SELECT COUNT(*) " &
                     "FROM attendance_records " &
                     "WHERE attendance_date = CURDATE()"
                 ).ToString()
 
 
-            ' Completed exits today
+            '==================================================
+            ' COMPLETED EXIT RECORDS TODAY
+            '==================================================
             lblTodayExit.Text =
                 GetCount(
-                    "SELECT COUNT(DISTINCT students_id) " &
+                    "SELECT COUNT(*) " &
                     "FROM attendance_records " &
                     "WHERE attendance_date = CURDATE() " &
                     "AND time_out IS NOT NULL"
                 ).ToString()
 
 
-            ' Students without QR code
+            '==================================================
+            ' STUDENTS WITHOUT GENERATED QR
+            '==================================================
             lblQRNotGenerated.Text =
                 GetCount(
                     "SELECT COUNT(*) " &
@@ -169,7 +190,9 @@ Public Class UcDashboard
                 ).ToString()
 
 
-            ' Entry records without exit today
+            '==================================================
+            ' OPEN ENTRY RECORDS / NO EXIT TODAY
+            '==================================================
             lblNoExitToday.Text =
                 GetCount(
                     "SELECT COUNT(*) " &
@@ -179,7 +202,9 @@ Public Class UcDashboard
                 ).ToString()
 
 
-            ' Failed SMS logs
+            '==================================================
+            ' FAILED SMS TODAY
+            '==================================================
             lblFailedSMS.Text =
                 GetCount(
                     "SELECT COUNT(*) " &
@@ -211,7 +236,9 @@ Public Class UcDashboard
     Private Sub LoadRecentEntryExit()
 
         Try
+
             EnsureDatabaseConnection()
+
 
             Dim query As String =
                 "SELECT " &
@@ -228,13 +255,20 @@ Public Class UcDashboard
                 "LIMIT 10"
 
 
-            Using cmd As New OdbcCommand(query, con)
+            Using cmd As New OdbcCommand(
+                query,
+                con
+            )
 
-                Using adapter As New OdbcDataAdapter(cmd)
+                Using adapter As New OdbcDataAdapter(
+                    cmd
+                )
 
                     Dim table As New DataTable()
 
-                    adapter.Fill(table)
+                    adapter.Fill(
+                        table
+                    )
 
                     dgvRecentEntryExit.DataSource =
                         table
@@ -270,12 +304,111 @@ Public Class UcDashboard
     '==================================================
     Private Sub FormatEntryExitGrid()
 
+        If dgvRecentEntryExit Is Nothing OrElse
+           dgvRecentEntryExit.Columns.Count = 0 Then
+
+            Return
+
+        End If
+
+
+        '==================================================
+        ' GENERAL TABLE STYLE
+        '==================================================
+        dgvRecentEntryExit.AutoSizeColumnsMode =
+            DataGridViewAutoSizeColumnsMode.Fill
+
+        dgvRecentEntryExit.ColumnHeadersDefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+
+        ' CENTER ALL ROW TEXT
+        dgvRecentEntryExit.DefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+        dgvRecentEntryExit.RowsDefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+        dgvRecentEntryExit.AlternatingRowsDefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+
+        ' SAME ROW COLOR
+        dgvRecentEntryExit.RowsDefaultCellStyle.BackColor =
+            Color.White
+
+        dgvRecentEntryExit.RowsDefaultCellStyle.ForeColor =
+            Color.Black
+
+        dgvRecentEntryExit.AlternatingRowsDefaultCellStyle.BackColor =
+            Color.White
+
+        dgvRecentEntryExit.AlternatingRowsDefaultCellStyle.ForeColor =
+            Color.Black
+
+
+        ' SELECTION COLOR
+        dgvRecentEntryExit.DefaultCellStyle.SelectionBackColor =
+            Color.FromArgb(
+                230,
+                220,
+                210
+            )
+
+        dgvRecentEntryExit.DefaultCellStyle.SelectionForeColor =
+            Color.Black
+
+
+        dgvRecentEntryExit.RowHeadersVisible =
+            False
+
+        dgvRecentEntryExit.AllowUserToResizeRows =
+            False
+
+        dgvRecentEntryExit.RowTemplate.Height =
+            30
+
+
+        For Each row As DataGridViewRow In
+            dgvRecentEntryExit.Rows
+
+            row.Height =
+                30
+
+        Next
+
+
+        '==================================================
+        ' COLUMNS
+        '==================================================
         For Each column As DataGridViewColumn In
             dgvRecentEntryExit.Columns
 
-            Select Case column.DataPropertyName
 
-                Case "student_id"
+            Dim columnKey As String =
+                column.DataPropertyName
+
+
+            If String.IsNullOrWhiteSpace(
+                columnKey
+            ) Then
+
+                columnKey =
+                    column.Name
+
+            End If
+
+
+            columnKey =
+                columnKey.
+                Trim().
+                ToLowerInvariant()
+
+
+            Select Case columnKey
+
+                Case "student_id",
+                     "colstudentid"
 
                     column.HeaderText =
                         "Student ID"
@@ -284,7 +417,8 @@ Public Class UcDashboard
                         60
 
 
-                Case "student_name"
+                Case "student_name",
+                     "colstudentname"
 
                     column.HeaderText =
                         "Student Name"
@@ -293,7 +427,8 @@ Public Class UcDashboard
                         120
 
 
-                Case "year_course"
+                Case "year_course",
+                     "colyearcourse"
 
                     column.HeaderText =
                         "Year / Course"
@@ -302,7 +437,8 @@ Public Class UcDashboard
                         100
 
 
-                Case "time_in"
+                Case "time_in",
+                     "coltimein"
 
                     column.HeaderText =
                         "Time In"
@@ -311,7 +447,8 @@ Public Class UcDashboard
                         75
 
 
-                Case "time_out"
+                Case "time_out",
+                     "coltimeout"
 
                     column.HeaderText =
                         "Time Out"
@@ -320,6 +457,11 @@ Public Class UcDashboard
                         75
 
             End Select
+
+
+            ' CENTER EVERY COLUMN
+            column.DefaultCellStyle.Alignment =
+                DataGridViewContentAlignment.MiddleCenter
 
         Next
 
@@ -332,7 +474,9 @@ Public Class UcDashboard
     Private Sub LoadRecentSMS()
 
         Try
+
             EnsureDatabaseConnection()
+
 
             Dim query As String =
                 "SELECT " &
@@ -347,13 +491,20 @@ Public Class UcDashboard
                 "LIMIT 10"
 
 
-            Using cmd As New OdbcCommand(query, con)
+            Using cmd As New OdbcCommand(
+                query,
+                con
+            )
 
-                Using adapter As New OdbcDataAdapter(cmd)
+                Using adapter As New OdbcDataAdapter(
+                    cmd
+                )
 
                     Dim table As New DataTable()
 
-                    adapter.Fill(table)
+                    adapter.Fill(
+                        table
+                    )
 
                     dgvRecentSMS.DataSource =
                         table
@@ -389,12 +540,111 @@ Public Class UcDashboard
     '==================================================
     Private Sub FormatSMSGrid()
 
+        If dgvRecentSMS Is Nothing OrElse
+           dgvRecentSMS.Columns.Count = 0 Then
+
+            Return
+
+        End If
+
+
+        '==================================================
+        ' GENERAL TABLE STYLE
+        '==================================================
+        dgvRecentSMS.AutoSizeColumnsMode =
+            DataGridViewAutoSizeColumnsMode.Fill
+
+        dgvRecentSMS.ColumnHeadersDefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+
+        ' CENTER ALL ROW TEXT
+        dgvRecentSMS.DefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+        dgvRecentSMS.RowsDefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+        dgvRecentSMS.AlternatingRowsDefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+
+        ' SAME ROW COLOR
+        dgvRecentSMS.RowsDefaultCellStyle.BackColor =
+            Color.White
+
+        dgvRecentSMS.RowsDefaultCellStyle.ForeColor =
+            Color.Black
+
+        dgvRecentSMS.AlternatingRowsDefaultCellStyle.BackColor =
+            Color.White
+
+        dgvRecentSMS.AlternatingRowsDefaultCellStyle.ForeColor =
+            Color.Black
+
+
+        ' SELECTION COLOR
+        dgvRecentSMS.DefaultCellStyle.SelectionBackColor =
+            Color.FromArgb(
+                230,
+                220,
+                210
+            )
+
+        dgvRecentSMS.DefaultCellStyle.SelectionForeColor =
+            Color.Black
+
+
+        dgvRecentSMS.RowHeadersVisible =
+            False
+
+        dgvRecentSMS.AllowUserToResizeRows =
+            False
+
+        dgvRecentSMS.RowTemplate.Height =
+            30
+
+
+        For Each row As DataGridViewRow In
+            dgvRecentSMS.Rows
+
+            row.Height =
+                30
+
+        Next
+
+
+        '==================================================
+        ' COLUMNS
+        '==================================================
         For Each column As DataGridViewColumn In
             dgvRecentSMS.Columns
 
-            Select Case column.DataPropertyName
 
-                Case "student_name"
+            Dim columnKey As String =
+                column.DataPropertyName
+
+
+            If String.IsNullOrWhiteSpace(
+                columnKey
+            ) Then
+
+                columnKey =
+                    column.Name
+
+            End If
+
+
+            columnKey =
+                columnKey.
+                Trim().
+                ToLowerInvariant()
+
+
+            Select Case columnKey
+
+                Case "student_name",
+                     "colstudentname"
 
                     column.HeaderText =
                         "Student"
@@ -403,7 +653,8 @@ Public Class UcDashboard
                         110
 
 
-                Case "sms_type"
+                Case "sms_type",
+                     "colsmstype"
 
                     column.HeaderText =
                         "Type"
@@ -412,7 +663,8 @@ Public Class UcDashboard
                         60
 
 
-                Case "sent_at"
+                Case "sent_at",
+                     "colsentat"
 
                     column.HeaderText =
                         "Date / Time"
@@ -420,8 +672,12 @@ Public Class UcDashboard
                     column.FillWeight =
                         95
 
+                    column.DefaultCellStyle.Format =
+                        "MMM dd, yyyy hh:mm tt"
 
-                Case "status"
+
+                Case "status",
+                     "colstatus"
 
                     column.HeaderText =
                         "Status"
@@ -430,6 +686,11 @@ Public Class UcDashboard
                         60
 
             End Select
+
+
+            ' CENTER EVERY COLUMN
+            column.DefaultCellStyle.Alignment =
+                DataGridViewContentAlignment.MiddleCenter
 
         Next
 
@@ -444,6 +705,7 @@ Public Class UcDashboard
         e As DataGridViewCellFormattingEventArgs
     ) Handles dgvRecentEntryExit.CellFormatting
 
+
         If e.RowIndex < 0 OrElse
            e.ColumnIndex < 0 Then
 
@@ -452,20 +714,71 @@ Public Class UcDashboard
         End If
 
 
-        Dim column As DataGridViewColumn =
-            dgvRecentEntryExit.Columns(e.ColumnIndex)
+        If dgvRecentEntryExit Is Nothing Then
 
-
-        ' Only format the Time Out column
-        If column.DataPropertyName <> "time_out" Then
             Return
+
+        End If
+
+
+        If e.ColumnIndex >=
+           dgvRecentEntryExit.Columns.Count Then
+
+            Return
+
+        End If
+
+
+        Dim column As DataGridViewColumn =
+            dgvRecentEntryExit.Columns(
+                e.ColumnIndex
+            )
+
+
+        If column Is Nothing Then
+
+            Return
+
+        End If
+
+
+        Dim columnKey As String =
+            column.DataPropertyName
+
+
+        If String.IsNullOrWhiteSpace(
+            columnKey
+        ) Then
+
+            columnKey =
+                column.Name
+
+        End If
+
+
+        columnKey =
+            columnKey.
+            Trim().
+            ToLowerInvariant()
+
+
+        '==================================================
+        ' ONLY FORMAT TIME OUT
+        '==================================================
+        If columnKey <> "time_out" AndAlso
+           columnKey <> "coltimeout" Then
+
+            Return
+
         End If
 
 
         Dim hasTimeOut As Boolean =
             e.Value IsNot Nothing AndAlso
             Not IsDBNull(e.Value) AndAlso
-            e.Value.ToString().Trim() <> ""
+            Not String.IsNullOrWhiteSpace(
+                e.Value.ToString()
+            )
 
 
         If hasTimeOut Then
@@ -476,7 +789,8 @@ Public Class UcDashboard
 
         Else
 
-            e.Value = "-"
+            e.Value =
+                "-"
 
             ApplyWarningStyle(
                 e.CellStyle
@@ -498,6 +812,7 @@ Public Class UcDashboard
         e As DataGridViewCellFormattingEventArgs
     ) Handles dgvRecentSMS.CellFormatting
 
+
         If e.RowIndex < 0 OrElse
            e.ColumnIndex < 0 Then
 
@@ -506,13 +821,62 @@ Public Class UcDashboard
         End If
 
 
-        Dim column As DataGridViewColumn =
-            dgvRecentSMS.Columns(e.ColumnIndex)
+        If dgvRecentSMS Is Nothing Then
 
-
-        ' Only format the Status column
-        If column.DataPropertyName <> "status" Then
             Return
+
+        End If
+
+
+        If e.ColumnIndex >=
+           dgvRecentSMS.Columns.Count Then
+
+            Return
+
+        End If
+
+
+        Dim column As DataGridViewColumn =
+            dgvRecentSMS.Columns(
+                e.ColumnIndex
+            )
+
+
+        If column Is Nothing Then
+
+            Return
+
+        End If
+
+
+        Dim columnKey As String =
+            column.DataPropertyName
+
+
+        If String.IsNullOrWhiteSpace(
+            columnKey
+        ) Then
+
+            columnKey =
+                column.Name
+
+        End If
+
+
+        columnKey =
+            columnKey.
+            Trim().
+            ToLowerInvariant()
+
+
+        '==================================================
+        ' ONLY FORMAT STATUS
+        '==================================================
+        If columnKey <> "status" AndAlso
+           columnKey <> "colstatus" Then
+
+            Return
+
         End If
 
 
@@ -527,7 +891,7 @@ Public Class UcDashboard
         Dim status As String =
             e.Value.ToString().
             Trim().
-            ToUpper()
+            ToUpperInvariant()
 
 
         Select Case status
@@ -551,11 +915,18 @@ Public Class UcDashboard
 
 
     '==================================================
-    ' GREEN CELL STYLE
+    ' GREEN / SUCCESS CELL STYLE
     '==================================================
     Private Sub ApplySuccessStyle(
         style As DataGridViewCellStyle
     )
+
+        If style Is Nothing Then
+
+            Return
+
+        End If
+
 
         style.BackColor =
             Color.FromArgb(
@@ -564,6 +935,7 @@ Public Class UcDashboard
                 224
             )
 
+
         style.ForeColor =
             Color.FromArgb(
                 32,
@@ -571,12 +943,25 @@ Public Class UcDashboard
                 55
             )
 
+
         style.SelectionBackColor =
             Color.FromArgb(
                 190,
                 225,
                 197
             )
+
+
+        style.SelectionForeColor =
+            Color.FromArgb(
+                32,
+                110,
+                55
+            )
+
+
+        style.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
 
     End Sub
 
@@ -588,12 +973,20 @@ Public Class UcDashboard
         style As DataGridViewCellStyle
     )
 
+        If style Is Nothing Then
+
+            Return
+
+        End If
+
+
         style.BackColor =
             Color.FromArgb(
                 250,
                 218,
                 218
             )
+
 
         style.ForeColor =
             Color.FromArgb(
@@ -602,6 +995,7 @@ Public Class UcDashboard
                 45
             )
 
+
         style.SelectionBackColor =
             Color.FromArgb(
                 238,
@@ -609,6 +1003,19 @@ Public Class UcDashboard
                 190
             )
 
+
+        style.SelectionForeColor =
+            Color.FromArgb(
+                170,
+                45,
+                45
+            )
+
+
+        style.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
     End Sub
+
 
 End Class

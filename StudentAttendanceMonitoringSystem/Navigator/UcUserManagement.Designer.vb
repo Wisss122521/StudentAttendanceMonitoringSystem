@@ -3,7 +3,7 @@ Partial Class UcUserManagement
 
     Inherits System.Windows.Forms.UserControl
 
-    'UserControl overrides dispose to clean up the component list.
+
     <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(disposing As Boolean)
 
@@ -25,10 +25,6 @@ Partial Class UcUserManagement
     Private components As System.ComponentModel.IContainer
 
 
-    'NOTE:
-    'The following procedure is required by the Windows Form Designer.
-    'It can be modified using the Windows Form Designer.
-    'Do not modify it using the code editor unless necessary.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
@@ -62,16 +58,20 @@ Partial Class UcUserManagement
         pnlUserAccountsHeader = New Panel()
         lblUserAccountsTitle = New Label()
         pnlSummary = New Panel()
-        pnlGuardAccounts = New Panel()
-        lblGuardCount = New Label()
-        lblGuardAccountsTitle = New Label()
-        pnlAdminAccounts = New Panel()
-        lblAdminCount = New Label()
-        lblAdminAccountsTitle = New Label()
-        pnlTotalUsers = New Panel()
-        lblTotalUsers = New Label()
-        lblTotalUsersTitle = New Label()
         lblSummaryTitle = New Label()
+        tlpSummary = New TableLayoutPanel()
+        pnlTotalUsers = New Panel()
+        picTotalUsersIcon = New PictureBox()
+        lblTotalUsersTitle = New Label()
+        lblTotalUsers = New Label()
+        pnlAdminAccounts = New Panel()
+        picAdminAccountsIcon = New PictureBox()
+        lblAdminAccountsTitle = New Label()
+        lblAdminCount = New Label()
+        pnlGuardAccounts = New Panel()
+        picGuardAccountsIcon = New PictureBox()
+        lblGuardAccountsTitle = New Label()
+        lblGuardCount = New Label()
         timerClock = New Timer(components)
         pnlHeader.SuspendLayout()
         pnlUserInformation.SuspendLayout()
@@ -80,9 +80,13 @@ Partial Class UcUserManagement
         CType(dgvUsers, ComponentModel.ISupportInitialize).BeginInit()
         pnlUserAccountsHeader.SuspendLayout()
         pnlSummary.SuspendLayout()
-        pnlGuardAccounts.SuspendLayout()
-        pnlAdminAccounts.SuspendLayout()
+        tlpSummary.SuspendLayout()
         pnlTotalUsers.SuspendLayout()
+        CType(picTotalUsersIcon, ComponentModel.ISupportInitialize).BeginInit()
+        pnlAdminAccounts.SuspendLayout()
+        CType(picAdminAccountsIcon, ComponentModel.ISupportInitialize).BeginInit()
+        pnlGuardAccounts.SuspendLayout()
+        CType(picGuardAccountsIcon, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' pnlHeader
@@ -102,7 +106,7 @@ Partial Class UcUserManagement
         ' lblDateTime
         ' 
         lblDateTime.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        lblDateTime.Font = New Font("Segoe UI Semibold", 10.0F, FontStyle.Bold)
+        lblDateTime.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
         lblDateTime.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
         lblDateTime.Location = New Point(648, 24)
         lblDateTime.Name = "lblDateTime"
@@ -114,7 +118,7 @@ Partial Class UcUserManagement
         ' lblSubtitle
         ' 
         lblSubtitle.AutoSize = True
-        lblSubtitle.Font = New Font("Segoe UI", 10.0F)
+        lblSubtitle.Font = New Font("Segoe UI", 10F)
         lblSubtitle.ForeColor = Color.FromArgb(CByte(117), CByte(87), CByte(71))
         lblSubtitle.Location = New Point(23, 44)
         lblSubtitle.Name = "lblSubtitle"
@@ -125,9 +129,9 @@ Partial Class UcUserManagement
         ' lblTitle
         ' 
         lblTitle.AutoSize = True
-        lblTitle.Font = New Font("Georgia", 24.0F, FontStyle.Bold)
+        lblTitle.Font = New Font("Georgia", 24F, FontStyle.Bold)
         lblTitle.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
-        lblTitle.Location = New Point(19, 10)
+        lblTitle.Location = New Point(19, 6)
         lblTitle.Name = "lblTitle"
         lblTitle.Size = New Size(318, 38)
         lblTitle.TabIndex = 0
@@ -154,7 +158,7 @@ Partial Class UcUserManagement
         pnlUserInformation.Location = New Point(18, 90)
         pnlUserInformation.Margin = New Padding(3, 2, 3, 2)
         pnlUserInformation.Name = "pnlUserInformation"
-        pnlUserInformation.Size = New Size(320, 342)
+        pnlUserInformation.Size = New Size(320, 381)
         pnlUserInformation.TabIndex = 1
         ' 
         ' btnClear
@@ -211,7 +215,7 @@ Partial Class UcUserManagement
         btnAddUser.Cursor = Cursors.Hand
         btnAddUser.FlatAppearance.BorderSize = 0
         btnAddUser.FlatStyle = FlatStyle.Flat
-        btnAddUser.Font = New Font("Segoe UI Semibold", 10.0F, FontStyle.Bold)
+        btnAddUser.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
         btnAddUser.ForeColor = Color.White
         btnAddUser.Location = New Point(22, 266)
         btnAddUser.Margin = New Padding(3, 2, 3, 2)
@@ -224,7 +228,7 @@ Partial Class UcUserManagement
         ' cboRole
         ' 
         cboRole.DropDownStyle = ComboBoxStyle.DropDownList
-        cboRole.Font = New Font("Segoe UI", 10.0F)
+        cboRole.Font = New Font("Segoe UI", 10F)
         cboRole.FormattingEnabled = True
         cboRole.Items.AddRange(New Object() {"Admin", "Guard"})
         cboRole.Location = New Point(22, 229)
@@ -247,7 +251,7 @@ Partial Class UcUserManagement
         ' txtConfirmPassword
         ' 
         txtConfirmPassword.BorderStyle = BorderStyle.FixedSingle
-        txtConfirmPassword.Font = New Font("Segoe UI", 10.0F)
+        txtConfirmPassword.Font = New Font("Segoe UI", 10F)
         txtConfirmPassword.Location = New Point(22, 176)
         txtConfirmPassword.Margin = New Padding(3, 2, 3, 2)
         txtConfirmPassword.Name = "txtConfirmPassword"
@@ -269,7 +273,7 @@ Partial Class UcUserManagement
         ' txtPassword
         ' 
         txtPassword.BorderStyle = BorderStyle.FixedSingle
-        txtPassword.Font = New Font("Segoe UI", 10.0F)
+        txtPassword.Font = New Font("Segoe UI", 10F)
         txtPassword.Location = New Point(22, 124)
         txtPassword.Margin = New Padding(3, 2, 3, 2)
         txtPassword.Name = "txtPassword"
@@ -291,7 +295,7 @@ Partial Class UcUserManagement
         ' txtUsername
         ' 
         txtUsername.BorderStyle = BorderStyle.FixedSingle
-        txtUsername.Font = New Font("Segoe UI", 10.0F)
+        txtUsername.Font = New Font("Segoe UI", 10F)
         txtUsername.Location = New Point(22, 71)
         txtUsername.Margin = New Padding(3, 2, 3, 2)
         txtUsername.Name = "txtUsername"
@@ -315,7 +319,6 @@ Partial Class UcUserManagement
         pnlUserInformationHeader.Controls.Add(lblUserInformationTitle)
         pnlUserInformationHeader.Dock = DockStyle.Top
         pnlUserInformationHeader.Location = New Point(0, 0)
-        pnlUserInformationHeader.Margin = New Padding(3, 2, 3, 2)
         pnlUserInformationHeader.Name = "pnlUserInformationHeader"
         pnlUserInformationHeader.Size = New Size(318, 38)
         pnlUserInformationHeader.TabIndex = 0
@@ -323,7 +326,7 @@ Partial Class UcUserManagement
         ' lblUserInformationTitle
         ' 
         lblUserInformationTitle.AutoSize = True
-        lblUserInformationTitle.Font = New Font("Segoe UI Semibold", 12.0F, FontStyle.Bold)
+        lblUserInformationTitle.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
         lblUserInformationTitle.ForeColor = Color.White
         lblUserInformationTitle.Location = New Point(14, 8)
         lblUserInformationTitle.Name = "lblUserInformationTitle"
@@ -345,7 +348,7 @@ Partial Class UcUserManagement
         pnlUserAccounts.Location = New Point(350, 90)
         pnlUserAccounts.Margin = New Padding(3, 2, 3, 2)
         pnlUserAccounts.Name = "pnlUserAccounts"
-        pnlUserAccounts.Size = New Size(665, 342)
+        pnlUserAccounts.Size = New Size(665, 381)
         pnlUserAccounts.TabIndex = 2
         ' 
         ' dgvUsers
@@ -360,7 +363,7 @@ Partial Class UcUserManagement
         dgvUsers.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
         DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(93), CByte(50), CByte(29))
-        DataGridViewCellStyle1.Font = New Font("Segoe UI Semibold", 10.0F, FontStyle.Bold)
+        DataGridViewCellStyle1.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
         DataGridViewCellStyle1.ForeColor = Color.White
         DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(93), CByte(50), CByte(29))
         DataGridViewCellStyle1.SelectionForeColor = Color.White
@@ -368,9 +371,9 @@ Partial Class UcUserManagement
         dgvUsers.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         dgvUsers.ColumnHeadersHeight = 42
         dgvUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle2.BackColor = Color.White
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 10.0F)
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 10F)
         DataGridViewCellStyle2.ForeColor = Color.FromArgb(CByte(50), CByte(35), CByte(28))
         DataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(CByte(233), CByte(216), CByte(202))
         DataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(CByte(52), CByte(32), CByte(23))
@@ -386,14 +389,14 @@ Partial Class UcUserManagement
         dgvUsers.RowHeadersVisible = False
         dgvUsers.RowTemplate.Height = 38
         dgvUsers.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvUsers.Size = New Size(626, 214)
+        dgvUsers.Size = New Size(626, 253)
         dgvUsers.TabIndex = 5
         ' 
         ' cboRoleFilter
         ' 
         cboRoleFilter.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         cboRoleFilter.DropDownStyle = ComboBoxStyle.DropDownList
-        cboRoleFilter.Font = New Font("Segoe UI", 10.0F)
+        cboRoleFilter.Font = New Font("Segoe UI", 10F)
         cboRoleFilter.FormattingEnabled = True
         cboRoleFilter.Items.AddRange(New Object() {"All", "Admin", "Guard"})
         cboRoleFilter.Location = New Point(464, 69)
@@ -406,7 +409,7 @@ Partial Class UcUserManagement
         ' 
         lblFilterRole.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         lblFilterRole.AutoSize = True
-        lblFilterRole.Font = New Font("Segoe UI Semibold", 9.0F, FontStyle.Bold)
+        lblFilterRole.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         lblFilterRole.ForeColor = Color.FromArgb(CByte(59), CByte(40), CByte(31))
         lblFilterRole.Location = New Point(464, 50)
         lblFilterRole.Name = "lblFilterRole"
@@ -418,7 +421,7 @@ Partial Class UcUserManagement
         ' 
         txtSearchUser.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         txtSearchUser.BorderStyle = BorderStyle.FixedSingle
-        txtSearchUser.Font = New Font("Segoe UI", 10.0F)
+        txtSearchUser.Font = New Font("Segoe UI", 10F)
         txtSearchUser.Location = New Point(18, 69)
         txtSearchUser.Margin = New Padding(3, 2, 3, 2)
         txtSearchUser.Name = "txtSearchUser"
@@ -428,7 +431,7 @@ Partial Class UcUserManagement
         ' lblSearch
         ' 
         lblSearch.AutoSize = True
-        lblSearch.Font = New Font("Segoe UI Semibold", 9.0F, FontStyle.Bold)
+        lblSearch.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         lblSearch.ForeColor = Color.FromArgb(CByte(59), CByte(40), CByte(31))
         lblSearch.Location = New Point(16, 50)
         lblSearch.Name = "lblSearch"
@@ -442,7 +445,6 @@ Partial Class UcUserManagement
         pnlUserAccountsHeader.Controls.Add(lblUserAccountsTitle)
         pnlUserAccountsHeader.Dock = DockStyle.Top
         pnlUserAccountsHeader.Location = New Point(0, 0)
-        pnlUserAccountsHeader.Margin = New Padding(3, 2, 3, 2)
         pnlUserAccountsHeader.Name = "pnlUserAccountsHeader"
         pnlUserAccountsHeader.Size = New Size(663, 38)
         pnlUserAccountsHeader.TabIndex = 0
@@ -450,7 +452,7 @@ Partial Class UcUserManagement
         ' lblUserAccountsTitle
         ' 
         lblUserAccountsTitle.AutoSize = True
-        lblUserAccountsTitle.Font = New Font("Segoe UI Semibold", 12.0F, FontStyle.Bold)
+        lblUserAccountsTitle.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
         lblUserAccountsTitle.ForeColor = Color.White
         lblUserAccountsTitle.Location = New Point(14, 8)
         lblUserAccountsTitle.Name = "lblUserAccountsTitle"
@@ -463,116 +465,13 @@ Partial Class UcUserManagement
         pnlSummary.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         pnlSummary.BackColor = Color.FromArgb(CByte(255), CByte(253), CByte(252))
         pnlSummary.BorderStyle = BorderStyle.FixedSingle
-        pnlSummary.Controls.Add(pnlGuardAccounts)
-        pnlSummary.Controls.Add(pnlAdminAccounts)
-        pnlSummary.Controls.Add(pnlTotalUsers)
         pnlSummary.Controls.Add(lblSummaryTitle)
-        pnlSummary.Location = New Point(18, 442)
+        pnlSummary.Controls.Add(tlpSummary)
+        pnlSummary.Location = New Point(18, 475)
         pnlSummary.Margin = New Padding(3, 2, 3, 2)
         pnlSummary.Name = "pnlSummary"
-        pnlSummary.Size = New Size(998, 83)
+        pnlSummary.Size = New Size(998, 107)
         pnlSummary.TabIndex = 3
-        ' 
-        ' pnlGuardAccounts
-        ' 
-        pnlGuardAccounts.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        pnlGuardAccounts.BackColor = Color.FromArgb(CByte(228), CByte(238), CByte(247))
-        pnlGuardAccounts.Controls.Add(lblGuardCount)
-        pnlGuardAccounts.Controls.Add(lblGuardAccountsTitle)
-        pnlGuardAccounts.Location = New Point(674, 30)
-        pnlGuardAccounts.Margin = New Padding(3, 2, 3, 2)
-        pnlGuardAccounts.Name = "pnlGuardAccounts"
-        pnlGuardAccounts.Size = New Size(302, 41)
-        pnlGuardAccounts.TabIndex = 3
-        ' 
-        ' lblGuardCount
-        ' 
-        lblGuardCount.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        lblGuardCount.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold)
-        lblGuardCount.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
-        lblGuardCount.Location = New Point(219, 5)
-        lblGuardCount.Name = "lblGuardCount"
-        lblGuardCount.Size = New Size(66, 30)
-        lblGuardCount.TabIndex = 1
-        lblGuardCount.Text = "0"
-        lblGuardCount.TextAlign = ContentAlignment.MiddleRight
-        ' 
-        ' lblGuardAccountsTitle
-        ' 
-        lblGuardAccountsTitle.AutoSize = True
-        lblGuardAccountsTitle.Font = New Font("Segoe UI", 9.5F)
-        lblGuardAccountsTitle.Location = New Point(12, 6)
-        lblGuardAccountsTitle.Name = "lblGuardAccountsTitle"
-        lblGuardAccountsTitle.Size = New Size(100, 17)
-        lblGuardAccountsTitle.TabIndex = 0
-        lblGuardAccountsTitle.Text = "Guard Accounts"
-        ' 
-        ' pnlAdminAccounts
-        ' 
-        pnlAdminAccounts.Anchor = AnchorStyles.Top
-        pnlAdminAccounts.BackColor = Color.FromArgb(CByte(248), CByte(224), CByte(220))
-        pnlAdminAccounts.Controls.Add(lblAdminCount)
-        pnlAdminAccounts.Controls.Add(lblAdminAccountsTitle)
-        pnlAdminAccounts.Location = New Point(346, 30)
-        pnlAdminAccounts.Margin = New Padding(3, 2, 3, 2)
-        pnlAdminAccounts.Name = "pnlAdminAccounts"
-        pnlAdminAccounts.Size = New Size(302, 41)
-        pnlAdminAccounts.TabIndex = 2
-        ' 
-        ' lblAdminCount
-        ' 
-        lblAdminCount.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        lblAdminCount.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold)
-        lblAdminCount.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
-        lblAdminCount.Location = New Point(219, 5)
-        lblAdminCount.Name = "lblAdminCount"
-        lblAdminCount.Size = New Size(66, 30)
-        lblAdminCount.TabIndex = 1
-        lblAdminCount.Text = "0"
-        lblAdminCount.TextAlign = ContentAlignment.MiddleRight
-        ' 
-        ' lblAdminAccountsTitle
-        ' 
-        lblAdminAccountsTitle.AutoSize = True
-        lblAdminAccountsTitle.Font = New Font("Segoe UI", 9.5F)
-        lblAdminAccountsTitle.Location = New Point(12, 6)
-        lblAdminAccountsTitle.Name = "lblAdminAccountsTitle"
-        lblAdminAccountsTitle.Size = New Size(101, 17)
-        lblAdminAccountsTitle.TabIndex = 0
-        lblAdminAccountsTitle.Text = "Admin Accounts"
-        ' 
-        ' pnlTotalUsers
-        ' 
-        pnlTotalUsers.BackColor = Color.FromArgb(CByte(245), CByte(234), CByte(223))
-        pnlTotalUsers.Controls.Add(lblTotalUsers)
-        pnlTotalUsers.Controls.Add(lblTotalUsersTitle)
-        pnlTotalUsers.Location = New Point(18, 30)
-        pnlTotalUsers.Margin = New Padding(3, 2, 3, 2)
-        pnlTotalUsers.Name = "pnlTotalUsers"
-        pnlTotalUsers.Size = New Size(302, 41)
-        pnlTotalUsers.TabIndex = 1
-        ' 
-        ' lblTotalUsers
-        ' 
-        lblTotalUsers.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        lblTotalUsers.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold)
-        lblTotalUsers.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
-        lblTotalUsers.Location = New Point(219, 5)
-        lblTotalUsers.Name = "lblTotalUsers"
-        lblTotalUsers.Size = New Size(66, 30)
-        lblTotalUsers.TabIndex = 1
-        lblTotalUsers.Text = "0"
-        lblTotalUsers.TextAlign = ContentAlignment.MiddleRight
-        ' 
-        ' lblTotalUsersTitle
-        ' 
-        lblTotalUsersTitle.AutoSize = True
-        lblTotalUsersTitle.Font = New Font("Segoe UI", 9.5F)
-        lblTotalUsersTitle.Location = New Point(12, 6)
-        lblTotalUsersTitle.Name = "lblTotalUsersTitle"
-        lblTotalUsersTitle.Size = New Size(73, 17)
-        lblTotalUsersTitle.TabIndex = 0
-        lblTotalUsersTitle.Text = "Total Users"
         ' 
         ' lblSummaryTitle
         ' 
@@ -585,23 +484,182 @@ Partial Class UcUserManagement
         lblSummaryTitle.TabIndex = 0
         lblSummaryTitle.Text = "Summary"
         ' 
+        ' tlpSummary
+        ' 
+        tlpSummary.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        tlpSummary.ColumnCount = 3
+        tlpSummary.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.33333F))
+        tlpSummary.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.33333F))
+        tlpSummary.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.33334F))
+        tlpSummary.Controls.Add(pnlTotalUsers, 0, 0)
+        tlpSummary.Controls.Add(pnlAdminAccounts, 1, 0)
+        tlpSummary.Controls.Add(pnlGuardAccounts, 2, 0)
+        tlpSummary.Location = New Point(18, 30)
+        tlpSummary.Margin = New Padding(0)
+        tlpSummary.Name = "tlpSummary"
+        tlpSummary.RowCount = 1
+        tlpSummary.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
+        tlpSummary.Size = New Size(958, 65)
+        tlpSummary.TabIndex = 1
+        ' 
+        ' pnlTotalUsers
+        ' 
+        pnlTotalUsers.BackColor = Color.FromArgb(CByte(245), CByte(234), CByte(223))
+        pnlTotalUsers.Controls.Add(picTotalUsersIcon)
+        pnlTotalUsers.Controls.Add(lblTotalUsersTitle)
+        pnlTotalUsers.Controls.Add(lblTotalUsers)
+        pnlTotalUsers.Dock = DockStyle.Fill
+        pnlTotalUsers.Location = New Point(0, 0)
+        pnlTotalUsers.Margin = New Padding(0, 0, 6, 0)
+        pnlTotalUsers.Name = "pnlTotalUsers"
+        pnlTotalUsers.Size = New Size(313, 65)
+        pnlTotalUsers.TabIndex = 0
+        ' 
+        ' picTotalUsersIcon
+        ' 
+        picTotalUsersIcon.BackColor = Color.Transparent
+        picTotalUsersIcon.Image = My.Resources.Resources.dashboard_students
+        picTotalUsersIcon.Location = New Point(1, 0)
+        picTotalUsersIcon.Name = "picTotalUsersIcon"
+        picTotalUsersIcon.Size = New Size(66, 65)
+        picTotalUsersIcon.SizeMode = PictureBoxSizeMode.Zoom
+        picTotalUsersIcon.TabIndex = 2
+        picTotalUsersIcon.TabStop = False
+        ' 
+        ' lblTotalUsersTitle
+        ' 
+        lblTotalUsersTitle.AutoSize = True
+        lblTotalUsersTitle.Font = New Font("Segoe UI", 9.5F)
+        lblTotalUsersTitle.ForeColor = Color.FromArgb(CByte(75), CByte(54), CByte(43))
+        lblTotalUsersTitle.Location = New Point(73, 28)
+        lblTotalUsersTitle.Name = "lblTotalUsersTitle"
+        lblTotalUsersTitle.Size = New Size(73, 17)
+        lblTotalUsersTitle.TabIndex = 0
+        lblTotalUsersTitle.Text = "Total Users"
+        ' 
+        ' lblTotalUsers
+        ' 
+        lblTotalUsers.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        lblTotalUsers.Font = New Font("Segoe UI", 18F, FontStyle.Bold)
+        lblTotalUsers.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
+        lblTotalUsers.Location = New Point(241, 17)
+        lblTotalUsers.Name = "lblTotalUsers"
+        lblTotalUsers.Size = New Size(60, 30)
+        lblTotalUsers.TabIndex = 1
+        lblTotalUsers.Text = "0"
+        lblTotalUsers.TextAlign = ContentAlignment.MiddleRight
+        ' 
+        ' pnlAdminAccounts
+        ' 
+        pnlAdminAccounts.BackColor = Color.FromArgb(CByte(226), CByte(242), CByte(230))
+        pnlAdminAccounts.Controls.Add(picAdminAccountsIcon)
+        pnlAdminAccounts.Controls.Add(lblAdminAccountsTitle)
+        pnlAdminAccounts.Controls.Add(lblAdminCount)
+        pnlAdminAccounts.Dock = DockStyle.Fill
+        pnlAdminAccounts.Location = New Point(322, 0)
+        pnlAdminAccounts.Margin = New Padding(3, 0, 3, 0)
+        pnlAdminAccounts.Name = "pnlAdminAccounts"
+        pnlAdminAccounts.Size = New Size(313, 65)
+        pnlAdminAccounts.TabIndex = 1
+        ' 
+        ' picAdminAccountsIcon
+        ' 
+        picAdminAccountsIcon.BackColor = Color.Transparent
+        picAdminAccountsIcon.Image = My.Resources.Resources.dashboard_qr_generated
+        picAdminAccountsIcon.Location = New Point(3, 0)
+        picAdminAccountsIcon.Name = "picAdminAccountsIcon"
+        picAdminAccountsIcon.Size = New Size(66, 65)
+        picAdminAccountsIcon.SizeMode = PictureBoxSizeMode.Zoom
+        picAdminAccountsIcon.TabIndex = 2
+        picAdminAccountsIcon.TabStop = False
+        ' 
+        ' lblAdminAccountsTitle
+        ' 
+        lblAdminAccountsTitle.AutoSize = True
+        lblAdminAccountsTitle.Font = New Font("Segoe UI", 9.5F)
+        lblAdminAccountsTitle.ForeColor = Color.FromArgb(CByte(50), CByte(90), CByte(60))
+        lblAdminAccountsTitle.Location = New Point(75, 28)
+        lblAdminAccountsTitle.Name = "lblAdminAccountsTitle"
+        lblAdminAccountsTitle.Size = New Size(101, 17)
+        lblAdminAccountsTitle.TabIndex = 0
+        lblAdminAccountsTitle.Text = "Admin Accounts"
+        ' 
+        ' lblAdminCount
+        ' 
+        lblAdminCount.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        lblAdminCount.Font = New Font("Segoe UI", 18F, FontStyle.Bold)
+        lblAdminCount.ForeColor = Color.FromArgb(CByte(40), CByte(100), CByte(60))
+        lblAdminCount.Location = New Point(250, 17)
+        lblAdminCount.Name = "lblAdminCount"
+        lblAdminCount.Size = New Size(60, 30)
+        lblAdminCount.TabIndex = 1
+        lblAdminCount.Text = "0"
+        lblAdminCount.TextAlign = ContentAlignment.MiddleRight
+        ' 
+        ' pnlGuardAccounts
+        ' 
+        pnlGuardAccounts.BackColor = Color.FromArgb(CByte(232), CByte(238), CByte(248))
+        pnlGuardAccounts.Controls.Add(picGuardAccountsIcon)
+        pnlGuardAccounts.Controls.Add(lblGuardAccountsTitle)
+        pnlGuardAccounts.Controls.Add(lblGuardCount)
+        pnlGuardAccounts.Dock = DockStyle.Fill
+        pnlGuardAccounts.Location = New Point(644, 0)
+        pnlGuardAccounts.Margin = New Padding(6, 0, 0, 0)
+        pnlGuardAccounts.Name = "pnlGuardAccounts"
+        pnlGuardAccounts.Size = New Size(314, 65)
+        pnlGuardAccounts.TabIndex = 2
+        ' 
+        ' picGuardAccountsIcon
+        ' 
+        picGuardAccountsIcon.BackColor = Color.Transparent
+        picGuardAccountsIcon.Image = My.Resources.Resources.dashboard_entry
+        picGuardAccountsIcon.Location = New Point(3, 0)
+        picGuardAccountsIcon.Name = "picGuardAccountsIcon"
+        picGuardAccountsIcon.Size = New Size(66, 65)
+        picGuardAccountsIcon.SizeMode = PictureBoxSizeMode.Zoom
+        picGuardAccountsIcon.TabIndex = 2
+        picGuardAccountsIcon.TabStop = False
+        ' 
+        ' lblGuardAccountsTitle
+        ' 
+        lblGuardAccountsTitle.AutoSize = True
+        lblGuardAccountsTitle.Font = New Font("Segoe UI", 9.5F)
+        lblGuardAccountsTitle.ForeColor = Color.FromArgb(CByte(50), CByte(70), CByte(100))
+        lblGuardAccountsTitle.Location = New Point(75, 28)
+        lblGuardAccountsTitle.Name = "lblGuardAccountsTitle"
+        lblGuardAccountsTitle.Size = New Size(100, 17)
+        lblGuardAccountsTitle.TabIndex = 0
+        lblGuardAccountsTitle.Text = "Guard Accounts"
+        ' 
+        ' lblGuardCount
+        ' 
+        lblGuardCount.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        lblGuardCount.Font = New Font("Segoe UI", 18F, FontStyle.Bold)
+        lblGuardCount.ForeColor = Color.FromArgb(CByte(50), CByte(70), CByte(100))
+        lblGuardCount.Location = New Point(250, 17)
+        lblGuardCount.Name = "lblGuardCount"
+        lblGuardCount.Size = New Size(60, 30)
+        lblGuardCount.TabIndex = 1
+        lblGuardCount.Text = "0"
+        lblGuardCount.TextAlign = ContentAlignment.MiddleRight
+        ' 
         ' timerClock
         ' 
         timerClock.Interval = 1000
         ' 
-        ' UserManagement
+        ' UcUserManagement
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(247), CByte(241), CByte(236))
         Controls.Add(pnlSummary)
         Controls.Add(pnlUserAccounts)
         Controls.Add(pnlUserInformation)
         Controls.Add(pnlHeader)
-        Font = New Font("Segoe UI", 9.0F)
+        Font = New Font("Segoe UI", 9F)
         Margin = New Padding(3, 2, 3, 2)
-        Name = "UserManagement"
-        Size = New Size(1032, 540)
+        Name = "UcUserManagement"
+        Size = New Size(1032, 597)
         pnlHeader.ResumeLayout(False)
         pnlHeader.PerformLayout()
         pnlUserInformation.ResumeLayout(False)
@@ -615,12 +673,16 @@ Partial Class UcUserManagement
         pnlUserAccountsHeader.PerformLayout()
         pnlSummary.ResumeLayout(False)
         pnlSummary.PerformLayout()
-        pnlGuardAccounts.ResumeLayout(False)
-        pnlGuardAccounts.PerformLayout()
-        pnlAdminAccounts.ResumeLayout(False)
-        pnlAdminAccounts.PerformLayout()
+        tlpSummary.ResumeLayout(False)
         pnlTotalUsers.ResumeLayout(False)
         pnlTotalUsers.PerformLayout()
+        CType(picTotalUsersIcon, ComponentModel.ISupportInitialize).EndInit()
+        pnlAdminAccounts.ResumeLayout(False)
+        pnlAdminAccounts.PerformLayout()
+        CType(picAdminAccountsIcon, ComponentModel.ISupportInitialize).EndInit()
+        pnlGuardAccounts.ResumeLayout(False)
+        pnlGuardAccounts.PerformLayout()
+        CType(picGuardAccountsIcon, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
 
     End Sub
@@ -634,6 +696,7 @@ Partial Class UcUserManagement
     Friend WithEvents lblTitle As Label
     Friend WithEvents lblSubtitle As Label
     Friend WithEvents lblDateTime As Label
+
 
     Friend WithEvents pnlUserInformation As Panel
     Friend WithEvents pnlUserInformationHeader As Panel
@@ -656,6 +719,7 @@ Partial Class UcUserManagement
     Friend WithEvents btnDelete As Button
     Friend WithEvents btnClear As Button
 
+
     Friend WithEvents pnlUserAccounts As Panel
     Friend WithEvents pnlUserAccountsHeader As Panel
     Friend WithEvents lblUserAccountsTitle As Label
@@ -672,20 +736,29 @@ Partial Class UcUserManagement
     Friend WithEvents colUsername As DataGridViewTextBoxColumn
     Friend WithEvents colRole As DataGridViewTextBoxColumn
 
+
     Friend WithEvents pnlSummary As Panel
     Friend WithEvents lblSummaryTitle As Label
+    Friend WithEvents tlpSummary As TableLayoutPanel
+
 
     Friend WithEvents pnlTotalUsers As Panel
+    Friend WithEvents picTotalUsersIcon As PictureBox
     Friend WithEvents lblTotalUsersTitle As Label
     Friend WithEvents lblTotalUsers As Label
 
+
     Friend WithEvents pnlAdminAccounts As Panel
+    Friend WithEvents picAdminAccountsIcon As PictureBox
     Friend WithEvents lblAdminAccountsTitle As Label
     Friend WithEvents lblAdminCount As Label
 
+
     Friend WithEvents pnlGuardAccounts As Panel
+    Friend WithEvents picGuardAccountsIcon As PictureBox
     Friend WithEvents lblGuardAccountsTitle As Label
     Friend WithEvents lblGuardCount As Label
+
 
     Friend WithEvents timerClock As Timer
 

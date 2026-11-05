@@ -3,6 +3,7 @@ Partial Class UcGenerateReport
 
     Inherits System.Windows.Forms.UserControl
 
+
     <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(disposing As Boolean)
 
@@ -26,1502 +27,565 @@ Partial Class UcGenerateReport
 
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        '==================================================
-        ' TIMER
-        '==================================================
-        Me.lblDateTime = New System.Windows.Forms.Label()
-        Me.timerClock = New System.Windows.Forms.Timer()
-
-        '==================================================
-        ' HEADER
-        '==================================================
-        Me.pnlHeader = New System.Windows.Forms.Panel()
-        Me.lblTitle = New System.Windows.Forms.Label()
-        Me.lblSubtitle = New System.Windows.Forms.Label()
-
-        '==================================================
-        ' FILTER PANEL
-        '==================================================
-        Me.pnlFilters = New System.Windows.Forms.Panel()
-        Me.pnlFiltersHeader = New System.Windows.Forms.Panel()
-        Me.lblFiltersTitle = New System.Windows.Forms.Label()
-
-        Me.lblSearch = New System.Windows.Forms.Label()
-        Me.txtSearch = New System.Windows.Forms.TextBox()
-
-        Me.lblDateFrom = New System.Windows.Forms.Label()
-        Me.dtpFrom = New System.Windows.Forms.DateTimePicker()
-
-        Me.lblDateTo = New System.Windows.Forms.Label()
-        Me.dtpTo = New System.Windows.Forms.DateTimePicker()
-
-        Me.lblCourse = New System.Windows.Forms.Label()
-        Me.cboCourse = New System.Windows.Forms.ComboBox()
-
-        Me.btnApplyFilter = New System.Windows.Forms.Button()
-        Me.btnReset = New System.Windows.Forms.Button()
-
-        '==================================================
-        ' RECORDS PANEL
-        '==================================================
-        Me.pnlRecords = New System.Windows.Forms.Panel()
-        Me.pnlRecordsHeader = New System.Windows.Forms.Panel()
-        Me.lblRecordsTitle = New System.Windows.Forms.Label()
-
-        Me.dgvAttendance = New System.Windows.Forms.DataGridView()
-
-        Me.colStudentID = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colStudentName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colYearCourse = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colTimeIn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colTimeOut = New System.Windows.Forms.DataGridViewTextBoxColumn()
-
-        '==================================================
-        ' SUMMARY
-        '==================================================
-        Me.pnlSummary = New System.Windows.Forms.Panel()
-        Me.lblSummaryTitle = New System.Windows.Forms.Label()
-
-        Me.pnlTotalRecords = New System.Windows.Forms.Panel()
-        Me.lblTotalRecordsTitle = New System.Windows.Forms.Label()
-        Me.lblTotalRecords = New System.Windows.Forms.Label()
-
-        Me.pnlComplete = New System.Windows.Forms.Panel()
-        Me.lblCompleteTitle = New System.Windows.Forms.Label()
-        Me.lblComplete = New System.Windows.Forms.Label()
-
-        Me.pnlNoTimeOut = New System.Windows.Forms.Panel()
-        Me.lblNoTimeOutTitle = New System.Windows.Forms.Label()
-        Me.lblNoTimeOut = New System.Windows.Forms.Label()
-
-        Me.btnGenerateExcel = New System.Windows.Forms.Button()
-        Me.btnGeneratePDF = New System.Windows.Forms.Button()
-
-
-        '==================================================
-        ' SUSPEND
-        '==================================================
-        Me.pnlHeader.SuspendLayout()
-
-        Me.pnlFilters.SuspendLayout()
-        Me.pnlFiltersHeader.SuspendLayout()
-
-        Me.pnlRecords.SuspendLayout()
-        Me.pnlRecordsHeader.SuspendLayout()
-
-        CType(
-            Me.dgvAttendance,
-            System.ComponentModel.ISupportInitialize
-        ).BeginInit()
-
-        Me.pnlSummary.SuspendLayout()
-        Me.pnlTotalRecords.SuspendLayout()
-        Me.pnlComplete.SuspendLayout()
-        Me.pnlNoTimeOut.SuspendLayout()
-
-        Me.SuspendLayout()
-
-
-        '==================================================
-        ' pnlHeader
-        '==================================================
-        Me.pnlHeader.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Top Or
-                System.Windows.Forms.AnchorStyles.Left Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
-
-        Me.pnlHeader.BackColor =
-            System.Drawing.Color.FromArgb(255, 253, 252)
-
-        Me.pnlHeader.BorderStyle =
-            System.Windows.Forms.BorderStyle.FixedSingle
-
-        Me.pnlHeader.Location =
-            New System.Drawing.Point(18, 14)
-
-        Me.pnlHeader.Name =
-            "pnlHeader"
-
-        Me.pnlHeader.Size =
-            New System.Drawing.Size(998, 68)
-
-        Me.pnlHeader.TabIndex =
-            0
-
-        Me.pnlHeader.Controls.Add(Me.lblDateTime)
-        Me.pnlHeader.Controls.Add(Me.lblSubtitle)
-        Me.pnlHeader.Controls.Add(Me.lblTitle)
-
-        '==================================================
-        ' lblTitle
-        '==================================================
-        Me.lblTitle.AutoSize =
-            True
-
-        Me.lblTitle.Font =
-            New System.Drawing.Font(
-                "Georgia",
-                24.0!,
-                System.Drawing.FontStyle.Bold
-            )
-
-        Me.lblTitle.ForeColor =
-            System.Drawing.Color.FromArgb(68, 37, 22)
-
-        Me.lblTitle.Location =
-            New System.Drawing.Point(19, 10)
-
-        Me.lblTitle.Name =
-            "lblTitle"
-
-        Me.lblTitle.Size =
-            New System.Drawing.Size(390, 44)
-
-        Me.lblTitle.TabIndex =
-            0
-
-        Me.lblTitle.Text =
-            "Student Entry/Exit Reports"
-
-
-        '==================================================
-        ' lblSubtitle
-        '==================================================
-        Me.lblSubtitle.AutoSize =
-            True
-
-        Me.lblSubtitle.Font =
-            New System.Drawing.Font(
-                "Segoe UI",
-                10.0!
-            )
-
-        Me.lblSubtitle.ForeColor =
-            System.Drawing.Color.FromArgb(117, 87, 71)
-
-        Me.lblSubtitle.Location =
-            New System.Drawing.Point(23, 44)
-
-        Me.lblSubtitle.Name =
-            "lblSubtitle"
-
-        Me.lblSubtitle.Size =
-            New System.Drawing.Size(345, 20)
-
-        Me.lblSubtitle.TabIndex =
-            1
-
-        Me.lblSubtitle.Text =
-            "View, filter and generate student entry/exit reports"
-
-
-        '==================================================
-        ' pnlFilters
-        '==================================================
-        Me.pnlFilters.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Top Or
-                System.Windows.Forms.AnchorStyles.Left Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
-
-        Me.pnlFilters.BackColor =
-            System.Drawing.Color.FromArgb(255, 253, 252)
-
-        Me.pnlFilters.BorderStyle =
-            System.Windows.Forms.BorderStyle.FixedSingle
-
-        Me.pnlFilters.Controls.Add(Me.btnReset)
-        Me.pnlFilters.Controls.Add(Me.btnApplyFilter)
-
-        Me.pnlFilters.Controls.Add(Me.cboCourse)
-        Me.pnlFilters.Controls.Add(Me.lblCourse)
-
-        Me.pnlFilters.Controls.Add(Me.dtpTo)
-        Me.pnlFilters.Controls.Add(Me.lblDateTo)
-
-        Me.pnlFilters.Controls.Add(Me.dtpFrom)
-        Me.pnlFilters.Controls.Add(Me.lblDateFrom)
-
-        Me.pnlFilters.Controls.Add(Me.txtSearch)
-        Me.pnlFilters.Controls.Add(Me.lblSearch)
-
-        Me.pnlFilters.Controls.Add(Me.pnlFiltersHeader)
-
-        Me.pnlFilters.Location =
-            New System.Drawing.Point(18, 90)
-
-        Me.pnlFilters.Name =
-            "pnlFilters"
-
-        Me.pnlFilters.Size =
-            New System.Drawing.Size(998, 92)
-
-        Me.pnlFilters.TabIndex =
-            1
-
-
-        '==================================================
-        ' pnlFiltersHeader
-        '==================================================
-        Me.pnlFiltersHeader.BackColor =
-            System.Drawing.Color.FromArgb(97, 55, 31)
-
-        Me.pnlFiltersHeader.Controls.Add(
-            Me.lblFiltersTitle
-        )
-
-        Me.pnlFiltersHeader.Dock =
-            System.Windows.Forms.DockStyle.Top
-
-        Me.pnlFiltersHeader.Location =
-            New System.Drawing.Point(0, 0)
-
-        Me.pnlFiltersHeader.Name =
-            "pnlFiltersHeader"
-
-        Me.pnlFiltersHeader.Size =
-            New System.Drawing.Size(996, 38)
-
-        Me.pnlFiltersHeader.TabIndex =
-            0
-
-
-        '==================================================
-        ' lblFiltersTitle
-        '==================================================
-        Me.lblFiltersTitle.AutoSize =
-            True
-
-        Me.lblFiltersTitle.Font =
-            New System.Drawing.Font(
-                "Segoe UI Semibold",
-                12.0!,
-                System.Drawing.FontStyle.Bold
-            )
-
-        Me.lblFiltersTitle.ForeColor =
-            System.Drawing.Color.White
-
-        Me.lblFiltersTitle.Location =
-            New System.Drawing.Point(14, 8)
-
-        Me.lblFiltersTitle.Name =
-            "lblFiltersTitle"
-
-        Me.lblFiltersTitle.Size =
-            New System.Drawing.Size(128, 25)
-
-        Me.lblFiltersTitle.TabIndex =
-            0
-
-        Me.lblFiltersTitle.Text =
-            "Report Filters"
-
-
-        '==================================================
-        ' lblSearch
-        '==================================================
-        Me.lblSearch.AutoSize =
-            True
-
-        Me.lblSearch.Font =
-            New System.Drawing.Font(
-                "Segoe UI Semibold",
-                8.5!,
-                System.Drawing.FontStyle.Bold
-            )
-
-        Me.lblSearch.Location =
-            New System.Drawing.Point(18, 43)
-
-        Me.lblSearch.Name =
-            "lblSearch"
-
-        Me.lblSearch.Size =
-            New System.Drawing.Size(107, 20)
-
-        Me.lblSearch.TabIndex =
-            1
-
-        Me.lblSearch.Text =
-            "Search Student"
-
-
-        '==================================================
-        ' txtSearch
-        '==================================================
-        Me.txtSearch.BorderStyle =
-            System.Windows.Forms.BorderStyle.FixedSingle
-
-        Me.txtSearch.Font =
-            New System.Drawing.Font(
-                "Segoe UI",
-                9.0!
-            )
-
-        Me.txtSearch.Location =
-            New System.Drawing.Point(18, 61)
-
-        Me.txtSearch.Name =
-            "txtSearch"
-
-        Me.txtSearch.Size =
-            New System.Drawing.Size(210, 25)
-
-        Me.txtSearch.TabIndex =
-            2
-
-
-        '==================================================
-        ' lblDateFrom
-        '==================================================
-        Me.lblDateFrom.AutoSize =
-            True
-
-        Me.lblDateFrom.Font =
-            New System.Drawing.Font(
-                "Segoe UI Semibold",
-                8.5!,
-                System.Drawing.FontStyle.Bold
-            )
-
-        Me.lblDateFrom.Location =
-            New System.Drawing.Point(245, 43)
-
-        Me.lblDateFrom.Name =
-            "lblDateFrom"
-
-        Me.lblDateFrom.Size =
-            New System.Drawing.Size(78, 20)
-
-        Me.lblDateFrom.TabIndex =
-            3
-
-        Me.lblDateFrom.Text =
-            "Date From"
-
-
-        '==================================================
-        ' dtpFrom
-        '==================================================
-        Me.dtpFrom.CustomFormat =
-            "MMMM dd, yyyy"
-
-        Me.dtpFrom.Font =
-            New System.Drawing.Font(
-                "Segoe UI",
-                9.0!
-            )
-
-        Me.dtpFrom.Format =
-            System.Windows.Forms.DateTimePickerFormat.Custom
-
-        Me.dtpFrom.Location =
-            New System.Drawing.Point(245, 61)
-
-        Me.dtpFrom.Name =
-            "dtpFrom"
-
-        Me.dtpFrom.Size =
-            New System.Drawing.Size(180, 25)
-
-        Me.dtpFrom.TabIndex =
-            4
-
-
-        '==================================================
-        ' lblDateTo
-        '==================================================
-        Me.lblDateTo.AutoSize =
-            True
-
-        Me.lblDateTo.Font =
-            New System.Drawing.Font(
-                "Segoe UI Semibold",
-                8.5!,
-                System.Drawing.FontStyle.Bold
-            )
-
-        Me.lblDateTo.Location =
-            New System.Drawing.Point(442, 43)
-
-        Me.lblDateTo.Name =
-            "lblDateTo"
-
-        Me.lblDateTo.Size =
-            New System.Drawing.Size(58, 20)
-
-        Me.lblDateTo.TabIndex =
-            5
-
-        Me.lblDateTo.Text =
-            "Date To"
-
-
-        '==================================================
-        ' dtpTo
-        '==================================================
-        Me.dtpTo.CustomFormat =
-            "MMMM dd, yyyy"
-
-        Me.dtpTo.Font =
-            New System.Drawing.Font(
-                "Segoe UI",
-                9.0!
-            )
-
-        Me.dtpTo.Format =
-            System.Windows.Forms.DateTimePickerFormat.Custom
-
-        Me.dtpTo.Location =
-            New System.Drawing.Point(442, 61)
-
-        Me.dtpTo.Name =
-            "dtpTo"
-
-        Me.dtpTo.Size =
-            New System.Drawing.Size(180, 25)
-
-        Me.dtpTo.TabIndex =
-            6
-
-
-        '==================================================
-        ' lblCourse
-        '==================================================
-        Me.lblCourse.AutoSize =
-            True
-
-        Me.lblCourse.Font =
-            New System.Drawing.Font(
-                "Segoe UI Semibold",
-                8.5!,
-                System.Drawing.FontStyle.Bold
-            )
-
-        Me.lblCourse.Location =
-            New System.Drawing.Point(639, 43)
-
-        Me.lblCourse.Name =
-            "lblCourse"
-
-        Me.lblCourse.Size =
-            New System.Drawing.Size(53, 20)
-
-        Me.lblCourse.TabIndex =
-            7
-
-        Me.lblCourse.Text =
-            "Course"
-
-
-        '==================================================
-        ' cboCourse
-        '==================================================
-        Me.cboCourse.DropDownStyle =
-            System.Windows.Forms.ComboBoxStyle.DropDownList
-
-        Me.cboCourse.Font =
-            New System.Drawing.Font(
-                "Segoe UI",
-                9.0!
-            )
-
-        Me.cboCourse.FormattingEnabled =
-            True
-
-        Me.cboCourse.Location =
-            New System.Drawing.Point(639, 61)
-
-        Me.cboCourse.Name =
-            "cboCourse"
-
-        Me.cboCourse.Size =
-            New System.Drawing.Size(130, 25)
-
-        Me.cboCourse.TabIndex =
-            8
-
-
-        '==================================================
-        ' btnApplyFilter
-        '==================================================
-        Me.btnApplyFilter.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Top Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
-
-        Me.btnApplyFilter.BackColor =
-            System.Drawing.Color.FromArgb(103, 60, 36)
-
-        Me.btnApplyFilter.Cursor =
-            System.Windows.Forms.Cursors.Hand
-
-        Me.btnApplyFilter.FlatAppearance.BorderSize =
-            0
-
-        Me.btnApplyFilter.FlatStyle =
-            System.Windows.Forms.FlatStyle.Flat
-
-        Me.btnApplyFilter.Font =
-            New System.Drawing.Font(
-                "Segoe UI Semibold",
-                9.0!,
-                System.Drawing.FontStyle.Bold
-            )
-
-        Me.btnApplyFilter.ForeColor =
-            System.Drawing.Color.White
-
-        Me.btnApplyFilter.Location =
-            New System.Drawing.Point(786, 56)
-
-        Me.btnApplyFilter.Name =
-            "btnApplyFilter"
-
-        Me.btnApplyFilter.Size =
-            New System.Drawing.Size(90, 30)
-
-        Me.btnApplyFilter.TabIndex =
-            9
-
-        Me.btnApplyFilter.Text =
-            "Apply Filter"
-
-        Me.btnApplyFilter.UseVisualStyleBackColor =
-            False
-
-
-        '==================================================
-        ' btnReset
-        '==================================================
-        Me.btnReset.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Top Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
-
-        Me.btnReset.BackColor =
-            System.Drawing.Color.FromArgb(242, 230, 220)
-
-        Me.btnReset.Cursor =
-            System.Windows.Forms.Cursors.Hand
-
-        Me.btnReset.FlatAppearance.BorderColor =
-            System.Drawing.Color.FromArgb(205, 183, 167)
-
-        Me.btnReset.FlatStyle =
-            System.Windows.Forms.FlatStyle.Flat
-
-        Me.btnReset.Font =
-            New System.Drawing.Font(
-                "Segoe UI Semibold",
-                9.0!,
-                System.Drawing.FontStyle.Bold
-            )
-
-        Me.btnReset.ForeColor =
-            System.Drawing.Color.FromArgb(75, 41, 24)
-
-        Me.btnReset.Location =
-            New System.Drawing.Point(884, 56)
-
-        Me.btnReset.Name =
-            "btnReset"
-
-        Me.btnReset.Size =
-            New System.Drawing.Size(94, 30)
-
-        Me.btnReset.TabIndex =
-            10
-
-        Me.btnReset.Text =
-            "Reset Filters"
-
-        Me.btnReset.UseVisualStyleBackColor =
-            False
-
-        '==================================================
+        components = New ComponentModel.Container()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        lblDateTime = New Label()
+        timerClock = New Timer(components)
+        pnlHeader = New Panel()
+        lblSubtitle = New Label()
+        lblTitle = New Label()
+        pnlFilters = New Panel()
+        btnReset = New Button()
+        btnApplyFilter = New Button()
+        cboCourse = New ComboBox()
+        lblCourse = New Label()
+        dtpTo = New DateTimePicker()
+        lblDateTo = New Label()
+        dtpFrom = New DateTimePicker()
+        lblDateFrom = New Label()
+        txtSearch = New TextBox()
+        lblSearch = New Label()
+        pnlFiltersHeader = New Panel()
+        lblFiltersTitle = New Label()
+        pnlRecords = New Panel()
+        dgvAttendance = New DataGridView()
+        pnlRecordsHeader = New Panel()
+        lblRecordsTitle = New Label()
+        pnlSummary = New Panel()
+        btnGeneratePDF = New Button()
+        btnGenerateExcel = New Button()
+        pnlNoTimeOut = New Panel()
+        picNoTimeOutIcon = New PictureBox()
+        lblNoTimeOut = New Label()
+        lblNoTimeOutTitle = New Label()
+        pnlComplete = New Panel()
+        picCompleteIcon = New PictureBox()
+        lblComplete = New Label()
+        lblCompleteTitle = New Label()
+        pnlTotalRecords = New Panel()
+        picTotalRecordsIcon = New PictureBox()
+        lblTotalRecords = New Label()
+        lblTotalRecordsTitle = New Label()
+        lblSummaryTitle = New Label()
+        pnlHeader.SuspendLayout()
+        pnlFilters.SuspendLayout()
+        pnlFiltersHeader.SuspendLayout()
+        pnlRecords.SuspendLayout()
+        CType(dgvAttendance, ComponentModel.ISupportInitialize).BeginInit()
+        pnlRecordsHeader.SuspendLayout()
+        pnlSummary.SuspendLayout()
+        pnlNoTimeOut.SuspendLayout()
+        CType(picNoTimeOutIcon, ComponentModel.ISupportInitialize).BeginInit()
+        pnlComplete.SuspendLayout()
+        CType(picCompleteIcon, ComponentModel.ISupportInitialize).BeginInit()
+        pnlTotalRecords.SuspendLayout()
+        CType(picTotalRecordsIcon, ComponentModel.ISupportInitialize).BeginInit()
+        SuspendLayout()
+        ' 
         ' lblDateTime
-        '==================================================
-        Me.lblDateTime.Anchor =
-        CType(
-            System.Windows.Forms.AnchorStyles.Top Or
-            System.Windows.Forms.AnchorStyles.Right,
-            System.Windows.Forms.AnchorStyles
-        )
-
-        Me.lblDateTime.Font =
-        New System.Drawing.Font(
-            "Segoe UI Semibold",
-            10.0!,
-            System.Drawing.FontStyle.Bold
-        )
-
-        Me.lblDateTime.ForeColor =
-        System.Drawing.Color.FromArgb(68, 37, 22)
-
-        Me.lblDateTime.Location =
-        New System.Drawing.Point(648, 24)
-
-        Me.lblDateTime.Name =
-        "lblDateTime"
-
-        Me.lblDateTime.Size =
-        New System.Drawing.Size(324, 19)
-
-        Me.lblDateTime.TabIndex =
-        2
-
-        Me.lblDateTime.Text =
-        "Date | Time"
-
-        Me.lblDateTime.TextAlign =
-        System.Drawing.ContentAlignment.MiddleRight
-
-
-        '==================================================
+        ' 
+        lblDateTime.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        lblDateTime.Font = New Font("Segoe UI Semibold", 10.0F, FontStyle.Bold)
+        lblDateTime.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
+        lblDateTime.Location = New Point(648, 24)
+        lblDateTime.Name = "lblDateTime"
+        lblDateTime.Size = New Size(324, 19)
+        lblDateTime.TabIndex = 2
+        lblDateTime.Text = "Date | Time"
+        lblDateTime.TextAlign = ContentAlignment.MiddleRight
+        ' 
         ' timerClock
-        '==================================================
-        Me.timerClock.Interval = 1000
-
-        '==================================================
+        ' 
+        timerClock.Interval = 1000
+        ' 
+        ' pnlHeader
+        ' 
+        pnlHeader.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        pnlHeader.BackColor = Color.FromArgb(CByte(255), CByte(253), CByte(252))
+        pnlHeader.BorderStyle = BorderStyle.FixedSingle
+        pnlHeader.Controls.Add(lblDateTime)
+        pnlHeader.Controls.Add(lblSubtitle)
+        pnlHeader.Controls.Add(lblTitle)
+        pnlHeader.Location = New Point(18, 14)
+        pnlHeader.Name = "pnlHeader"
+        pnlHeader.Size = New Size(998, 68)
+        pnlHeader.TabIndex = 0
+        ' 
+        ' lblSubtitle
+        ' 
+        lblSubtitle.AutoSize = True
+        lblSubtitle.Font = New Font("Segoe UI", 10.0F)
+        lblSubtitle.ForeColor = Color.FromArgb(CByte(117), CByte(87), CByte(71))
+        lblSubtitle.Location = New Point(23, 44)
+        lblSubtitle.Name = "lblSubtitle"
+        lblSubtitle.Size = New Size(318, 19)
+        lblSubtitle.TabIndex = 1
+        lblSubtitle.Text = "View, filter and generate student entry/exit reports"
+        ' 
+        ' lblTitle
+        ' 
+        lblTitle.AutoSize = True
+        lblTitle.Font = New Font("Georgia", 24.0F, FontStyle.Bold)
+        lblTitle.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
+        lblTitle.Location = New Point(19, 6)
+        lblTitle.Name = "lblTitle"
+        lblTitle.Size = New Size(468, 38)
+        lblTitle.TabIndex = 0
+        lblTitle.Text = "Student Entry/Exit Reports"
+        ' 
+        ' pnlFilters
+        ' 
+        pnlFilters.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        pnlFilters.BackColor = Color.FromArgb(CByte(255), CByte(253), CByte(252))
+        pnlFilters.BorderStyle = BorderStyle.FixedSingle
+        pnlFilters.Controls.Add(btnReset)
+        pnlFilters.Controls.Add(btnApplyFilter)
+        pnlFilters.Controls.Add(cboCourse)
+        pnlFilters.Controls.Add(lblCourse)
+        pnlFilters.Controls.Add(dtpTo)
+        pnlFilters.Controls.Add(lblDateTo)
+        pnlFilters.Controls.Add(dtpFrom)
+        pnlFilters.Controls.Add(lblDateFrom)
+        pnlFilters.Controls.Add(txtSearch)
+        pnlFilters.Controls.Add(lblSearch)
+        pnlFilters.Controls.Add(pnlFiltersHeader)
+        pnlFilters.Location = New Point(18, 90)
+        pnlFilters.Name = "pnlFilters"
+        pnlFilters.Size = New Size(998, 92)
+        pnlFilters.TabIndex = 1
+        ' 
+        ' btnReset
+        ' 
+        btnReset.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnReset.BackColor = Color.FromArgb(CByte(242), CByte(230), CByte(220))
+        btnReset.Cursor = Cursors.Hand
+        btnReset.FlatAppearance.BorderColor = Color.FromArgb(CByte(205), CByte(183), CByte(167))
+        btnReset.FlatStyle = FlatStyle.Flat
+        btnReset.Font = New Font("Segoe UI Semibold", 9.0F, FontStyle.Bold)
+        btnReset.ForeColor = Color.FromArgb(CByte(75), CByte(41), CByte(24))
+        btnReset.Location = New Point(884, 56)
+        btnReset.Name = "btnReset"
+        btnReset.Size = New Size(94, 30)
+        btnReset.TabIndex = 10
+        btnReset.Text = "Reset Filters"
+        btnReset.UseVisualStyleBackColor = False
+        ' 
+        ' btnApplyFilter
+        ' 
+        btnApplyFilter.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnApplyFilter.BackColor = Color.FromArgb(CByte(103), CByte(60), CByte(36))
+        btnApplyFilter.Cursor = Cursors.Hand
+        btnApplyFilter.FlatAppearance.BorderSize = 0
+        btnApplyFilter.FlatStyle = FlatStyle.Flat
+        btnApplyFilter.Font = New Font("Segoe UI Semibold", 9.0F, FontStyle.Bold)
+        btnApplyFilter.ForeColor = Color.White
+        btnApplyFilter.Location = New Point(786, 56)
+        btnApplyFilter.Name = "btnApplyFilter"
+        btnApplyFilter.Size = New Size(90, 30)
+        btnApplyFilter.TabIndex = 9
+        btnApplyFilter.Text = "Apply Filter"
+        btnApplyFilter.UseVisualStyleBackColor = False
+        ' 
+        ' cboCourse
+        ' 
+        cboCourse.DropDownStyle = ComboBoxStyle.DropDownList
+        cboCourse.Font = New Font("Segoe UI", 9.0F)
+        cboCourse.FormattingEnabled = True
+        cboCourse.Location = New Point(639, 61)
+        cboCourse.Name = "cboCourse"
+        cboCourse.Size = New Size(130, 23)
+        cboCourse.TabIndex = 8
+        ' 
+        ' lblCourse
+        ' 
+        lblCourse.AutoSize = True
+        lblCourse.Font = New Font("Segoe UI Semibold", 8.5F, FontStyle.Bold)
+        lblCourse.Location = New Point(639, 43)
+        lblCourse.Name = "lblCourse"
+        lblCourse.Size = New Size(43, 15)
+        lblCourse.TabIndex = 7
+        lblCourse.Text = "Course"
+        ' 
+        ' dtpTo
+        ' 
+        dtpTo.CustomFormat = "MMMM dd, yyyy"
+        dtpTo.Font = New Font("Segoe UI", 9.0F)
+        dtpTo.Format = DateTimePickerFormat.Custom
+        dtpTo.Location = New Point(442, 61)
+        dtpTo.Name = "dtpTo"
+        dtpTo.Size = New Size(180, 23)
+        dtpTo.TabIndex = 6
+        ' 
+        ' lblDateTo
+        ' 
+        lblDateTo.AutoSize = True
+        lblDateTo.Font = New Font("Segoe UI Semibold", 8.5F, FontStyle.Bold)
+        lblDateTo.Location = New Point(442, 43)
+        lblDateTo.Name = "lblDateTo"
+        lblDateTo.Size = New Size(48, 15)
+        lblDateTo.TabIndex = 5
+        lblDateTo.Text = "Date To"
+        ' 
+        ' dtpFrom
+        ' 
+        dtpFrom.CustomFormat = "MMMM dd, yyyy"
+        dtpFrom.Font = New Font("Segoe UI", 9.0F)
+        dtpFrom.Format = DateTimePickerFormat.Custom
+        dtpFrom.Location = New Point(245, 61)
+        dtpFrom.Name = "dtpFrom"
+        dtpFrom.Size = New Size(180, 23)
+        dtpFrom.TabIndex = 4
+        ' 
+        ' lblDateFrom
+        ' 
+        lblDateFrom.AutoSize = True
+        lblDateFrom.Font = New Font("Segoe UI Semibold", 8.5F, FontStyle.Bold)
+        lblDateFrom.Location = New Point(245, 43)
+        lblDateFrom.Name = "lblDateFrom"
+        lblDateFrom.Size = New Size(63, 15)
+        lblDateFrom.TabIndex = 3
+        lblDateFrom.Text = "Date From"
+        ' 
+        ' txtSearch
+        ' 
+        txtSearch.BorderStyle = BorderStyle.FixedSingle
+        txtSearch.Font = New Font("Segoe UI", 9.0F)
+        txtSearch.Location = New Point(18, 61)
+        txtSearch.Name = "txtSearch"
+        txtSearch.Size = New Size(210, 23)
+        txtSearch.TabIndex = 2
+        ' 
+        ' lblSearch
+        ' 
+        lblSearch.AutoSize = True
+        lblSearch.Font = New Font("Segoe UI Semibold", 8.5F, FontStyle.Bold)
+        lblSearch.Location = New Point(18, 43)
+        lblSearch.Name = "lblSearch"
+        lblSearch.Size = New Size(88, 15)
+        lblSearch.TabIndex = 1
+        lblSearch.Text = "Search Student"
+        ' 
+        ' pnlFiltersHeader
+        ' 
+        pnlFiltersHeader.BackColor = Color.FromArgb(CByte(97), CByte(55), CByte(31))
+        pnlFiltersHeader.Controls.Add(lblFiltersTitle)
+        pnlFiltersHeader.Dock = DockStyle.Top
+        pnlFiltersHeader.Location = New Point(0, 0)
+        pnlFiltersHeader.Name = "pnlFiltersHeader"
+        pnlFiltersHeader.Size = New Size(996, 38)
+        pnlFiltersHeader.TabIndex = 0
+        ' 
+        ' lblFiltersTitle
+        ' 
+        lblFiltersTitle.AutoSize = True
+        lblFiltersTitle.Font = New Font("Segoe UI Semibold", 12.0F, FontStyle.Bold)
+        lblFiltersTitle.ForeColor = Color.White
+        lblFiltersTitle.Location = New Point(14, 8)
+        lblFiltersTitle.Name = "lblFiltersTitle"
+        lblFiltersTitle.Size = New Size(109, 21)
+        lblFiltersTitle.TabIndex = 0
+        lblFiltersTitle.Text = "Report Filters"
+        ' 
         ' pnlRecords
-        '==================================================
-        Me.pnlRecords.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Top Or
-                System.Windows.Forms.AnchorStyles.Bottom Or
-                System.Windows.Forms.AnchorStyles.Left Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
-
-        Me.pnlRecords.BackColor =
-            System.Drawing.Color.FromArgb(255, 253, 252)
-
-        Me.pnlRecords.BorderStyle =
-            System.Windows.Forms.BorderStyle.FixedSingle
-
-        Me.pnlRecords.Controls.Add(Me.dgvAttendance)
-        Me.pnlRecords.Controls.Add(Me.pnlRecordsHeader)
-
-        Me.pnlRecords.Location =
-            New System.Drawing.Point(18, 192)
-
-        Me.pnlRecords.Name =
-            "pnlRecords"
-
-        Me.pnlRecords.Size =
-            New System.Drawing.Size(998, 240)
-
-        Me.pnlRecords.TabIndex =
-            2
-
-
-        '==================================================
-        ' pnlRecordsHeader
-        '==================================================
-        Me.pnlRecordsHeader.BackColor =
-            System.Drawing.Color.FromArgb(97, 55, 31)
-
-        Me.pnlRecordsHeader.Controls.Add(
-            Me.lblRecordsTitle
-        )
-
-        Me.pnlRecordsHeader.Dock =
-            System.Windows.Forms.DockStyle.Top
-
-        Me.pnlRecordsHeader.Location =
-            New System.Drawing.Point(0, 0)
-
-        Me.pnlRecordsHeader.Name =
-            "pnlRecordsHeader"
-
-        Me.pnlRecordsHeader.Size =
-            New System.Drawing.Size(996, 38)
-
-        Me.pnlRecordsHeader.TabIndex =
-            0
-
-
-        '==================================================
-        ' lblRecordsTitle
-        '==================================================
-        Me.lblRecordsTitle.AutoSize =
-            True
-
-        Me.lblRecordsTitle.Font =
-            New System.Drawing.Font(
-                "Segoe UI Semibold",
-                12.0!,
-                System.Drawing.FontStyle.Bold
-            )
-
-        Me.lblRecordsTitle.ForeColor =
-            System.Drawing.Color.White
-
-        Me.lblRecordsTitle.Location =
-            New System.Drawing.Point(14, 8)
-
-        Me.lblRecordsTitle.Name =
-            "lblRecordsTitle"
-
-        Me.lblRecordsTitle.Size =
-            New System.Drawing.Size(178, 25)
-
-        Me.lblRecordsTitle.TabIndex =
-            0
-
-        Me.lblRecordsTitle.Text =
-            "Entry / Exit Records"
-
-
-        '==================================================
+        ' 
+        pnlRecords.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        pnlRecords.BackColor = Color.FromArgb(CByte(255), CByte(253), CByte(252))
+        pnlRecords.BorderStyle = BorderStyle.FixedSingle
+        pnlRecords.Controls.Add(dgvAttendance)
+        pnlRecords.Controls.Add(pnlRecordsHeader)
+        pnlRecords.Location = New Point(18, 192)
+        pnlRecords.Name = "pnlRecords"
+        pnlRecords.Size = New Size(998, 301)
+        pnlRecords.TabIndex = 2
+        ' 
         ' dgvAttendance
-        '==================================================
-        Me.dgvAttendance.AllowUserToAddRows =
-            False
-
-        Me.dgvAttendance.AllowUserToDeleteRows =
-            False
-
-        Me.dgvAttendance.AllowUserToResizeRows =
-            False
-
-        Me.dgvAttendance.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Top Or
-                System.Windows.Forms.AnchorStyles.Bottom Or
-                System.Windows.Forms.AnchorStyles.Left Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
-
-        Me.dgvAttendance.AutoGenerateColumns =
-            False
-
-        Me.dgvAttendance.AutoSizeColumnsMode =
-            System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
-
-        Me.dgvAttendance.BackgroundColor =
-            System.Drawing.Color.White
-
-        Me.dgvAttendance.BorderStyle =
-            System.Windows.Forms.BorderStyle.None
-
-        Me.dgvAttendance.CellBorderStyle =
-            System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal
-
-        Me.dgvAttendance.ColumnHeadersHeight =
-            42
-
-        Me.dgvAttendance.ColumnHeadersHeightSizeMode =
-            System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-
-        Me.dgvAttendance.Columns.AddRange(
-            New System.Windows.Forms.DataGridViewColumn() {
-                Me.colStudentID,
-                Me.colStudentName,
-                Me.colYearCourse,
-                Me.colDate,
-                Me.colTimeIn,
-                Me.colTimeOut
-            }
-        )
-
-        Me.dgvAttendance.EnableHeadersVisualStyles =
-            False
-
-        Me.dgvAttendance.GridColor =
-            System.Drawing.Color.FromArgb(225, 211, 201)
-
-        Me.dgvAttendance.Location =
-            New System.Drawing.Point(18, 50)
-
-        Me.dgvAttendance.MultiSelect =
-            False
-
-        Me.dgvAttendance.Name =
-            "dgvAttendance"
-
-        Me.dgvAttendance.ReadOnly =
-            True
-
-        Me.dgvAttendance.RowHeadersVisible =
-            False
-
-        Me.dgvAttendance.RowTemplate.Height =
-            38
-
-        Me.dgvAttendance.SelectionMode =
-            System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-
-        Me.dgvAttendance.Size =
-            New System.Drawing.Size(960, 171)
-
-        Me.dgvAttendance.TabIndex =
-            1
-
-
-        '==================================================
-        ' dgvAttendance HEADER STYLE
-        '==================================================
-        Me.dgvAttendance.ColumnHeadersDefaultCellStyle.BackColor =
-            System.Drawing.Color.FromArgb(93, 50, 29)
-
-        Me.dgvAttendance.ColumnHeadersDefaultCellStyle.ForeColor =
-            System.Drawing.Color.White
-
-        Me.dgvAttendance.ColumnHeadersDefaultCellStyle.SelectionBackColor =
-            System.Drawing.Color.FromArgb(93, 50, 29)
-
-        Me.dgvAttendance.ColumnHeadersDefaultCellStyle.SelectionForeColor =
-            System.Drawing.Color.White
-
-        Me.dgvAttendance.ColumnHeadersDefaultCellStyle.Font =
-            New System.Drawing.Font(
-                "Segoe UI Semibold",
-                10.0!,
-                System.Drawing.FontStyle.Bold
-            )
-
-        Me.dgvAttendance.ColumnHeadersDefaultCellStyle.Alignment =
-            System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-
-
-        '==================================================
-        ' dgvAttendance ROW STYLE
-        '==================================================
-        Me.dgvAttendance.DefaultCellStyle.Font =
-            New System.Drawing.Font(
-                "Segoe UI",
-                10.0!
-            )
-
-        Me.dgvAttendance.DefaultCellStyle.BackColor =
-            System.Drawing.Color.White
-
-        Me.dgvAttendance.DefaultCellStyle.ForeColor =
-            System.Drawing.Color.FromArgb(50, 35, 28)
-
-        Me.dgvAttendance.DefaultCellStyle.SelectionBackColor =
-            System.Drawing.Color.FromArgb(233, 216, 202)
-
-        Me.dgvAttendance.DefaultCellStyle.SelectionForeColor =
-            System.Drawing.Color.FromArgb(52, 32, 23)
-
-
-        '==================================================
-        ' colStudentID
-        '==================================================
-        Me.colStudentID.DataPropertyName =
-            "student_id"
-
-        Me.colStudentID.FillWeight =
-            40.0!
-
-        Me.colStudentID.HeaderText =
-            "Student ID"
-
-        Me.colStudentID.Name =
-            "colStudentID"
-
-        Me.colStudentID.ReadOnly =
-            True
-
-
-        '==================================================
-        ' colStudentName
-        '==================================================
-        Me.colStudentName.DataPropertyName =
-            "student_name"
-
-        Me.colStudentName.FillWeight =
-            90.0!
-
-        Me.colStudentName.HeaderText =
-            "Student Name"
-
-        Me.colStudentName.Name =
-            "colStudentName"
-
-        Me.colStudentName.ReadOnly =
-            True
-
-
-        '==================================================
-        ' colYearCourse
-        '==================================================
-        Me.colYearCourse.DataPropertyName =
-            "year_course"
-
-        Me.colYearCourse.FillWeight =
-            70.0!
-
-        Me.colYearCourse.HeaderText =
-            "Year / Course"
-
-        Me.colYearCourse.Name =
-            "colYearCourse"
-
-        Me.colYearCourse.ReadOnly =
-            True
-
-
-        '==================================================
-        ' colDate
-        '==================================================
-        Me.colDate.DataPropertyName =
-            "attendance_date"
-
-        Me.colDate.FillWeight =
-            55.0!
-
-        Me.colDate.HeaderText =
-            "Date"
-
-        Me.colDate.Name =
-            "colDate"
-
-        Me.colDate.ReadOnly =
-            True
-
-        Me.colDate.DefaultCellStyle.Format =
-            "MM/dd/yyyy"
-
-
-        '==================================================
-        ' colTimeIn
-        '==================================================
-        Me.colTimeIn.DataPropertyName =
-            "time_in"
-
-        Me.colTimeIn.FillWeight =
-            50.0!
-
-        Me.colTimeIn.HeaderText =
-            "Time In"
-
-        Me.colTimeIn.Name =
-            "colTimeIn"
-
-        Me.colTimeIn.ReadOnly =
-            True
-
-
-        '==================================================
-        ' colTimeOut
-        '==================================================
-        Me.colTimeOut.DataPropertyName =
-            "time_out"
-
-        Me.colTimeOut.FillWeight =
-            50.0!
-
-        Me.colTimeOut.HeaderText =
-            "Time Out"
-
-        Me.colTimeOut.Name =
-            "colTimeOut"
-
-        Me.colTimeOut.ReadOnly =
-            True
-
-
-        '==================================================
+        ' 
+        dgvAttendance.AllowUserToAddRows = False
+        dgvAttendance.AllowUserToDeleteRows = False
+        dgvAttendance.AllowUserToResizeRows = False
+        dgvAttendance.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        dgvAttendance.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        dgvAttendance.BackgroundColor = Color.White
+        dgvAttendance.BorderStyle = BorderStyle.None
+        dgvAttendance.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(93), CByte(50), CByte(29))
+        DataGridViewCellStyle1.Font = New Font("Segoe UI Semibold", 10.0F, FontStyle.Bold)
+        DataGridViewCellStyle1.ForeColor = Color.White
+        DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(93), CByte(50), CByte(29))
+        DataGridViewCellStyle1.SelectionForeColor = Color.White
+        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
+        dgvAttendance.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        dgvAttendance.ColumnHeadersHeight = 42
+        dgvAttendance.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle2.BackColor = Color.White
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 10.0F)
+        DataGridViewCellStyle2.ForeColor = Color.FromArgb(CByte(50), CByte(35), CByte(28))
+        DataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(CByte(233), CByte(216), CByte(202))
+        DataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(CByte(52), CByte(32), CByte(23))
+        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
+        dgvAttendance.DefaultCellStyle = DataGridViewCellStyle2
+        dgvAttendance.EnableHeadersVisualStyles = False
+        dgvAttendance.GridColor = Color.FromArgb(CByte(225), CByte(211), CByte(201))
+        dgvAttendance.Location = New Point(18, 50)
+        dgvAttendance.MultiSelect = False
+        dgvAttendance.Name = "dgvAttendance"
+        dgvAttendance.ReadOnly = True
+        dgvAttendance.RowHeadersVisible = False
+        dgvAttendance.RowTemplate.Height = 38
+        dgvAttendance.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        dgvAttendance.Size = New Size(960, 232)
+        dgvAttendance.TabIndex = 1
+        ' 
+        ' pnlRecordsHeader
+        ' 
+        pnlRecordsHeader.BackColor = Color.FromArgb(CByte(97), CByte(55), CByte(31))
+        pnlRecordsHeader.Controls.Add(lblRecordsTitle)
+        pnlRecordsHeader.Dock = DockStyle.Top
+        pnlRecordsHeader.Location = New Point(0, 0)
+        pnlRecordsHeader.Name = "pnlRecordsHeader"
+        pnlRecordsHeader.Size = New Size(996, 38)
+        pnlRecordsHeader.TabIndex = 0
+        ' 
+        ' lblRecordsTitle
+        ' 
+        lblRecordsTitle.AutoSize = True
+        lblRecordsTitle.Font = New Font("Segoe UI Semibold", 12.0F, FontStyle.Bold)
+        lblRecordsTitle.ForeColor = Color.White
+        lblRecordsTitle.Location = New Point(14, 8)
+        lblRecordsTitle.Name = "lblRecordsTitle"
+        lblRecordsTitle.Size = New Size(153, 21)
+        lblRecordsTitle.TabIndex = 0
+        lblRecordsTitle.Text = "Entry / Exit Records"
+        ' 
         ' pnlSummary
-        '==================================================
-        Me.pnlSummary.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Bottom Or
-                System.Windows.Forms.AnchorStyles.Left Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
-
-        Me.pnlSummary.BackColor =
-            System.Drawing.Color.FromArgb(255, 253, 252)
-
-        Me.pnlSummary.BorderStyle =
-            System.Windows.Forms.BorderStyle.FixedSingle
-
-        Me.pnlSummary.Controls.Add(Me.btnGeneratePDF)
-        Me.pnlSummary.Controls.Add(Me.btnGenerateExcel)
-
-        Me.pnlSummary.Controls.Add(Me.pnlNoTimeOut)
-        Me.pnlSummary.Controls.Add(Me.pnlComplete)
-        Me.pnlSummary.Controls.Add(Me.pnlTotalRecords)
-
-        Me.pnlSummary.Controls.Add(Me.lblSummaryTitle)
-
-        Me.pnlSummary.Location =
-            New System.Drawing.Point(18, 442)
-
-        Me.pnlSummary.Name =
-            "pnlSummary"
-
-        Me.pnlSummary.Size =
-            New System.Drawing.Size(998, 83)
-
-        Me.pnlSummary.TabIndex =
-            3
-
-
-        '==================================================
-        ' lblSummaryTitle
-        '==================================================
-        Me.lblSummaryTitle.AutoSize =
-            True
-
-        Me.lblSummaryTitle.Font =
-            New System.Drawing.Font(
-                "Segoe UI Semibold",
-                10.5!,
-                System.Drawing.FontStyle.Bold
-            )
-
-        Me.lblSummaryTitle.ForeColor =
-            System.Drawing.Color.FromArgb(68, 37, 22)
-
-        Me.lblSummaryTitle.Location =
-            New System.Drawing.Point(16, 8)
-
-        Me.lblSummaryTitle.Name =
-            "lblSummaryTitle"
-
-        Me.lblSummaryTitle.Size =
-            New System.Drawing.Size(81, 21)
-
-        Me.lblSummaryTitle.TabIndex =
-            0
-
-        Me.lblSummaryTitle.Text =
-            "Summary"
-
-
-        '==================================================
-        ' pnlTotalRecords
-        '==================================================
-        Me.pnlTotalRecords.BackColor =
-            System.Drawing.Color.FromArgb(245, 234, 223)
-
-        Me.pnlTotalRecords.Controls.Add(Me.lblTotalRecords)
-        Me.pnlTotalRecords.Controls.Add(Me.lblTotalRecordsTitle)
-
-        Me.pnlTotalRecords.Location =
-            New System.Drawing.Point(18, 30)
-
-        Me.pnlTotalRecords.Name =
-            "pnlTotalRecords"
-
-        Me.pnlTotalRecords.Size =
-            New System.Drawing.Size(210, 41)
-
-        Me.pnlTotalRecords.TabIndex =
-            1
-
-
-        '==================================================
-        ' lblTotalRecordsTitle
-        '==================================================
-        Me.lblTotalRecordsTitle.AutoSize =
-            True
-
-        Me.lblTotalRecordsTitle.Font =
-            New System.Drawing.Font(
-                "Segoe UI",
-                9.0!
-            )
-
-        Me.lblTotalRecordsTitle.Location =
-            New System.Drawing.Point(12, 6)
-
-        Me.lblTotalRecordsTitle.Name =
-            "lblTotalRecordsTitle"
-
-        Me.lblTotalRecordsTitle.Size =
-            New System.Drawing.Size(95, 20)
-
-        Me.lblTotalRecordsTitle.TabIndex =
-            0
-
-        Me.lblTotalRecordsTitle.Text =
-            "Total Records"
-
-
-        '==================================================
-        ' lblTotalRecords
-        '==================================================
-        Me.lblTotalRecords.Font =
-            New System.Drawing.Font(
-                "Segoe UI",
-                15.0!,
-                System.Drawing.FontStyle.Bold
-            )
-
-        Me.lblTotalRecords.ForeColor =
-            System.Drawing.Color.FromArgb(68, 37, 22)
-
-        Me.lblTotalRecords.Location =
-            New System.Drawing.Point(150, 5)
-
-        Me.lblTotalRecords.Name =
-            "lblTotalRecords"
-
-        Me.lblTotalRecords.Size =
-            New System.Drawing.Size(45, 30)
-
-        Me.lblTotalRecords.TabIndex =
-            1
-
-        Me.lblTotalRecords.Text =
-            "0"
-
-        Me.lblTotalRecords.TextAlign =
-            System.Drawing.ContentAlignment.MiddleRight
-
-
-        '==================================================
-        ' pnlComplete
-        '==================================================
-        Me.pnlComplete.BackColor =
-            System.Drawing.Color.FromArgb(226, 242, 230)
-
-        Me.pnlComplete.Controls.Add(Me.lblComplete)
-        Me.pnlComplete.Controls.Add(Me.lblCompleteTitle)
-
-        Me.pnlComplete.Location =
-            New System.Drawing.Point(236, 30)
-
-        Me.pnlComplete.Name =
-            "pnlComplete"
-
-        Me.pnlComplete.Size =
-            New System.Drawing.Size(210, 41)
-
-        Me.pnlComplete.TabIndex =
-            2
-
-
-        '==================================================
-        ' lblCompleteTitle
-        '==================================================
-        Me.lblCompleteTitle.AutoSize =
-            True
-
-        Me.lblCompleteTitle.Font =
-            New System.Drawing.Font(
-                "Segoe UI",
-                9.0!
-            )
-
-        Me.lblCompleteTitle.Location =
-            New System.Drawing.Point(12, 6)
-
-        Me.lblCompleteTitle.Name =
-            "lblCompleteTitle"
-
-        Me.lblCompleteTitle.Size =
-            New System.Drawing.Size(139, 20)
-
-        Me.lblCompleteTitle.TabIndex =
-            0
-
-        Me.lblCompleteTitle.Text =
-            "Complete Entry / Exit"
-
-
-        '==================================================
-        ' lblComplete
-        '==================================================
-        Me.lblComplete.Font =
-            New System.Drawing.Font(
-                "Segoe UI",
-                15.0!,
-                System.Drawing.FontStyle.Bold
-            )
-
-        Me.lblComplete.ForeColor =
-            System.Drawing.Color.FromArgb(40, 100, 60)
-
-        Me.lblComplete.Location =
-            New System.Drawing.Point(150, 5)
-
-        Me.lblComplete.Name =
-            "lblComplete"
-
-        Me.lblComplete.Size =
-            New System.Drawing.Size(45, 30)
-
-        Me.lblComplete.TabIndex =
-            1
-
-        Me.lblComplete.Text =
-            "0"
-
-        Me.lblComplete.TextAlign =
-            System.Drawing.ContentAlignment.MiddleRight
-
-
-        '==================================================
-        ' pnlNoTimeOut
-        '==================================================
-        Me.pnlNoTimeOut.BackColor =
-            System.Drawing.Color.FromArgb(248, 224, 220)
-
-        Me.pnlNoTimeOut.Controls.Add(Me.lblNoTimeOut)
-        Me.pnlNoTimeOut.Controls.Add(Me.lblNoTimeOutTitle)
-
-        Me.pnlNoTimeOut.Location =
-            New System.Drawing.Point(454, 30)
-
-        Me.pnlNoTimeOut.Name =
-            "pnlNoTimeOut"
-
-        Me.pnlNoTimeOut.Size =
-            New System.Drawing.Size(210, 41)
-
-        Me.pnlNoTimeOut.TabIndex =
-            3
-
-
-        '==================================================
-        ' lblNoTimeOutTitle
-        '==================================================
-        Me.lblNoTimeOutTitle.AutoSize =
-            True
-
-        Me.lblNoTimeOutTitle.Font =
-            New System.Drawing.Font(
-                "Segoe UI",
-                9.0!
-            )
-
-        Me.lblNoTimeOutTitle.Location =
-            New System.Drawing.Point(12, 6)
-
-        Me.lblNoTimeOutTitle.Name =
-            "lblNoTimeOutTitle"
-
-        Me.lblNoTimeOutTitle.Size =
-            New System.Drawing.Size(110, 20)
-
-        Me.lblNoTimeOutTitle.TabIndex =
-            0
-
-        Me.lblNoTimeOutTitle.Text =
-            "No Exit Record"
-
-
-        '==================================================
-        ' lblNoTimeOut
-        '==================================================
-        Me.lblNoTimeOut.Font =
-            New System.Drawing.Font(
-                "Segoe UI",
-                15.0!,
-                System.Drawing.FontStyle.Bold
-            )
-
-        Me.lblNoTimeOut.ForeColor =
-            System.Drawing.Color.FromArgb(170, 45, 45)
-
-        Me.lblNoTimeOut.Location =
-            New System.Drawing.Point(150, 5)
-
-        Me.lblNoTimeOut.Name =
-            "lblNoTimeOut"
-
-        Me.lblNoTimeOut.Size =
-            New System.Drawing.Size(45, 30)
-
-        Me.lblNoTimeOut.TabIndex =
-            1
-
-        Me.lblNoTimeOut.Text =
-            "0"
-
-        Me.lblNoTimeOut.TextAlign =
-            System.Drawing.ContentAlignment.MiddleRight
-
-
-        '==================================================
-        ' btnGenerateExcel
-        '==================================================
-        Me.btnGenerateExcel.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Top Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
-
-        Me.btnGenerateExcel.BackColor =
-            System.Drawing.Color.FromArgb(103, 60, 36)
-
-        Me.btnGenerateExcel.Cursor =
-            System.Windows.Forms.Cursors.Hand
-
-        Me.btnGenerateExcel.FlatAppearance.BorderSize =
-            0
-
-        Me.btnGenerateExcel.FlatStyle =
-            System.Windows.Forms.FlatStyle.Flat
-
-        Me.btnGenerateExcel.Font =
-            New System.Drawing.Font(
-                "Segoe UI Semibold",
-                9.5!,
-                System.Drawing.FontStyle.Bold
-            )
-
-        Me.btnGenerateExcel.ForeColor =
-            System.Drawing.Color.White
-
-        Me.btnGenerateExcel.Location =
-            New System.Drawing.Point(708, 30)
-
-        Me.btnGenerateExcel.Name =
-            "btnGenerateExcel"
-
-        Me.btnGenerateExcel.Size =
-            New System.Drawing.Size(128, 41)
-
-        Me.btnGenerateExcel.TabIndex =
-            4
-
-        Me.btnGenerateExcel.Text =
-            "Generate Excel"
-
-        Me.btnGenerateExcel.UseVisualStyleBackColor =
-            False
-
-
-        '==================================================
+        ' 
+        pnlSummary.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        pnlSummary.BackColor = Color.FromArgb(CByte(255), CByte(253), CByte(252))
+        pnlSummary.BorderStyle = BorderStyle.FixedSingle
+        pnlSummary.Controls.Add(btnGeneratePDF)
+        pnlSummary.Controls.Add(btnGenerateExcel)
+        pnlSummary.Controls.Add(pnlNoTimeOut)
+        pnlSummary.Controls.Add(pnlComplete)
+        pnlSummary.Controls.Add(pnlTotalRecords)
+        pnlSummary.Controls.Add(lblSummaryTitle)
+        pnlSummary.Location = New Point(18, 499)
+        pnlSummary.Name = "pnlSummary"
+        pnlSummary.Size = New Size(998, 108)
+        pnlSummary.TabIndex = 3
+        ' 
         ' btnGeneratePDF
-        '==================================================
-        Me.btnGeneratePDF.Anchor =
-            CType(
-                System.Windows.Forms.AnchorStyles.Top Or
-                System.Windows.Forms.AnchorStyles.Right,
-                System.Windows.Forms.AnchorStyles
-            )
-
-        Me.btnGeneratePDF.BackColor =
-            System.Drawing.Color.FromArgb(242, 230, 220)
-
-        Me.btnGeneratePDF.Cursor =
-            System.Windows.Forms.Cursors.Hand
-
-        Me.btnGeneratePDF.FlatAppearance.BorderColor =
-            System.Drawing.Color.FromArgb(205, 183, 167)
-
-        Me.btnGeneratePDF.FlatStyle =
-            System.Windows.Forms.FlatStyle.Flat
-
-        Me.btnGeneratePDF.Font =
-            New System.Drawing.Font(
-                "Segoe UI Semibold",
-                9.5!,
-                System.Drawing.FontStyle.Bold
-            )
-
-        Me.btnGeneratePDF.ForeColor =
-            System.Drawing.Color.FromArgb(75, 41, 24)
-
-        Me.btnGeneratePDF.Location =
-            New System.Drawing.Point(844, 30)
-
-        Me.btnGeneratePDF.Name =
-            "btnGeneratePDF"
-
-        Me.btnGeneratePDF.Size =
-            New System.Drawing.Size(128, 41)
-
-        Me.btnGeneratePDF.TabIndex =
-            5
-
-        Me.btnGeneratePDF.Text =
-            "Generate PDF"
-
-        Me.btnGeneratePDF.UseVisualStyleBackColor =
-            False
-
-
-        '==================================================
-        ' Generate_Reports
-        '==================================================
-        Me.AutoScaleDimensions =
-            New System.Drawing.SizeF(7.0!, 15.0!)
-
-        Me.AutoScaleMode =
-            System.Windows.Forms.AutoScaleMode.Font
-
-        Me.BackColor =
-            System.Drawing.Color.FromArgb(247, 241, 236)
-
-        Me.Controls.Add(Me.pnlSummary)
-        Me.Controls.Add(Me.pnlRecords)
-        Me.Controls.Add(Me.pnlFilters)
-        Me.Controls.Add(Me.pnlHeader)
-
-        Me.Font =
-            New System.Drawing.Font(
-                "Segoe UI",
-                9.0!
-            )
-
-        Me.Name =
-            "Generate_Reports"
-
-        Me.Size =
-            New System.Drawing.Size(1032, 540)
-
-
-        '==================================================
-        ' RESUME
-        '==================================================
-        Me.pnlHeader.ResumeLayout(False)
-        Me.pnlHeader.PerformLayout()
-
-        Me.pnlFiltersHeader.ResumeLayout(False)
-        Me.pnlFiltersHeader.PerformLayout()
-
-        Me.pnlFilters.ResumeLayout(False)
-        Me.pnlFilters.PerformLayout()
-
-        Me.pnlRecordsHeader.ResumeLayout(False)
-        Me.pnlRecordsHeader.PerformLayout()
-
-        CType(
-            Me.dgvAttendance,
-            System.ComponentModel.ISupportInitialize
-        ).EndInit()
-
-        Me.pnlRecords.ResumeLayout(False)
-
-        Me.pnlTotalRecords.ResumeLayout(False)
-        Me.pnlTotalRecords.PerformLayout()
-
-        Me.pnlComplete.ResumeLayout(False)
-        Me.pnlComplete.PerformLayout()
-
-        Me.pnlNoTimeOut.ResumeLayout(False)
-        Me.pnlNoTimeOut.PerformLayout()
-
-        Me.pnlSummary.ResumeLayout(False)
-        Me.pnlSummary.PerformLayout()
-
-        Me.ResumeLayout(False)
+        ' 
+        btnGeneratePDF.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnGeneratePDF.BackColor = Color.FromArgb(CByte(242), CByte(230), CByte(220))
+        btnGeneratePDF.Cursor = Cursors.Hand
+        btnGeneratePDF.FlatAppearance.BorderColor = Color.FromArgb(CByte(205), CByte(183), CByte(167))
+        btnGeneratePDF.FlatStyle = FlatStyle.Flat
+        btnGeneratePDF.Font = New Font("Segoe UI Semibold", 9.5F, FontStyle.Bold)
+        btnGeneratePDF.ForeColor = Color.FromArgb(CByte(75), CByte(41), CByte(24))
+        btnGeneratePDF.Location = New Point(844, 30)
+        btnGeneratePDF.Name = "btnGeneratePDF"
+        btnGeneratePDF.Size = New Size(128, 41)
+        btnGeneratePDF.TabIndex = 5
+        btnGeneratePDF.Text = "Generate PDF"
+        btnGeneratePDF.UseVisualStyleBackColor = False
+        ' 
+        ' btnGenerateExcel
+        ' 
+        btnGenerateExcel.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnGenerateExcel.BackColor = Color.FromArgb(CByte(103), CByte(60), CByte(36))
+        btnGenerateExcel.Cursor = Cursors.Hand
+        btnGenerateExcel.FlatAppearance.BorderSize = 0
+        btnGenerateExcel.FlatStyle = FlatStyle.Flat
+        btnGenerateExcel.Font = New Font("Segoe UI Semibold", 9.5F, FontStyle.Bold)
+        btnGenerateExcel.ForeColor = Color.White
+        btnGenerateExcel.Location = New Point(708, 30)
+        btnGenerateExcel.Name = "btnGenerateExcel"
+        btnGenerateExcel.Size = New Size(128, 41)
+        btnGenerateExcel.TabIndex = 4
+        btnGenerateExcel.Text = "Generate Excel"
+        btnGenerateExcel.UseVisualStyleBackColor = False
+        ' 
+        ' pnlNoTimeOut
+        ' 
+        pnlNoTimeOut.BackColor = Color.FromArgb(CByte(248), CByte(224), CByte(220))
+        pnlNoTimeOut.Controls.Add(picNoTimeOutIcon)
+        pnlNoTimeOut.Controls.Add(lblNoTimeOut)
+        pnlNoTimeOut.Controls.Add(lblNoTimeOutTitle)
+        pnlNoTimeOut.Location = New Point(454, 30)
+        pnlNoTimeOut.Name = "pnlNoTimeOut"
+        pnlNoTimeOut.Size = New Size(210, 60)
+        pnlNoTimeOut.TabIndex = 3
+        ' 
+        ' picNoTimeOutIcon
+        ' 
+        picNoTimeOutIcon.BackColor = Color.Transparent
+        picNoTimeOutIcon.Image = My.Resources.Resources.dashboard_no_exit
+        picNoTimeOutIcon.Location = New Point(1, 0)
+        picNoTimeOutIcon.Name = "picNoTimeOutIcon"
+        picNoTimeOutIcon.Size = New Size(60, 60)
+        picNoTimeOutIcon.SizeMode = PictureBoxSizeMode.Zoom
+        picNoTimeOutIcon.TabIndex = 2
+        picNoTimeOutIcon.TabStop = False
+        ' 
+        ' lblNoTimeOut
+        ' 
+        lblNoTimeOut.Font = New Font("Segoe UI", 15.0F, FontStyle.Bold)
+        lblNoTimeOut.ForeColor = Color.FromArgb(CByte(170), CByte(45), CByte(45))
+        lblNoTimeOut.Location = New Point(62, 31)
+        lblNoTimeOut.Name = "lblNoTimeOut"
+        lblNoTimeOut.Size = New Size(145, 24)
+        lblNoTimeOut.TabIndex = 1
+        lblNoTimeOut.Text = "0"
+        lblNoTimeOut.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' lblNoTimeOutTitle
+        ' 
+        lblNoTimeOutTitle.AutoSize = True
+        lblNoTimeOutTitle.Font = New Font("Segoe UI", 8.5F)
+        lblNoTimeOutTitle.ForeColor = Color.FromArgb(CByte(120), CByte(55), CByte(55))
+        lblNoTimeOutTitle.Location = New Point(67, 15)
+        lblNoTimeOutTitle.Name = "lblNoTimeOutTitle"
+        lblNoTimeOutTitle.Size = New Size(85, 15)
+        lblNoTimeOutTitle.TabIndex = 0
+        lblNoTimeOutTitle.Text = "No Exit Record"
+        ' 
+        ' pnlComplete
+        ' 
+        pnlComplete.BackColor = Color.FromArgb(CByte(226), CByte(242), CByte(230))
+        pnlComplete.Controls.Add(picCompleteIcon)
+        pnlComplete.Controls.Add(lblComplete)
+        pnlComplete.Controls.Add(lblCompleteTitle)
+        pnlComplete.Location = New Point(236, 30)
+        pnlComplete.Name = "pnlComplete"
+        pnlComplete.Size = New Size(210, 60)
+        pnlComplete.TabIndex = 2
+        ' 
+        ' picCompleteIcon
+        ' 
+        picCompleteIcon.BackColor = Color.Transparent
+        picCompleteIcon.Image = My.Resources.Resources.dashboard_entry
+        picCompleteIcon.Location = New Point(1, 0)
+        picCompleteIcon.Name = "picCompleteIcon"
+        picCompleteIcon.Size = New Size(60, 60)
+        picCompleteIcon.SizeMode = PictureBoxSizeMode.Zoom
+        picCompleteIcon.TabIndex = 2
+        picCompleteIcon.TabStop = False
+        ' 
+        ' lblComplete
+        ' 
+        lblComplete.Font = New Font("Segoe UI", 15.0F, FontStyle.Bold)
+        lblComplete.ForeColor = Color.FromArgb(CByte(40), CByte(100), CByte(60))
+        lblComplete.Location = New Point(62, 31)
+        lblComplete.Name = "lblComplete"
+        lblComplete.Size = New Size(145, 24)
+        lblComplete.TabIndex = 1
+        lblComplete.Text = "0"
+        lblComplete.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' lblCompleteTitle
+        ' 
+        lblCompleteTitle.AutoSize = True
+        lblCompleteTitle.Font = New Font("Segoe UI", 8.5F)
+        lblCompleteTitle.ForeColor = Color.FromArgb(CByte(50), CByte(90), CByte(60))
+        lblCompleteTitle.Location = New Point(67, 15)
+        lblCompleteTitle.Name = "lblCompleteTitle"
+        lblCompleteTitle.Size = New Size(119, 15)
+        lblCompleteTitle.TabIndex = 0
+        lblCompleteTitle.Text = "Complete Entry / Exit"
+        ' 
+        ' pnlTotalRecords
+        ' 
+        pnlTotalRecords.BackColor = Color.FromArgb(CByte(245), CByte(234), CByte(223))
+        pnlTotalRecords.Controls.Add(picTotalRecordsIcon)
+        pnlTotalRecords.Controls.Add(lblTotalRecords)
+        pnlTotalRecords.Controls.Add(lblTotalRecordsTitle)
+        pnlTotalRecords.Location = New Point(18, 30)
+        pnlTotalRecords.Name = "pnlTotalRecords"
+        pnlTotalRecords.Size = New Size(210, 60)
+        pnlTotalRecords.TabIndex = 1
+        ' 
+        ' picTotalRecordsIcon
+        ' 
+        picTotalRecordsIcon.BackColor = Color.Transparent
+        picTotalRecordsIcon.BackgroundImageLayout = ImageLayout.Zoom
+        picTotalRecordsIcon.Image = My.Resources.Resources.dashboard_students
+        picTotalRecordsIcon.Location = New Point(1, 0)
+        picTotalRecordsIcon.Name = "picTotalRecordsIcon"
+        picTotalRecordsIcon.Size = New Size(60, 60)
+        picTotalRecordsIcon.SizeMode = PictureBoxSizeMode.Zoom
+        picTotalRecordsIcon.TabIndex = 2
+        picTotalRecordsIcon.TabStop = False
+        ' 
+        ' lblTotalRecords
+        ' 
+        lblTotalRecords.Font = New Font("Segoe UI", 15.0F, FontStyle.Bold)
+        lblTotalRecords.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
+        lblTotalRecords.Location = New Point(63, 31)
+        lblTotalRecords.Name = "lblTotalRecords"
+        lblTotalRecords.Size = New Size(144, 24)
+        lblTotalRecords.TabIndex = 1
+        lblTotalRecords.Text = "0"
+        lblTotalRecords.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' lblTotalRecordsTitle
+        ' 
+        lblTotalRecordsTitle.AutoSize = True
+        lblTotalRecordsTitle.Font = New Font("Segoe UI", 8.5F)
+        lblTotalRecordsTitle.ForeColor = Color.FromArgb(CByte(75), CByte(54), CByte(43))
+        lblTotalRecordsTitle.Location = New Point(66, 15)
+        lblTotalRecordsTitle.Name = "lblTotalRecordsTitle"
+        lblTotalRecordsTitle.Size = New Size(77, 15)
+        lblTotalRecordsTitle.TabIndex = 0
+        lblTotalRecordsTitle.Text = "Total Records"
+        ' 
+        ' lblSummaryTitle
+        ' 
+        lblSummaryTitle.AutoSize = True
+        lblSummaryTitle.Font = New Font("Segoe UI Semibold", 10.5F, FontStyle.Bold)
+        lblSummaryTitle.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
+        lblSummaryTitle.Location = New Point(16, 8)
+        lblSummaryTitle.Name = "lblSummaryTitle"
+        lblSummaryTitle.Size = New Size(69, 19)
+        lblSummaryTitle.TabIndex = 0
+        lblSummaryTitle.Text = "Summary"
+        ' 
+        ' UcGenerateReport
+        ' 
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleMode = AutoScaleMode.Font
+        BackColor = Color.FromArgb(CByte(247), CByte(241), CByte(236))
+        Controls.Add(pnlSummary)
+        Controls.Add(pnlRecords)
+        Controls.Add(pnlFilters)
+        Controls.Add(pnlHeader)
+        Font = New Font("Segoe UI", 9.0F)
+        Name = "UcGenerateReport"
+        Size = New Size(1032, 622)
+        pnlHeader.ResumeLayout(False)
+        pnlHeader.PerformLayout()
+        pnlFilters.ResumeLayout(False)
+        pnlFilters.PerformLayout()
+        pnlFiltersHeader.ResumeLayout(False)
+        pnlFiltersHeader.PerformLayout()
+        pnlRecords.ResumeLayout(False)
+        CType(dgvAttendance, ComponentModel.ISupportInitialize).EndInit()
+        pnlRecordsHeader.ResumeLayout(False)
+        pnlRecordsHeader.PerformLayout()
+        pnlSummary.ResumeLayout(False)
+        pnlSummary.PerformLayout()
+        pnlNoTimeOut.ResumeLayout(False)
+        pnlNoTimeOut.PerformLayout()
+        CType(picNoTimeOutIcon, ComponentModel.ISupportInitialize).EndInit()
+        pnlComplete.ResumeLayout(False)
+        pnlComplete.PerformLayout()
+        CType(picCompleteIcon, ComponentModel.ISupportInitialize).EndInit()
+        pnlTotalRecords.ResumeLayout(False)
+        pnlTotalRecords.PerformLayout()
+        CType(picTotalRecordsIcon, ComponentModel.ISupportInitialize).EndInit()
+        ResumeLayout(False)
 
     End Sub
 
@@ -1534,30 +598,39 @@ Partial Class UcGenerateReport
     Friend WithEvents lblTitle As Label
     Friend WithEvents lblSubtitle As Label
 
+
     Friend WithEvents pnlFilters As Panel
     Friend WithEvents pnlFiltersHeader As Panel
     Friend WithEvents lblFiltersTitle As Label
 
+
     Friend WithEvents lblSearch As Label
     Friend WithEvents txtSearch As TextBox
+
 
     Friend WithEvents lblDateFrom As Label
     Friend WithEvents dtpFrom As DateTimePicker
 
+
     Friend WithEvents lblDateTo As Label
     Friend WithEvents dtpTo As DateTimePicker
+
 
     Friend WithEvents lblCourse As Label
     Friend WithEvents cboCourse As ComboBox
 
+
     Friend WithEvents btnApplyFilter As Button
     Friend WithEvents btnReset As Button
+
 
     Friend WithEvents pnlRecords As Panel
     Friend WithEvents pnlRecordsHeader As Panel
     Friend WithEvents lblRecordsTitle As Label
 
+
     Friend WithEvents dgvAttendance As DataGridView
+
 
     Friend WithEvents colStudentID As DataGridViewTextBoxColumn
     Friend WithEvents colStudentName As DataGridViewTextBoxColumn
@@ -1566,23 +639,32 @@ Partial Class UcGenerateReport
     Friend WithEvents colTimeIn As DataGridViewTextBoxColumn
     Friend WithEvents colTimeOut As DataGridViewTextBoxColumn
 
+
     Friend WithEvents pnlSummary As Panel
     Friend WithEvents lblSummaryTitle As Label
 
+
     Friend WithEvents pnlTotalRecords As Panel
+    Friend WithEvents picTotalRecordsIcon As PictureBox
     Friend WithEvents lblTotalRecordsTitle As Label
     Friend WithEvents lblTotalRecords As Label
 
+
     Friend WithEvents pnlComplete As Panel
+    Friend WithEvents picCompleteIcon As PictureBox
     Friend WithEvents lblCompleteTitle As Label
     Friend WithEvents lblComplete As Label
 
+
     Friend WithEvents pnlNoTimeOut As Panel
+    Friend WithEvents picNoTimeOutIcon As PictureBox
     Friend WithEvents lblNoTimeOutTitle As Label
     Friend WithEvents lblNoTimeOut As Label
 
+
     Friend WithEvents btnGenerateExcel As Button
     Friend WithEvents btnGeneratePDF As Button
+
 
     Friend WithEvents lblDateTime As Label
     Friend WithEvents timerClock As Timer

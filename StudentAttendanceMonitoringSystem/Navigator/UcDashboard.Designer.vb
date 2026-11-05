@@ -3,15 +3,20 @@ Partial Class UcDashboard
 
     Inherits System.Windows.Forms.UserControl
 
+
     <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(disposing As Boolean)
 
         Try
+
             If disposing AndAlso components IsNot Nothing Then
                 components.Dispose()
             End If
+
         Finally
+
             MyBase.Dispose(disposing)
+
         End Try
 
     End Sub
@@ -33,15 +38,19 @@ Partial Class UcDashboard
         lblDateTime = New Label()
         tlpStats = New TableLayoutPanel()
         pnlTotalStudents = New Panel()
+        picTotalStudentsIcon = New PictureBox()
         lblTotalStudentsTitle = New Label()
         lblTotalStudents = New Label()
         pnlQRGenerated = New Panel()
+        picQRGeneratedIcon = New PictureBox()
         lblQRGeneratedTitle = New Label()
         lblQRGenerated = New Label()
         pnlTodayEntry = New Panel()
+        picTodayEntryIcon = New PictureBox()
         lblTodayEntryTitle = New Label()
         lblTodayEntry = New Label()
         pnlTodayExit = New Panel()
+        picTodayExitIcon = New PictureBox()
         lblTodayExitTitle = New Label()
         lblTodayExit = New Label()
         tlpMiddle = New TableLayoutPanel()
@@ -57,21 +66,28 @@ Partial Class UcDashboard
         lblQuickOverviewTitle = New Label()
         tlpQuickOverview = New TableLayoutPanel()
         pnlQRNotGenerated = New Panel()
+        picQRNotGeneratedIcon = New PictureBox()
         lblQRNotGeneratedTitle = New Label()
         lblQRNotGenerated = New Label()
         pnlNoExitToday = New Panel()
+        picNoExitTodayIcon = New PictureBox()
         lblNoExitTodayTitle = New Label()
         lblNoExitToday = New Label()
         pnlFailedSMS = New Panel()
+        picFailedSMSIcon = New PictureBox()
         lblFailedSMSTitle = New Label()
         lblFailedSMS = New Label()
         timerClock = New Timer(components)
         pnlHeader.SuspendLayout()
         tlpStats.SuspendLayout()
         pnlTotalStudents.SuspendLayout()
+        CType(picTotalStudentsIcon, ComponentModel.ISupportInitialize).BeginInit()
         pnlQRGenerated.SuspendLayout()
+        CType(picQRGeneratedIcon, ComponentModel.ISupportInitialize).BeginInit()
         pnlTodayEntry.SuspendLayout()
+        CType(picTodayEntryIcon, ComponentModel.ISupportInitialize).BeginInit()
         pnlTodayExit.SuspendLayout()
+        CType(picTodayExitIcon, ComponentModel.ISupportInitialize).BeginInit()
         tlpMiddle.SuspendLayout()
         pnlRecentEntryExit.SuspendLayout()
         CType(dgvRecentEntryExit, ComponentModel.ISupportInitialize).BeginInit()
@@ -82,8 +98,11 @@ Partial Class UcDashboard
         pnlQuickOverview.SuspendLayout()
         tlpQuickOverview.SuspendLayout()
         pnlQRNotGenerated.SuspendLayout()
+        CType(picQRNotGeneratedIcon, ComponentModel.ISupportInitialize).BeginInit()
         pnlNoExitToday.SuspendLayout()
+        CType(picNoExitTodayIcon, ComponentModel.ISupportInitialize).BeginInit()
         pnlFailedSMS.SuspendLayout()
+        CType(picFailedSMSIcon, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' pnlHeader
@@ -158,6 +177,7 @@ Partial Class UcDashboard
         ' 
         pnlTotalStudents.BackColor = Color.FromArgb(CByte(245), CByte(234), CByte(223))
         pnlTotalStudents.BorderStyle = BorderStyle.FixedSingle
+        pnlTotalStudents.Controls.Add(picTotalStudentsIcon)
         pnlTotalStudents.Controls.Add(lblTotalStudentsTitle)
         pnlTotalStudents.Controls.Add(lblTotalStudents)
         pnlTotalStudents.Dock = DockStyle.Fill
@@ -166,6 +186,19 @@ Partial Class UcDashboard
         pnlTotalStudents.Name = "pnlTotalStudents"
         pnlTotalStudents.Size = New Size(242, 82)
         pnlTotalStudents.TabIndex = 0
+        ' 
+        ' picTotalStudentsIcon
+        ' 
+        picTotalStudentsIcon.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        picTotalStudentsIcon.BackColor = Color.Transparent
+        picTotalStudentsIcon.BackgroundImageLayout = ImageLayout.Zoom
+        picTotalStudentsIcon.Image = My.Resources.Resources.dashboard_students
+        picTotalStudentsIcon.Location = New Point(152, 3)
+        picTotalStudentsIcon.Name = "picTotalStudentsIcon"
+        picTotalStudentsIcon.Size = New Size(85, 75)
+        picTotalStudentsIcon.SizeMode = PictureBoxSizeMode.Zoom
+        picTotalStudentsIcon.TabIndex = 2
+        picTotalStudentsIcon.TabStop = False
         ' 
         ' lblTotalStudentsTitle
         ' 
@@ -184,7 +217,7 @@ Partial Class UcDashboard
         lblTotalStudents.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
         lblTotalStudents.Location = New Point(15, 30)
         lblTotalStudents.Name = "lblTotalStudents"
-        lblTotalStudents.Size = New Size(192, 39)
+        lblTotalStudents.Size = New Size(160, 39)
         lblTotalStudents.TabIndex = 1
         lblTotalStudents.Text = "0"
         ' 
@@ -192,6 +225,7 @@ Partial Class UcDashboard
         ' 
         pnlQRGenerated.BackColor = Color.FromArgb(CByte(226), CByte(242), CByte(230))
         pnlQRGenerated.BorderStyle = BorderStyle.FixedSingle
+        pnlQRGenerated.Controls.Add(picQRGeneratedIcon)
         pnlQRGenerated.Controls.Add(lblQRGeneratedTitle)
         pnlQRGenerated.Controls.Add(lblQRGenerated)
         pnlQRGenerated.Dock = DockStyle.Fill
@@ -200,6 +234,18 @@ Partial Class UcDashboard
         pnlQRGenerated.Name = "pnlQRGenerated"
         pnlQRGenerated.Size = New Size(241, 82)
         pnlQRGenerated.TabIndex = 1
+        ' 
+        ' picQRGeneratedIcon
+        ' 
+        picQRGeneratedIcon.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        picQRGeneratedIcon.BackColor = Color.Transparent
+        picQRGeneratedIcon.Image = My.Resources.Resources.dashboard_qr_generated
+        picQRGeneratedIcon.Location = New Point(151, 2)
+        picQRGeneratedIcon.Name = "picQRGeneratedIcon"
+        picQRGeneratedIcon.Size = New Size(85, 75)
+        picQRGeneratedIcon.SizeMode = PictureBoxSizeMode.Zoom
+        picQRGeneratedIcon.TabIndex = 2
+        picQRGeneratedIcon.TabStop = False
         ' 
         ' lblQRGeneratedTitle
         ' 
@@ -218,7 +264,7 @@ Partial Class UcDashboard
         lblQRGenerated.ForeColor = Color.FromArgb(CByte(40), CByte(100), CByte(60))
         lblQRGenerated.Location = New Point(15, 30)
         lblQRGenerated.Name = "lblQRGenerated"
-        lblQRGenerated.Size = New Size(192, 39)
+        lblQRGenerated.Size = New Size(160, 39)
         lblQRGenerated.TabIndex = 1
         lblQRGenerated.Text = "0"
         ' 
@@ -226,6 +272,7 @@ Partial Class UcDashboard
         ' 
         pnlTodayEntry.BackColor = Color.FromArgb(CByte(232), CByte(238), CByte(248))
         pnlTodayEntry.BorderStyle = BorderStyle.FixedSingle
+        pnlTodayEntry.Controls.Add(picTodayEntryIcon)
         pnlTodayEntry.Controls.Add(lblTodayEntryTitle)
         pnlTodayEntry.Controls.Add(lblTodayEntry)
         pnlTodayEntry.Dock = DockStyle.Fill
@@ -234,6 +281,18 @@ Partial Class UcDashboard
         pnlTodayEntry.Name = "pnlTodayEntry"
         pnlTodayEntry.Size = New Size(241, 82)
         pnlTodayEntry.TabIndex = 2
+        ' 
+        ' picTodayEntryIcon
+        ' 
+        picTodayEntryIcon.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        picTodayEntryIcon.BackColor = Color.Transparent
+        picTodayEntryIcon.Image = My.Resources.Resources.dashboard_entry
+        picTodayEntryIcon.Location = New Point(151, 3)
+        picTodayEntryIcon.Name = "picTodayEntryIcon"
+        picTodayEntryIcon.Size = New Size(85, 75)
+        picTodayEntryIcon.SizeMode = PictureBoxSizeMode.Zoom
+        picTodayEntryIcon.TabIndex = 2
+        picTodayEntryIcon.TabStop = False
         ' 
         ' lblTodayEntryTitle
         ' 
@@ -252,7 +311,7 @@ Partial Class UcDashboard
         lblTodayEntry.ForeColor = Color.FromArgb(CByte(50), CByte(70), CByte(100))
         lblTodayEntry.Location = New Point(15, 30)
         lblTodayEntry.Name = "lblTodayEntry"
-        lblTodayEntry.Size = New Size(192, 39)
+        lblTodayEntry.Size = New Size(160, 39)
         lblTodayEntry.TabIndex = 1
         lblTodayEntry.Text = "0"
         ' 
@@ -260,6 +319,7 @@ Partial Class UcDashboard
         ' 
         pnlTodayExit.BackColor = Color.FromArgb(CByte(248), CByte(224), CByte(220))
         pnlTodayExit.BorderStyle = BorderStyle.FixedSingle
+        pnlTodayExit.Controls.Add(picTodayExitIcon)
         pnlTodayExit.Controls.Add(lblTodayExitTitle)
         pnlTodayExit.Controls.Add(lblTodayExit)
         pnlTodayExit.Dock = DockStyle.Fill
@@ -268,6 +328,18 @@ Partial Class UcDashboard
         pnlTodayExit.Name = "pnlTodayExit"
         pnlTodayExit.Size = New Size(244, 82)
         pnlTodayExit.TabIndex = 3
+        ' 
+        ' picTodayExitIcon
+        ' 
+        picTodayExitIcon.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        picTodayExitIcon.BackColor = Color.Transparent
+        picTodayExitIcon.Image = My.Resources.Resources.dashboard_exit
+        picTodayExitIcon.Location = New Point(154, 3)
+        picTodayExitIcon.Name = "picTodayExitIcon"
+        picTodayExitIcon.Size = New Size(85, 75)
+        picTodayExitIcon.SizeMode = PictureBoxSizeMode.Zoom
+        picTodayExitIcon.TabIndex = 2
+        picTodayExitIcon.TabStop = False
         ' 
         ' lblTodayExitTitle
         ' 
@@ -286,7 +358,7 @@ Partial Class UcDashboard
         lblTodayExit.ForeColor = Color.FromArgb(CByte(170), CByte(45), CByte(45))
         lblTodayExit.Location = New Point(15, 30)
         lblTodayExit.Name = "lblTodayExit"
-        lblTodayExit.Size = New Size(192, 39)
+        lblTodayExit.Size = New Size(160, 39)
         lblTodayExit.TabIndex = 1
         lblTodayExit.Text = "0"
         ' 
@@ -303,7 +375,7 @@ Partial Class UcDashboard
         tlpMiddle.Name = "tlpMiddle"
         tlpMiddle.RowCount = 1
         tlpMiddle.RowStyles.Add(New RowStyle(SizeType.Percent, 100.0F))
-        tlpMiddle.Size = New Size(998, 250)
+        tlpMiddle.Size = New Size(998, 314)
         tlpMiddle.TabIndex = 2
         ' 
         ' pnlRecentEntryExit
@@ -316,7 +388,7 @@ Partial Class UcDashboard
         pnlRecentEntryExit.Location = New Point(0, 0)
         pnlRecentEntryExit.Margin = New Padding(0, 0, 4, 0)
         pnlRecentEntryExit.Name = "pnlRecentEntryExit"
-        pnlRecentEntryExit.Size = New Size(614, 250)
+        pnlRecentEntryExit.Size = New Size(614, 314)
         pnlRecentEntryExit.TabIndex = 0
         ' 
         ' dgvRecentEntryExit
@@ -338,7 +410,7 @@ Partial Class UcDashboard
         dgvRecentEntryExit.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         dgvRecentEntryExit.ColumnHeadersHeight = 42
         dgvRecentEntryExit.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle2.BackColor = SystemColors.Window
         DataGridViewCellStyle2.Font = New Font("Segoe UI", 10.0F)
         DataGridViewCellStyle2.ForeColor = SystemColors.ControlText
@@ -357,7 +429,7 @@ Partial Class UcDashboard
         dgvRecentEntryExit.RowHeadersVisible = False
         dgvRecentEntryExit.RowTemplate.Height = 38
         dgvRecentEntryExit.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvRecentEntryExit.Size = New Size(612, 210)
+        dgvRecentEntryExit.Size = New Size(612, 274)
         dgvRecentEntryExit.TabIndex = 0
         ' 
         ' pnlRecentEntryExitHeader
@@ -366,7 +438,6 @@ Partial Class UcDashboard
         pnlRecentEntryExitHeader.Controls.Add(lblRecentEntryExitTitle)
         pnlRecentEntryExitHeader.Dock = DockStyle.Top
         pnlRecentEntryExitHeader.Location = New Point(0, 0)
-        pnlRecentEntryExitHeader.Margin = New Padding(3, 2, 3, 2)
         pnlRecentEntryExitHeader.Name = "pnlRecentEntryExitHeader"
         pnlRecentEntryExitHeader.Size = New Size(612, 38)
         pnlRecentEntryExitHeader.TabIndex = 1
@@ -392,7 +463,7 @@ Partial Class UcDashboard
         pnlRecentSMS.Location = New Point(622, 0)
         pnlRecentSMS.Margin = New Padding(4, 0, 0, 0)
         pnlRecentSMS.Name = "pnlRecentSMS"
-        pnlRecentSMS.Size = New Size(376, 250)
+        pnlRecentSMS.Size = New Size(376, 314)
         pnlRecentSMS.TabIndex = 1
         ' 
         ' dgvRecentSMS
@@ -414,7 +485,7 @@ Partial Class UcDashboard
         dgvRecentSMS.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
         dgvRecentSMS.ColumnHeadersHeight = 42
         dgvRecentSMS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle4.BackColor = SystemColors.Window
         DataGridViewCellStyle4.Font = New Font("Segoe UI", 10.0F)
         DataGridViewCellStyle4.ForeColor = SystemColors.ControlText
@@ -433,7 +504,7 @@ Partial Class UcDashboard
         dgvRecentSMS.RowHeadersVisible = False
         dgvRecentSMS.RowTemplate.Height = 38
         dgvRecentSMS.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvRecentSMS.Size = New Size(374, 210)
+        dgvRecentSMS.Size = New Size(374, 274)
         dgvRecentSMS.TabIndex = 0
         ' 
         ' pnlRecentSMSHeader
@@ -442,7 +513,6 @@ Partial Class UcDashboard
         pnlRecentSMSHeader.Controls.Add(lblRecentSMSTitle)
         pnlRecentSMSHeader.Dock = DockStyle.Top
         pnlRecentSMSHeader.Location = New Point(0, 0)
-        pnlRecentSMSHeader.Margin = New Padding(3, 2, 3, 2)
         pnlRecentSMSHeader.Name = "pnlRecentSMSHeader"
         pnlRecentSMSHeader.Size = New Size(374, 38)
         pnlRecentSMSHeader.TabIndex = 1
@@ -465,10 +535,9 @@ Partial Class UcDashboard
         pnlQuickOverview.BorderStyle = BorderStyle.FixedSingle
         pnlQuickOverview.Controls.Add(lblQuickOverviewTitle)
         pnlQuickOverview.Controls.Add(tlpQuickOverview)
-        pnlQuickOverview.Location = New Point(18, 442)
-        pnlQuickOverview.Margin = New Padding(3, 2, 3, 2)
+        pnlQuickOverview.Location = New Point(18, 527)
         pnlQuickOverview.Name = "pnlQuickOverview"
-        pnlQuickOverview.Size = New Size(998, 83)
+        pnlQuickOverview.Size = New Size(998, 99)
         pnlQuickOverview.TabIndex = 0
         ' 
         ' lblQuickOverviewTitle
@@ -493,24 +562,36 @@ Partial Class UcDashboard
         tlpQuickOverview.Controls.Add(pnlNoExitToday, 1, 0)
         tlpQuickOverview.Controls.Add(pnlFailedSMS, 2, 0)
         tlpQuickOverview.Location = New Point(18, 30)
-        tlpQuickOverview.Margin = New Padding(0)
         tlpQuickOverview.Name = "tlpQuickOverview"
         tlpQuickOverview.RowCount = 1
         tlpQuickOverview.RowStyles.Add(New RowStyle(SizeType.Percent, 100.0F))
-        tlpQuickOverview.Size = New Size(958, 41)
+        tlpQuickOverview.Size = New Size(958, 57)
         tlpQuickOverview.TabIndex = 1
         ' 
         ' pnlQRNotGenerated
         ' 
         pnlQRNotGenerated.BackColor = Color.FromArgb(CByte(245), CByte(234), CByte(223))
+        pnlQRNotGenerated.Controls.Add(picQRNotGeneratedIcon)
         pnlQRNotGenerated.Controls.Add(lblQRNotGeneratedTitle)
         pnlQRNotGenerated.Controls.Add(lblQRNotGenerated)
         pnlQRNotGenerated.Dock = DockStyle.Fill
         pnlQRNotGenerated.Location = New Point(0, 0)
         pnlQRNotGenerated.Margin = New Padding(0, 0, 6, 0)
         pnlQRNotGenerated.Name = "pnlQRNotGenerated"
-        pnlQRNotGenerated.Size = New Size(313, 41)
+        pnlQRNotGenerated.Size = New Size(313, 57)
         pnlQRNotGenerated.TabIndex = 0
+        ' 
+        ' picQRNotGeneratedIcon
+        ' 
+        picQRNotGeneratedIcon.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        picQRNotGeneratedIcon.BackColor = Color.Transparent
+        picQRNotGeneratedIcon.Image = My.Resources.Resources.dashboard_qr_warning
+        picQRNotGeneratedIcon.Location = New Point(240, 4)
+        picQRNotGeneratedIcon.Name = "picQRNotGeneratedIcon"
+        picQRNotGeneratedIcon.Size = New Size(70, 50)
+        picQRNotGeneratedIcon.SizeMode = PictureBoxSizeMode.Zoom
+        picQRNotGeneratedIcon.TabIndex = 2
+        picQRNotGeneratedIcon.TabStop = False
         ' 
         ' lblQRNotGeneratedTitle
         ' 
@@ -524,27 +605,39 @@ Partial Class UcDashboard
         ' 
         ' lblQRNotGenerated
         ' 
-        lblQRNotGenerated.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         lblQRNotGenerated.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold)
         lblQRNotGenerated.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
-        lblQRNotGenerated.Location = New Point(250, 6)
+        lblQRNotGenerated.Location = New Point(12, 23)
         lblQRNotGenerated.Name = "lblQRNotGenerated"
         lblQRNotGenerated.Size = New Size(60, 30)
         lblQRNotGenerated.TabIndex = 1
         lblQRNotGenerated.Text = "0"
-        lblQRNotGenerated.TextAlign = ContentAlignment.MiddleRight
+        lblQRNotGenerated.TextAlign = ContentAlignment.MiddleLeft
         ' 
         ' pnlNoExitToday
         ' 
         pnlNoExitToday.BackColor = Color.FromArgb(CByte(248), CByte(224), CByte(220))
+        pnlNoExitToday.Controls.Add(picNoExitTodayIcon)
         pnlNoExitToday.Controls.Add(lblNoExitTodayTitle)
         pnlNoExitToday.Controls.Add(lblNoExitToday)
         pnlNoExitToday.Dock = DockStyle.Fill
         pnlNoExitToday.Location = New Point(322, 0)
         pnlNoExitToday.Margin = New Padding(3, 0, 3, 0)
         pnlNoExitToday.Name = "pnlNoExitToday"
-        pnlNoExitToday.Size = New Size(313, 41)
+        pnlNoExitToday.Size = New Size(313, 57)
         pnlNoExitToday.TabIndex = 1
+        ' 
+        ' picNoExitTodayIcon
+        ' 
+        picNoExitTodayIcon.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        picNoExitTodayIcon.BackColor = Color.Transparent
+        picNoExitTodayIcon.Image = My.Resources.Resources.dashboard_no_exit
+        picNoExitTodayIcon.Location = New Point(240, 3)
+        picNoExitTodayIcon.Name = "picNoExitTodayIcon"
+        picNoExitTodayIcon.Size = New Size(70, 50)
+        picNoExitTodayIcon.SizeMode = PictureBoxSizeMode.Zoom
+        picNoExitTodayIcon.TabIndex = 2
+        picNoExitTodayIcon.TabStop = False
         ' 
         ' lblNoExitTodayTitle
         ' 
@@ -558,27 +651,39 @@ Partial Class UcDashboard
         ' 
         ' lblNoExitToday
         ' 
-        lblNoExitToday.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         lblNoExitToday.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold)
         lblNoExitToday.ForeColor = Color.FromArgb(CByte(170), CByte(45), CByte(45))
-        lblNoExitToday.Location = New Point(250, 5)
+        lblNoExitToday.Location = New Point(12, 23)
         lblNoExitToday.Name = "lblNoExitToday"
         lblNoExitToday.Size = New Size(60, 30)
         lblNoExitToday.TabIndex = 1
         lblNoExitToday.Text = "0"
-        lblNoExitToday.TextAlign = ContentAlignment.MiddleRight
+        lblNoExitToday.TextAlign = ContentAlignment.MiddleLeft
         ' 
         ' pnlFailedSMS
         ' 
         pnlFailedSMS.BackColor = Color.FromArgb(CByte(248), CByte(224), CByte(220))
+        pnlFailedSMS.Controls.Add(picFailedSMSIcon)
         pnlFailedSMS.Controls.Add(lblFailedSMSTitle)
         pnlFailedSMS.Controls.Add(lblFailedSMS)
         pnlFailedSMS.Dock = DockStyle.Fill
         pnlFailedSMS.Location = New Point(644, 0)
         pnlFailedSMS.Margin = New Padding(6, 0, 0, 0)
         pnlFailedSMS.Name = "pnlFailedSMS"
-        pnlFailedSMS.Size = New Size(314, 41)
+        pnlFailedSMS.Size = New Size(314, 57)
         pnlFailedSMS.TabIndex = 2
+        ' 
+        ' picFailedSMSIcon
+        ' 
+        picFailedSMSIcon.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        picFailedSMSIcon.BackColor = Color.Transparent
+        picFailedSMSIcon.Image = My.Resources.Resources.dashboard_sms_failed
+        picFailedSMSIcon.Location = New Point(242, 3)
+        picFailedSMSIcon.Name = "picFailedSMSIcon"
+        picFailedSMSIcon.Size = New Size(70, 50)
+        picFailedSMSIcon.SizeMode = PictureBoxSizeMode.Zoom
+        picFailedSMSIcon.TabIndex = 2
+        picFailedSMSIcon.TabStop = False
         ' 
         ' lblFailedSMSTitle
         ' 
@@ -592,15 +697,14 @@ Partial Class UcDashboard
         ' 
         ' lblFailedSMS
         ' 
-        lblFailedSMS.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         lblFailedSMS.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold)
         lblFailedSMS.ForeColor = Color.FromArgb(CByte(170), CByte(45), CByte(45))
-        lblFailedSMS.Location = New Point(251, 5)
+        lblFailedSMS.Location = New Point(12, 23)
         lblFailedSMS.Name = "lblFailedSMS"
         lblFailedSMS.Size = New Size(60, 30)
         lblFailedSMS.TabIndex = 1
         lblFailedSMS.Text = "0"
-        lblFailedSMS.TextAlign = ContentAlignment.MiddleRight
+        lblFailedSMS.TextAlign = ContentAlignment.MiddleLeft
         ' 
         ' timerClock
         ' 
@@ -619,18 +723,22 @@ Partial Class UcDashboard
         Font = New Font("Segoe UI", 9.0F)
         Margin = New Padding(3, 2, 3, 2)
         Name = "UcDashboard"
-        Size = New Size(1032, 540)
+        Size = New Size(1032, 641)
         pnlHeader.ResumeLayout(False)
         pnlHeader.PerformLayout()
         tlpStats.ResumeLayout(False)
         pnlTotalStudents.ResumeLayout(False)
         pnlTotalStudents.PerformLayout()
+        CType(picTotalStudentsIcon, ComponentModel.ISupportInitialize).EndInit()
         pnlQRGenerated.ResumeLayout(False)
         pnlQRGenerated.PerformLayout()
+        CType(picQRGeneratedIcon, ComponentModel.ISupportInitialize).EndInit()
         pnlTodayEntry.ResumeLayout(False)
         pnlTodayEntry.PerformLayout()
+        CType(picTodayEntryIcon, ComponentModel.ISupportInitialize).EndInit()
         pnlTodayExit.ResumeLayout(False)
         pnlTodayExit.PerformLayout()
+        CType(picTodayExitIcon, ComponentModel.ISupportInitialize).EndInit()
         tlpMiddle.ResumeLayout(False)
         pnlRecentEntryExit.ResumeLayout(False)
         CType(dgvRecentEntryExit, ComponentModel.ISupportInitialize).EndInit()
@@ -645,10 +753,13 @@ Partial Class UcDashboard
         tlpQuickOverview.ResumeLayout(False)
         pnlQRNotGenerated.ResumeLayout(False)
         pnlQRNotGenerated.PerformLayout()
+        CType(picQRNotGeneratedIcon, ComponentModel.ISupportInitialize).EndInit()
         pnlNoExitToday.ResumeLayout(False)
         pnlNoExitToday.PerformLayout()
+        CType(picNoExitTodayIcon, ComponentModel.ISupportInitialize).EndInit()
         pnlFailedSMS.ResumeLayout(False)
         pnlFailedSMS.PerformLayout()
+        CType(picFailedSMSIcon, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
 
     End Sub
@@ -663,31 +774,42 @@ Partial Class UcDashboard
     Friend WithEvents lblSubtitle As Label
     Friend WithEvents lblDateTime As Label
 
+
     Friend WithEvents tlpStats As TableLayoutPanel
 
+
     Friend WithEvents pnlTotalStudents As Panel
+    Friend WithEvents picTotalStudentsIcon As PictureBox
     Friend WithEvents lblTotalStudentsTitle As Label
     Friend WithEvents lblTotalStudents As Label
 
+
     Friend WithEvents pnlQRGenerated As Panel
+    Friend WithEvents picQRGeneratedIcon As PictureBox
     Friend WithEvents lblQRGeneratedTitle As Label
     Friend WithEvents lblQRGenerated As Label
 
+
     Friend WithEvents pnlTodayEntry As Panel
+    Friend WithEvents picTodayEntryIcon As PictureBox
     Friend WithEvents lblTodayEntryTitle As Label
     Friend WithEvents lblTodayEntry As Label
 
+
     Friend WithEvents pnlTodayExit As Panel
+    Friend WithEvents picTodayExitIcon As PictureBox
     Friend WithEvents lblTodayExitTitle As Label
     Friend WithEvents lblTodayExit As Label
 
+
     Friend WithEvents tlpMiddle As TableLayoutPanel
+
 
     Friend WithEvents pnlRecentEntryExit As Panel
     Friend WithEvents pnlRecentEntryExitHeader As Panel
     Friend WithEvents lblRecentEntryExitTitle As Label
-
     Friend WithEvents dgvRecentEntryExit As DataGridView
+
 
     Friend WithEvents colEntryStudentID As DataGridViewTextBoxColumn
     Friend WithEvents colEntryStudentName As DataGridViewTextBoxColumn
@@ -695,33 +817,43 @@ Partial Class UcDashboard
     Friend WithEvents colEntryTimeIn As DataGridViewTextBoxColumn
     Friend WithEvents colEntryTimeOut As DataGridViewTextBoxColumn
 
+
     Friend WithEvents pnlRecentSMS As Panel
     Friend WithEvents pnlRecentSMSHeader As Panel
     Friend WithEvents lblRecentSMSTitle As Label
-
     Friend WithEvents dgvRecentSMS As DataGridView
+
 
     Friend WithEvents colSMSStudent As DataGridViewTextBoxColumn
     Friend WithEvents colSMSType As DataGridViewTextBoxColumn
     Friend WithEvents colSMSSentAt As DataGridViewTextBoxColumn
     Friend WithEvents colSMSStatus As DataGridViewTextBoxColumn
 
+
     Friend WithEvents pnlQuickOverview As Panel
     Friend WithEvents lblQuickOverviewTitle As Label
 
+
     Friend WithEvents tlpQuickOverview As TableLayoutPanel
 
+
     Friend WithEvents pnlQRNotGenerated As Panel
+    Friend WithEvents picQRNotGeneratedIcon As PictureBox
     Friend WithEvents lblQRNotGeneratedTitle As Label
     Friend WithEvents lblQRNotGenerated As Label
 
+
     Friend WithEvents pnlNoExitToday As Panel
+    Friend WithEvents picNoExitTodayIcon As PictureBox
     Friend WithEvents lblNoExitTodayTitle As Label
     Friend WithEvents lblNoExitToday As Label
 
+
     Friend WithEvents pnlFailedSMS As Panel
+    Friend WithEvents picFailedSMSIcon As PictureBox
     Friend WithEvents lblFailedSMSTitle As Label
     Friend WithEvents lblFailedSMS As Label
+
 
     Friend WithEvents timerClock As Timer
 

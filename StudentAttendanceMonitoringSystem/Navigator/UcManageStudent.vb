@@ -1,8 +1,11 @@
-﻿Imports System.Data.Odbc
+﻿Imports System.Data
+Imports System.Data.Odbc
 Imports ClosedXML.Excel
 
 Public Class UcManageStudent
+
     Private selectedStudentId As Integer = 0
+    Private isLoading As Boolean = False
 
 
     '==================================================
@@ -15,11 +18,14 @@ Public Class UcManageStudent
 
         Try
 
-            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
-                vbConnection()
-            End If
+            isLoading = True
+
+            EnsureDatabaseConnection()
 
             LoadDropdowns()
+
+            isLoading = False
+
             LoadStudents()
             UpdateTotalStudents()
 
@@ -28,17 +34,41 @@ Public Class UcManageStudent
 
             timerClock.Interval = 1000
             timerClock.Start()
+
             UpdateDateTime()
+
         Catch ex As Exception
 
             MessageBox.Show(
+                "Unable to load Manage Students." &
+                vbCrLf &
+                vbCrLf &
                 ex.Message,
                 "Manage Students Error",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
             )
 
+        Finally
+
+            isLoading = False
+
         End Try
+
+    End Sub
+
+
+    '==================================================
+    ' DATABASE CONNECTION
+    '==================================================
+    Private Sub EnsureDatabaseConnection()
+
+        If con Is Nothing OrElse
+           con.State <> ConnectionState.Open Then
+
+            vbConnection()
+
+        End If
 
     End Sub
 
@@ -103,6 +133,10 @@ Public Class UcManageStudent
 
     End Sub
 
+
+    '==================================================
+    ' TIMER
+    '==================================================
     Private Sub timerClock_Tick(
         sender As Object,
         e As EventArgs
@@ -116,13 +150,13 @@ Public Class UcManageStudent
     Private Sub UpdateDateTime()
 
         lblDateTime.Text =
-        DateTime.Now.ToString(
-            "dddd, MMMM dd, yyyy"
-        ) &
-        "   |   " &
-        DateTime.Now.ToString(
-            "hh:mm:ss tt"
-        )
+            DateTime.Now.ToString(
+                "dddd, MMMM dd, yyyy"
+            ) &
+            "   |   " &
+            DateTime.Now.ToString(
+                "hh:mm:ss tt"
+            )
 
     End Sub
 
@@ -134,9 +168,7 @@ Public Class UcManageStudent
 
         Try
 
-            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
-                vbConnection()
-            End If
+            EnsureDatabaseConnection()
 
 
             Dim query As String =
@@ -153,7 +185,9 @@ Public Class UcManageStudent
             '=========================
             ' SEARCH
             '=========================
-            If txtSearch.Text.Trim() <> "" Then
+            If Not String.IsNullOrWhiteSpace(
+                txtSearch.Text
+            ) Then
 
                 query &=
                     "AND (" &
@@ -193,17 +227,23 @@ Public Class UcManageStudent
                 "ORDER BY students_name ASC"
 
 
-            Using cmd As New OdbcCommand(query, con)
+            Using cmd As New OdbcCommand(
+                query,
+                con
+            )
 
                 '=========================
                 ' SEARCH PARAMETERS
                 '=========================
-                If txtSearch.Text.Trim() <> "" Then
+                If Not String.IsNullOrWhiteSpace(
+                    txtSearch.Text
+                ) Then
 
                     Dim searchValue As String =
                         "%" &
                         txtSearch.Text.Trim() &
                         "%"
+
 
                     cmd.Parameters.AddWithValue(
                         "@searchName",
@@ -251,14 +291,28 @@ Public Class UcManageStudent
                 End If
 
 
-                Dim adapter As New OdbcDataAdapter(cmd)
-                Dim dt As New DataTable()
+                Using adapter As New OdbcDataAdapter(
+                    cmd
+                )
 
-                adapter.Fill(dt)
+                    Dim dt As New DataTable()
 
-                dgvStudents.DataSource = dt
+                    adapter.Fill(dt)
+
+                    dgvStudents.DataSource =
+                        dt
+
+                End Using
 
             End Using
+
+
+            '==================================================
+            ' CLEAN USER-FRIENDLY TABLE HEADERS
+            '==================================================
+            FormatStudentsGrid()
+
+            dgvStudents.ClearSelection()
 
 
         Catch ex As Exception
@@ -277,15 +331,132 @@ Public Class UcManageStudent
 
 
     '==================================================
+    ' FORMAT STUDENTS TABLE
+    '==================================================
+    Private Sub FormatStudentsGrid()
+
+        If dgvStudents Is Nothing OrElse
+           dgvStudents.Columns.Count = 0 Then
+
+            Return
+
+        End If
+
+
+        '==================================================
+        ' CENTER HEADERS
+        '==================================================
+        dgvStudents.ColumnHeadersDefaultCellStyle.Alignment =
+        DataGridViewContentAlignment.MiddleCenter
+
+
+        '==================================================
+        ' CENTER ALL ROW TEXT
+        '==================================================
+        dgvStudents.DefaultCellStyle.Alignment =
+        DataGridViewContentAlignment.MiddleCenter
+
+        dgvStudents.RowsDefaultCellStyle.Alignment =
+        DataGridViewContentAlignment.MiddleCenter
+
+        dgvStudents.AlternatingRowsDefaultCellStyle.Alignment =
+        DataGridViewContentAlignment.MiddleCenter
+
+
+        '==================================================
+        ' COLUMN STYLE
+        '==================================================
+        For Each column As DataGridViewColumn In
+        dgvStudents.Columns
+
+            Dim columnKey As String =
+            column.DataPropertyName
+
+
+            If String.IsNullOrWhiteSpace(
+            columnKey
+        ) Then
+
+                columnKey =
+                column.Name
+
+            End If
+
+
+            columnKey =
+            columnKey.
+            Trim().
+            ToLowerInvariant()
+
+
+            Select Case columnKey
+
+                Case "student_id"
+
+                    column.HeaderText =
+                    "Student ID"
+
+                    column.FillWeight =
+                    55
+
+
+                Case "student_name"
+
+                    column.HeaderText =
+                    "Student Name"
+
+                    column.FillWeight =
+                    130
+
+
+                Case "year_level"
+
+                    column.HeaderText =
+                    "Year Level"
+
+                    column.FillWeight =
+                    75
+
+
+                Case "course"
+
+                    column.HeaderText =
+                    "Course"
+
+                    column.FillWeight =
+                    65
+
+
+                Case "parent_contact_number"
+
+                    column.HeaderText =
+                    "Parent Contact Number"
+
+                    column.FillWeight =
+                    105
+
+            End Select
+
+
+            '==================================================
+            ' CENTER EVERY COLUMN
+            '==================================================
+            column.DefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter
+
+        Next
+
+    End Sub
+
+
+    '==================================================
     ' TOTAL STUDENTS
     '==================================================
     Private Sub UpdateTotalStudents()
 
         Try
 
-            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
-                vbConnection()
-            End If
+            EnsureDatabaseConnection()
 
 
             Dim query As String =
@@ -293,22 +464,37 @@ Public Class UcManageStudent
                 "FROM students"
 
 
-            Using cmd As New OdbcCommand(query, con)
+            Using cmd As New OdbcCommand(
+                query,
+                con
+            )
 
-                Dim total As Integer =
-                    Convert.ToInt32(
-                        cmd.ExecuteScalar()
-                    )
+                Dim result As Object =
+                    cmd.ExecuteScalar()
 
-                lblTotalStudents.Text =
-                    total.ToString()
+
+                If result Is Nothing OrElse
+                   IsDBNull(result) Then
+
+                    lblTotalStudents.Text =
+                        "0"
+
+                Else
+
+                    lblTotalStudents.Text =
+                        Convert.ToInt32(
+                            result
+                        ).ToString()
+
+                End If
 
             End Using
 
 
-        Catch ex As Exception
+        Catch
 
-            lblTotalStudents.Text = "0"
+            lblTotalStudents.Text =
+                "0"
 
         End Try
 
@@ -323,6 +509,10 @@ Public Class UcManageStudent
         e As EventArgs
     ) Handles txtSearch.TextChanged
 
+        If isLoading Then
+            Return
+        End If
+
         LoadStudents()
 
     End Sub
@@ -335,6 +525,10 @@ Public Class UcManageStudent
         sender As Object,
         e As EventArgs
     ) Handles cboFilterYear.SelectedIndexChanged
+
+        If isLoading Then
+            Return
+        End If
 
         LoadStudents()
 
@@ -349,6 +543,10 @@ Public Class UcManageStudent
         e As EventArgs
     ) Handles cboFilterCourse.SelectedIndexChanged
 
+        If isLoading Then
+            Return
+        End If
+
         LoadStudents()
 
     End Sub
@@ -362,20 +560,60 @@ Public Class UcManageStudent
         e As DataGridViewCellEventArgs
     ) Handles dgvStudents.CellClick
 
-        If e.RowIndex < 0 Then Return
+        If e.RowIndex < 0 Then
+            Return
+        End If
+
+
+        If e.RowIndex >=
+           dgvStudents.Rows.Count Then
+
+            Return
+
+        End If
 
 
         Try
 
+            Dim selectedRow As DataGridViewRow =
+                dgvStudents.Rows(
+                    e.RowIndex
+                )
+
+
+            If selectedRow Is Nothing Then
+                Return
+            End If
+
+
             Dim rowView As DataRowView =
                 TryCast(
-                    dgvStudents.Rows(e.RowIndex).
-                    DataBoundItem,
+                    selectedRow.DataBoundItem,
                     DataRowView
                 )
 
 
-            If rowView Is Nothing Then Return
+            If rowView Is Nothing Then
+                Return
+            End If
+
+
+            If Not rowView.Row.Table.Columns.Contains(
+                "student_id"
+            ) Then
+
+                Return
+
+            End If
+
+
+            If IsDBNull(
+                rowView("student_id")
+            ) Then
+
+                Return
+
+            End If
 
 
             selectedStudentId =
@@ -385,78 +623,117 @@ Public Class UcManageStudent
 
 
             txtStudentName.Text =
-                rowView("student_name").
-                ToString()
+                If(
+                    IsDBNull(
+                        rowView("student_name")
+                    ),
+                    "",
+                    rowView(
+                        "student_name"
+                    ).ToString()
+                )
 
 
             cboYearLevel.Text =
-                rowView("year_level").
-                ToString()
+                If(
+                    IsDBNull(
+                        rowView("year_level")
+                    ),
+                    "",
+                    rowView(
+                        "year_level"
+                    ).ToString()
+                )
 
 
             cboCourse.Text =
-                rowView("course").
-                ToString()
+                If(
+                    IsDBNull(
+                        rowView("course")
+                    ),
+                    "",
+                    rowView(
+                        "course"
+                    ).ToString()
+                )
 
 
-            If IsDBNull(
-                rowView("parent_contact_number")
-            ) Then
-
-                txtParentContact.Text = ""
-
-            Else
-
-                txtParentContact.Text =
+            txtParentContact.Text =
+                If(
+                    IsDBNull(
+                        rowView(
+                            "parent_contact_number"
+                        )
+                    ),
+                    "",
                     rowView(
                         "parent_contact_number"
                     ).ToString()
+                )
 
-            End If
 
+            btnSave.Enabled =
+                False
 
-            btnSave.Enabled = False
-            btnUpdate.Enabled = True
-            btnDelete.Enabled = True
+            btnUpdate.Enabled =
+                True
+
+            btnDelete.Enabled =
+                True
 
 
         Catch ex As Exception
 
             MessageBox.Show(
                 "Student Selection Error: " &
-                ex.Message
+                ex.Message,
+                "Manage Students",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
             )
 
         End Try
 
     End Sub
 
+
+    '==================================================
+    ' BUTTON APPEARANCE
+    '==================================================
     Private Sub UpdateButtonAppearance()
 
         '==================================================
-        ' SAVE / ADD STUDENT
+        ' SAVE
         '==================================================
         If btnSave.Enabled Then
 
             btnSave.BackColor =
-            Color.FromArgb(103, 60, 36)
+                Color.FromArgb(
+                    103,
+                    60,
+                    36
+                )
 
             btnSave.ForeColor =
-            Color.White
+                Color.White
 
             btnSave.Cursor =
-            Cursors.Hand
+                Cursors.Hand
 
         Else
 
             btnSave.BackColor =
-            Color.FromArgb(220, 220, 220)
+                Color.FromArgb(
+                    220,
+                    220,
+                    220
+                )
 
             btnSave.ForeColor =
-            Color.Gray
+                Color.Gray
 
             btnSave.Cursor =
-            Cursors.No
+                Cursors.No
 
         End If
 
@@ -467,24 +744,32 @@ Public Class UcManageStudent
         If btnUpdate.Enabled Then
 
             btnUpdate.BackColor =
-            Color.FromArgb(103, 60, 36)
+                Color.FromArgb(
+                    103,
+                    60,
+                    36
+                )
 
             btnUpdate.ForeColor =
-            Color.White
+                Color.White
 
             btnUpdate.Cursor =
-            Cursors.Hand
+                Cursors.Hand
 
         Else
 
             btnUpdate.BackColor =
-            Color.FromArgb(220, 220, 220)
+                Color.FromArgb(
+                    220,
+                    220,
+                    220
+                )
 
             btnUpdate.ForeColor =
-            Color.Gray
+                Color.Gray
 
             btnUpdate.Cursor =
-            Cursors.No
+                Cursors.No
 
         End If
 
@@ -495,35 +780,44 @@ Public Class UcManageStudent
         If btnDelete.Enabled Then
 
             btnDelete.BackColor =
-            Color.FromArgb(201, 75, 67)
+                Color.FromArgb(
+                    201,
+                    75,
+                    67
+                )
 
             btnDelete.ForeColor =
-            Color.White
+                Color.White
 
             btnDelete.Cursor =
-            Cursors.Hand
+                Cursors.Hand
 
         Else
 
             btnDelete.BackColor =
-            Color.FromArgb(220, 220, 220)
+                Color.FromArgb(
+                    220,
+                    220,
+                    220
+                )
 
             btnDelete.ForeColor =
-            Color.Gray
+                Color.Gray
 
             btnDelete.Cursor =
-            Cursors.No
+                Cursors.No
 
         End If
 
     End Sub
 
+
     Private Sub Buttons_EnabledChanged(
-    sender As Object,
-    e As EventArgs
-) Handles btnSave.EnabledChanged,
-          btnUpdate.EnabledChanged,
-          btnDelete.EnabledChanged
+        sender As Object,
+        e As EventArgs
+    ) Handles btnSave.EnabledChanged,
+              btnUpdate.EnabledChanged,
+              btnDelete.EnabledChanged
 
         UpdateButtonAppearance()
 
@@ -535,7 +829,9 @@ Public Class UcManageStudent
     '==================================================
     Private Function ValidateStudentForm() As Boolean
 
-        If txtStudentName.Text.Trim() = "" Then
+        If String.IsNullOrWhiteSpace(
+            txtStudentName.Text
+        ) Then
 
             MessageBox.Show(
                 "Please enter the student name.",
@@ -583,15 +879,20 @@ Public Class UcManageStudent
         End If
 
 
-        ' Parent contact is optional in database.
-        ' But if entered, basic validation:
-        If txtParentContact.Text.Trim() <> "" Then
+        '==================================================
+        ' PARENT CONTACT
+        '==================================================
+        If Not String.IsNullOrWhiteSpace(
+            txtParentContact.Text
+        ) Then
 
             Dim contact As String =
                 txtParentContact.Text.Trim()
 
 
-            If Not contact.All(AddressOf Char.IsDigit) Then
+            If Not contact.All(
+                AddressOf Char.IsDigit
+            ) Then
 
                 MessageBox.Show(
                     "Parent contact number must contain numbers only.",
@@ -626,30 +927,32 @@ Public Class UcManageStudent
             Return
         End If
 
-        If StudentExists(
+
+        Try
+
+            EnsureDatabaseConnection()
+
+
+            '==================================================
+            ' DUPLICATE CHECK
+            '==================================================
+            If StudentExists(
                 txtStudentName.Text.Trim(),
                 cboYearLevel.Text,
                 cboCourse.Text
             ) Then
 
-            MessageBox.Show(
+                MessageBox.Show(
                     "A student with the same name, year level, and course already exists.",
                     "Duplicate Student",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 )
 
-            txtStudentName.Focus()
+                txtStudentName.Focus()
 
-            Return
+                Return
 
-        End If
-
-
-        Try
-
-            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
-                vbConnection()
             End If
 
 
@@ -665,7 +968,10 @@ Public Class UcManageStudent
                 "VALUES (?, ?, ?, ?, NULL)"
 
 
-            Using cmd As New OdbcCommand(query, con)
+            Using cmd As New OdbcCommand(
+                query,
+                con
+            )
 
                 cmd.Parameters.AddWithValue(
                     "@name",
@@ -683,7 +989,9 @@ Public Class UcManageStudent
                 )
 
 
-                If txtParentContact.Text.Trim() = "" Then
+                If String.IsNullOrWhiteSpace(
+                    txtParentContact.Text
+                ) Then
 
                     cmd.Parameters.AddWithValue(
                         "@contact",
@@ -700,7 +1008,17 @@ Public Class UcManageStudent
                 End If
 
 
-                cmd.ExecuteNonQuery()
+                Dim rowsAffected As Integer =
+                    cmd.ExecuteNonQuery()
+
+
+                If rowsAffected <= 0 Then
+
+                    Throw New Exception(
+                        "The student record was not inserted."
+                    )
+
+                End If
 
             End Using
 
@@ -741,7 +1059,7 @@ Public Class UcManageStudent
         e As EventArgs
     ) Handles btnUpdate.Click
 
-        If selectedStudentId = 0 Then
+        If selectedStudentId <= 0 Then
 
             MessageBox.Show(
                 "Please select a student first.",
@@ -760,24 +1078,48 @@ Public Class UcManageStudent
         End If
 
 
-        Dim result As DialogResult =
-            MessageBox.Show(
-                "Update the information of this student?",
-                "Confirm Update",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-            )
-
-
-        If result = DialogResult.No Then
-            Return
-        End If
-
-
         Try
 
-            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
-                vbConnection()
+            EnsureDatabaseConnection()
+
+
+            '==================================================
+            ' DUPLICATE CHECK
+            ' EXCLUDE CURRENT STUDENT
+            '==================================================
+            If StudentExists(
+                txtStudentName.Text.Trim(),
+                cboYearLevel.Text,
+                cboCourse.Text,
+                Nothing,
+                selectedStudentId
+            ) Then
+
+                MessageBox.Show(
+                    "Another student with the same name, year level, and course already exists.",
+                    "Duplicate Student",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                )
+
+                txtStudentName.Focus()
+
+                Return
+
+            End If
+
+
+            Dim result As DialogResult =
+                MessageBox.Show(
+                    "Update the information of this student?",
+                    "Confirm Update",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                )
+
+
+            If result <> DialogResult.Yes Then
+                Return
             End If
 
 
@@ -790,7 +1132,10 @@ Public Class UcManageStudent
                 "WHERE students_id = ?"
 
 
-            Using cmd As New OdbcCommand(query, con)
+            Using cmd As New OdbcCommand(
+                query,
+                con
+            )
 
                 cmd.Parameters.AddWithValue(
                     "@name",
@@ -808,7 +1153,9 @@ Public Class UcManageStudent
                 )
 
 
-                If txtParentContact.Text.Trim() = "" Then
+                If String.IsNullOrWhiteSpace(
+                    txtParentContact.Text
+                ) Then
 
                     cmd.Parameters.AddWithValue(
                         "@contact",
@@ -831,7 +1178,17 @@ Public Class UcManageStudent
                 )
 
 
-                cmd.ExecuteNonQuery()
+                Dim rowsAffected As Integer =
+                    cmd.ExecuteNonQuery()
+
+
+                If rowsAffected <= 0 Then
+
+                    Throw New Exception(
+                        "The student record was not found or no changes were made."
+                    )
+
+                End If
 
             End Using
 
@@ -845,6 +1202,7 @@ Public Class UcManageStudent
 
 
             LoadStudents()
+            UpdateTotalStudents()
             ClearFields()
 
 
@@ -864,45 +1222,77 @@ Public Class UcManageStudent
 
 
     '==================================================
-    ' CHECK IF STUDENT HAS ENTRY/EXIT RECORDS
+    ' CHECK IF STUDENT HAS RELATED RECORDS
     '==================================================
-    Private Function HasEntryExitRecords(
+    Private Function HasRelatedRecords(
         studentId As Integer
     ) As Boolean
 
         Try
 
-            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
-                vbConnection()
-            End If
+            EnsureDatabaseConnection()
 
 
             Dim query As String =
-                "SELECT COUNT(*) " &
-                "FROM attendance_records " &
-                "WHERE students_id = ?"
+                "SELECT " &
+                "(" &
+                    "SELECT COUNT(*) " &
+                    "FROM attendance_records " &
+                    "WHERE students_id = ?" &
+                ") + " &
+                "(" &
+                    "SELECT COUNT(*) " &
+                    "FROM sms_logs " &
+                    "WHERE students_id = ?" &
+                ") AS related_count"
 
 
-            Using cmd As New OdbcCommand(query, con)
+            Using cmd As New OdbcCommand(
+                query,
+                con
+            )
 
                 cmd.Parameters.AddWithValue(
-                    "@id",
+                    "@attendanceStudentId",
+                    studentId
+                )
+
+                cmd.Parameters.AddWithValue(
+                    "@smsStudentId",
                     studentId
                 )
 
 
-                Dim count As Integer =
-                    Convert.ToInt32(
-                        cmd.ExecuteScalar()
-                    )
+                Dim result As Object =
+                    cmd.ExecuteScalar()
 
 
-                Return count > 0
+                If result Is Nothing OrElse
+                   IsDBNull(result) Then
+
+                    Return False
+
+                End If
+
+
+                Return Convert.ToInt32(
+                    result
+                ) > 0
 
             End Using
 
 
-        Catch
+        Catch ex As Exception
+
+            MessageBox.Show(
+                "Unable to verify the student's related records." &
+                vbCrLf &
+                vbCrLf &
+                ex.Message,
+                "Delete Student",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+            )
 
             Return True
 
@@ -919,7 +1309,7 @@ Public Class UcManageStudent
         e As EventArgs
     ) Handles btnDelete.Click
 
-        If selectedStudentId = 0 Then
+        If selectedStudentId <= 0 Then
 
             MessageBox.Show(
                 "Please select a student first.",
@@ -933,16 +1323,20 @@ Public Class UcManageStudent
         End If
 
 
-        ' Do not delete students with historical records.
-        If HasEntryExitRecords(selectedStudentId) Then
+        '==================================================
+        ' DO NOT DELETE STUDENT WITH HISTORY
+        '==================================================
+        If HasRelatedRecords(
+            selectedStudentId
+        ) Then
 
             MessageBox.Show(
                 "This student cannot be deleted because " &
-                "they already have entry/exit records." &
+                "they already have entry/exit or SMS records." &
                 vbCrLf &
                 vbCrLf &
                 "Keeping the student record prevents historical " &
-                "entry/exit data from being lost.",
+                "system data from being lost.",
                 "Cannot Delete Student",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning
@@ -967,16 +1361,14 @@ Public Class UcManageStudent
             )
 
 
-        If result = DialogResult.No Then
+        If result <> DialogResult.Yes Then
             Return
         End If
 
 
         Try
 
-            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
-                vbConnection()
-            End If
+            EnsureDatabaseConnection()
 
 
             Dim query As String =
@@ -984,14 +1376,28 @@ Public Class UcManageStudent
                 "WHERE students_id = ?"
 
 
-            Using cmd As New OdbcCommand(query, con)
+            Using cmd As New OdbcCommand(
+                query,
+                con
+            )
 
                 cmd.Parameters.AddWithValue(
                     "@id",
                     selectedStudentId
                 )
 
-                cmd.ExecuteNonQuery()
+
+                Dim rowsAffected As Integer =
+                    cmd.ExecuteNonQuery()
+
+
+                If rowsAffected <= 0 Then
+
+                    Throw New Exception(
+                        "The student record was not found."
+                    )
+
+                End If
 
             End Using
 
@@ -1042,21 +1448,41 @@ Public Class UcManageStudent
     '==================================================
     Private Sub ClearFields()
 
-        selectedStudentId = 0
+        selectedStudentId =
+            0
 
         txtStudentName.Clear()
         txtParentContact.Clear()
 
-        cboYearLevel.SelectedIndex = -1
-        cboCourse.SelectedIndex = -1
+        cboYearLevel.SelectedIndex =
+            -1
 
-        dgvStudents.ClearSelection()
+        cboCourse.SelectedIndex =
+            -1
 
-        btnSave.Enabled = True
-        btnUpdate.Enabled = False
-        btnDelete.Enabled = False
 
-        txtStudentName.Focus()
+        If dgvStudents IsNot Nothing Then
+
+            dgvStudents.ClearSelection()
+
+        End If
+
+
+        btnSave.Enabled =
+            True
+
+        btnUpdate.Enabled =
+            False
+
+        btnDelete.Enabled =
+            False
+
+
+        If txtStudentName.CanFocus Then
+
+            txtStudentName.Focus()
+
+        End If
 
     End Sub
 
@@ -1068,25 +1494,52 @@ Public Class UcManageStudent
         value As String
     ) As String
 
+        If value Is Nothing Then
+            Return ""
+        End If
+
+
         Dim text As String =
-            value.Trim().ToLower()
+            value.Trim().
+            ToLowerInvariant()
 
 
         Select Case text
 
-            Case "1st year"
+            Case "1",
+                 "1st",
+                 "1st year",
+                 "first year"
+
                 Return "1st Year"
 
-            Case "2nd year"
+
+            Case "2",
+                 "2nd",
+                 "2nd year",
+                 "second year"
+
                 Return "2nd Year"
 
-            Case "3rd year"
+
+            Case "3",
+                 "3rd",
+                 "3rd year",
+                 "third year"
+
                 Return "3rd Year"
 
-            Case "4th year"
+
+            Case "4",
+                 "4th",
+                 "4th year",
+                 "fourth year"
+
                 Return "4th Year"
 
+
             Case Else
+
                 Return ""
 
         End Select
@@ -1101,8 +1554,14 @@ Public Class UcManageStudent
         value As String
     ) As String
 
+        If value Is Nothing Then
+            Return ""
+        End If
+
+
         Dim text As String =
-            value.Trim().ToUpper()
+            value.Trim().
+            ToUpperInvariant()
 
 
         Select Case text
@@ -1128,7 +1587,7 @@ Public Class UcManageStudent
 
 
     '==================================================
-    ' BULK EXCEL IMPORT
+    ' BULK EXCEL IMPORT BUTTON
     '==================================================
     Private Sub btnImportStudents_Click(
         sender As Object,
@@ -1175,95 +1634,148 @@ Public Class UcManageStudent
 
     End Sub
 
+
     '==================================================
     ' CHECK DUPLICATE STUDENT
     '==================================================
     Private Function StudentExists(
-            studentName As String,
-            yearLevel As String,
-            course As String,
-            Optional transaction As OdbcTransaction = Nothing
-        ) As Boolean
+        studentName As String,
+        yearLevel As String,
+        course As String,
+        Optional transaction As OdbcTransaction = Nothing,
+        Optional excludeStudentId As Integer = 0
+    ) As Boolean
+
+
+        If transaction Is Nothing Then
+
+            EnsureDatabaseConnection()
+
+        Else
+
+            If con Is Nothing OrElse
+               con.State <> ConnectionState.Open Then
+
+                Throw New InvalidOperationException(
+                    "The database connection is not available."
+                )
+
+            End If
+
+        End If
+
 
         Dim query As String =
-                "SELECT COUNT(*) " &
-                "FROM students " &
-                "WHERE LOWER(TRIM(students_name)) = LOWER(TRIM(?)) " &
-                "AND year_level = ? " &
-                "AND course = ?"
+            "SELECT COUNT(*) " &
+            "FROM students " &
+            "WHERE LOWER(TRIM(students_name)) = LOWER(TRIM(?)) " &
+            "AND year_level = ? " &
+            "AND course = ? "
+
+
+        If excludeStudentId > 0 Then
+
+            query &=
+                "AND students_id <> ? "
+
+        End If
 
 
         Using cmd As New OdbcCommand(
-                query,
-                con
-            )
+            query,
+            con
+        )
 
             If transaction IsNot Nothing Then
-                cmd.Transaction = transaction
+
+                cmd.Transaction =
+                    transaction
+
             End If
 
 
             cmd.Parameters.AddWithValue(
-            "@name",
-            studentName.Trim()
-        )
+                "@name",
+                studentName.Trim()
+            )
 
             cmd.Parameters.AddWithValue(
-            "@year",
-            yearLevel
-        )
+                "@year",
+                yearLevel
+            )
 
             cmd.Parameters.AddWithValue(
-            "@course",
-            course
-        )
+                "@course",
+                course
+            )
+
+
+            If excludeStudentId > 0 Then
+
+                cmd.Parameters.AddWithValue(
+                    "@excludeId",
+                    excludeStudentId
+                )
+
+            End If
+
+
+            Dim result As Object =
+                cmd.ExecuteScalar()
+
+
+            If result Is Nothing OrElse
+               IsDBNull(result) Then
+
+                Return False
+
+            End If
 
 
             Return Convert.ToInt32(
-            cmd.ExecuteScalar()
-        ) > 0
+                result
+            ) > 0
 
         End Using
 
     End Function
 
+
     '==================================================
     ' IMPORT EXCEL FUNCTION
     '==================================================
     Private Sub ImportStudentsFromExcel(
-    filePath As String
-)
+        filePath As String
+    )
 
         Try
 
-            If con Is Nothing OrElse
-           con.State <> ConnectionState.Open Then
-
-                vbConnection()
-
-            End If
+            EnsureDatabaseConnection()
 
 
-            Using workbook As New XLWorkbook(filePath)
+            Using workbook As New XLWorkbook(
+                filePath
+            )
 
                 Dim worksheet =
-                workbook.Worksheet(1)
+                    workbook.Worksheet(1)
 
 
                 '==================================================
                 ' CHECK EMPTY WORKSHEET
                 '==================================================
                 Dim lastUsedRow =
-                worksheet.LastRowUsed()
+                    worksheet.LastRowUsed()
+
 
                 If lastUsedRow Is Nothing Then
 
                     MessageBox.Show(
-                    "The Excel file does not contain student records.",
-                    "Import Students",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                )
+                        "The Excel file does not contain student records.",
+                        "Import Students",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    )
 
                     Return
 
@@ -1271,70 +1783,81 @@ Public Class UcManageStudent
 
 
                 Dim lastRow As Integer =
-                lastUsedRow.RowNumber()
+                    lastUsedRow.RowNumber()
 
 
                 If lastRow < 2 Then
 
                     MessageBox.Show(
-                    "The Excel file does not contain student records.",
-                    "Import Students",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                )
+                        "The Excel file does not contain student records.",
+                        "Import Students",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    )
 
                     Return
 
                 End If
 
 
-                Dim importedCount As Integer = 0
-                Dim duplicateCount As Integer = 0
-                Dim invalidCount As Integer = 0
+                Dim importedCount As Integer =
+                    0
+
+                Dim duplicateCount As Integer =
+                    0
+
+                Dim invalidCount As Integer =
+                    0
 
 
                 '==================================================
                 ' START DATABASE TRANSACTION
                 '==================================================
                 Using transaction As OdbcTransaction =
-                con.BeginTransaction()
+                    con.BeginTransaction()
 
                     Try
 
                         ' Row 1 = headers
-                        For row As Integer = 2 To lastRow
+                        For row As Integer =
+                            2 To lastRow
+
 
                             Dim studentName As String =
-                            worksheet.Cell(row, 1).
-                            GetString().
-                            Trim()
+                                worksheet.
+                                Cell(row, 1).
+                                GetString().
+                                Trim()
 
 
                             Dim yearValue As String =
-                            worksheet.Cell(row, 2).
-                            GetString().
-                            Trim()
+                                worksheet.
+                                Cell(row, 2).
+                                GetString().
+                                Trim()
 
 
                             Dim courseValue As String =
-                            worksheet.Cell(row, 3).
-                            GetString().
-                            Trim()
+                                worksheet.
+                                Cell(row, 3).
+                                GetString().
+                                Trim()
 
 
                             Dim parentContact As String =
-                            worksheet.Cell(row, 4).
-                            GetString().
-                            Trim()
+                                worksheet.
+                                Cell(row, 4).
+                                GetString().
+                                Trim()
 
 
                             '======================================
-                            ' IGNORE COMPLETELY EMPTY ROW
+                            ' IGNORE EMPTY ROW
                             '======================================
                             If studentName = "" AndAlso
-                           yearValue = "" AndAlso
-                           courseValue = "" AndAlso
-                           parentContact = "" Then
+                               yearValue = "" AndAlso
+                               courseValue = "" AndAlso
+                               parentContact = "" Then
 
                                 Continue For
 
@@ -1342,42 +1865,44 @@ Public Class UcManageStudent
 
 
                             '======================================
-                            ' NORMALIZE VALUES
+                            ' NORMALIZE
                             '======================================
                             Dim yearLevel As String =
-                            NormalizeYearLevel(
-                                yearValue
-                            )
+                                NormalizeYearLevel(
+                                    yearValue
+                                )
 
 
                             Dim course As String =
-                            NormalizeCourse(
-                                courseValue
-                            )
+                                NormalizeCourse(
+                                    courseValue
+                                )
 
 
                             '======================================
-                            ' INVALID REQUIRED INFORMATION
+                            ' REQUIRED INFORMATION
                             '======================================
                             If studentName = "" OrElse
-                           yearLevel = "" OrElse
-                           course = "" Then
+                               yearLevel = "" OrElse
+                               course = "" Then
 
                                 invalidCount += 1
+
                                 Continue For
 
                             End If
 
 
                             '======================================
-                            ' INVALID CONTACT NUMBER
+                            ' CONTACT VALIDATION
                             '======================================
                             If parentContact <> "" AndAlso
-                           Not parentContact.All(
-                               AddressOf Char.IsDigit
-                           ) Then
+                               Not parentContact.All(
+                                   AddressOf Char.IsDigit
+                               ) Then
 
                                 invalidCount += 1
+
                                 Continue For
 
                             End If
@@ -1387,73 +1912,86 @@ Public Class UcManageStudent
                             ' DUPLICATE CHECK
                             '======================================
                             If StudentExists(
-                            studentName,
-                            yearLevel,
-                            course,
-                            transaction
-                        ) Then
+                                studentName,
+                                yearLevel,
+                                course,
+                                transaction
+                            ) Then
 
                                 duplicateCount += 1
+
                                 Continue For
 
                             End If
 
 
                             '======================================
-                            ' INSERT STUDENT
+                            ' INSERT
                             '======================================
                             Dim query As String =
-                            "INSERT INTO students " &
-                            "(" &
-                            "students_name, " &
-                            "year_level, " &
-                            "course, " &
-                            "parent_contact_number, " &
-                            "qr_code_data" &
-                            ") " &
-                            "VALUES (?, ?, ?, ?, NULL)"
+                                "INSERT INTO students " &
+                                "(" &
+                                "students_name, " &
+                                "year_level, " &
+                                "course, " &
+                                "parent_contact_number, " &
+                                "qr_code_data" &
+                                ") " &
+                                "VALUES (?, ?, ?, ?, NULL)"
 
 
                             Using cmd As New OdbcCommand(
-                            query,
-                            con,
-                            transaction
-                        )
-
-                                cmd.Parameters.AddWithValue(
-                                "@name",
-                                studentName
+                                query,
+                                con,
+                                transaction
                             )
 
                                 cmd.Parameters.AddWithValue(
-                                "@year",
-                                yearLevel
-                            )
+                                    "@name",
+                                    studentName
+                                )
 
                                 cmd.Parameters.AddWithValue(
-                                "@course",
-                                course
-                            )
+                                    "@year",
+                                    yearLevel
+                                )
+
+                                cmd.Parameters.AddWithValue(
+                                    "@course",
+                                    course
+                                )
 
 
                                 If parentContact = "" Then
 
                                     cmd.Parameters.AddWithValue(
-                                    "@contact",
-                                    DBNull.Value
-                                )
+                                        "@contact",
+                                        DBNull.Value
+                                    )
 
                                 Else
 
                                     cmd.Parameters.AddWithValue(
-                                    "@contact",
-                                    parentContact
-                                )
+                                        "@contact",
+                                        parentContact
+                                    )
 
                                 End If
 
 
-                                cmd.ExecuteNonQuery()
+                                Dim rowsAffected As Integer =
+                                    cmd.ExecuteNonQuery()
+
+
+                                If rowsAffected <= 0 Then
+
+                                    Throw New Exception(
+                                        "Unable to import student on Excel row " &
+                                        row.ToString() &
+                                        "."
+                                    )
+
+                                End If
 
                             End Using
 
@@ -1463,20 +2001,17 @@ Public Class UcManageStudent
                         Next
 
 
-                        '==================================================
-                        ' EVERYTHING SUCCESSFUL
-                        '==================================================
                         transaction.Commit()
 
 
                     Catch
 
-                        '==================================================
-                        ' ERROR = CANCEL ENTIRE IMPORT
-                        '==================================================
                         Try
+
                             transaction.Rollback()
+
                         Catch
+
                         End Try
 
                         Throw
@@ -1486,33 +2021,27 @@ Public Class UcManageStudent
                 End Using
 
 
-                '==================================================
-                ' REFRESH UI
-                '==================================================
                 LoadStudents()
                 UpdateTotalStudents()
                 ClearFields()
 
 
-                '==================================================
-                ' IMPORT RESULT
-                '==================================================
                 MessageBox.Show(
-                "Import completed successfully." &
-                vbCrLf &
-                vbCrLf &
-                "Imported: " &
-                importedCount.ToString() &
-                vbCrLf &
-                "Duplicates skipped: " &
-                duplicateCount.ToString() &
-                vbCrLf &
-                "Invalid rows skipped: " &
-                invalidCount.ToString(),
-                "Import Students",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            )
+                    "Import completed successfully." &
+                    vbCrLf &
+                    vbCrLf &
+                    "Imported: " &
+                    importedCount.ToString() &
+                    vbCrLf &
+                    "Duplicates skipped: " &
+                    duplicateCount.ToString() &
+                    vbCrLf &
+                    "Invalid rows skipped: " &
+                    invalidCount.ToString(),
+                    "Import Students",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                )
 
             End Using
 
@@ -1520,16 +2049,16 @@ Public Class UcManageStudent
         Catch ex As Exception
 
             MessageBox.Show(
-            "The student import failed." &
-            vbCrLf &
-            vbCrLf &
-            "No partial import was kept." &
-            vbCrLf &
-            ex.Message,
-            "Import Students",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Error
-        )
+                "The student import failed." &
+                vbCrLf &
+                vbCrLf &
+                "No partial import was kept." &
+                vbCrLf &
+                ex.Message,
+                "Import Students",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+            )
 
         End Try
 
