@@ -1032,31 +1032,60 @@ Public Class UcSmsNotifications
         e As DataGridViewCellFormattingEventArgs
     ) Handles dgvSMSLogs.CellFormatting
 
-
-        If e.RowIndex < 0 Then
-            Return
-        End If
-
-
-        If e.ColumnIndex <>
-           dgvSMSLogs.Columns(
-               "colLogStatus"
-           ).Index Then
+        ' Invalid row or column
+        If e.RowIndex < 0 OrElse
+           e.ColumnIndex < 0 Then
 
             Return
 
         End If
 
 
-        If e.Value Is Nothing Then
+        ' Make sure the column index exists
+        If e.ColumnIndex >=
+           dgvSMSLogs.Columns.Count Then
+
             Return
+
+        End If
+
+
+        ' Get the actual column being formatted
+        Dim currentColumn As DataGridViewColumn =
+            dgvSMSLogs.Columns(
+                e.ColumnIndex
+            )
+
+
+        If currentColumn Is Nothing Then
+            Return
+        End If
+
+
+        ' Only color the Status column
+        If Not String.Equals(
+            currentColumn.Name,
+            "colLogStatus",
+            StringComparison.OrdinalIgnoreCase
+        ) Then
+
+            Return
+
+        End If
+
+
+        If e.Value Is Nothing OrElse
+           IsDBNull(e.Value) Then
+
+            Return
+
         End If
 
 
         Dim status As String =
             e.Value.ToString().
             Trim().
-            ToUpper()
+            ToUpperInvariant()
 
 
         Select Case status
@@ -1084,6 +1113,13 @@ Public Class UcSmsNotifications
                         197
                     )
 
+                e.CellStyle.SelectionForeColor =
+                    Color.FromArgb(
+                        32,
+                        110,
+                        55
+                    )
+
 
             Case "FAILED"
 
@@ -1106,6 +1142,13 @@ Public Class UcSmsNotifications
                         238,
                         190,
                         190
+                    )
+
+                e.CellStyle.SelectionForeColor =
+                    Color.FromArgb(
+                        170,
+                        35,
+                        35
                     )
 
         End Select

@@ -103,7 +103,7 @@ Partial Class UcDashboard
         ' lblTitle
         ' 
         lblTitle.AutoSize = True
-        lblTitle.Font = New Font("Georgia", 24F, FontStyle.Bold)
+        lblTitle.Font = New Font("Georgia", 24.0F, FontStyle.Bold)
         lblTitle.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
         lblTitle.Location = New Point(19, 10)
         lblTitle.Name = "lblTitle"
@@ -114,7 +114,7 @@ Partial Class UcDashboard
         ' lblSubtitle
         ' 
         lblSubtitle.AutoSize = True
-        lblSubtitle.Font = New Font("Segoe UI", 10F)
+        lblSubtitle.Font = New Font("Segoe UI", 10.0F)
         lblSubtitle.ForeColor = Color.FromArgb(CByte(117), CByte(87), CByte(71))
         lblSubtitle.Location = New Point(23, 44)
         lblSubtitle.Name = "lblSubtitle"
@@ -125,7 +125,7 @@ Partial Class UcDashboard
         ' lblDateTime
         ' 
         lblDateTime.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        lblDateTime.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
+        lblDateTime.Font = New Font("Segoe UI Semibold", 10.0F, FontStyle.Bold)
         lblDateTime.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
         lblDateTime.Location = New Point(648, 24)
         lblDateTime.Name = "lblDateTime"
@@ -138,10 +138,10 @@ Partial Class UcDashboard
         ' 
         tlpStats.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         tlpStats.ColumnCount = 4
-        tlpStats.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25F))
-        tlpStats.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25F))
-        tlpStats.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25F))
-        tlpStats.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25F))
+        tlpStats.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25.0F))
+        tlpStats.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25.0F))
+        tlpStats.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25.0F))
+        tlpStats.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25.0F))
         tlpStats.Controls.Add(pnlTotalStudents, 0, 0)
         tlpStats.Controls.Add(pnlQRGenerated, 1, 0)
         tlpStats.Controls.Add(pnlTodayEntry, 2, 0)
@@ -150,7 +150,7 @@ Partial Class UcDashboard
         tlpStats.Margin = New Padding(0)
         tlpStats.Name = "tlpStats"
         tlpStats.RowCount = 1
-        tlpStats.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
+        tlpStats.RowStyles.Add(New RowStyle(SizeType.Percent, 100.0F))
         tlpStats.Size = New Size(998, 82)
         tlpStats.TabIndex = 1
         ' 
@@ -180,7 +180,7 @@ Partial Class UcDashboard
         ' 
         ' lblTotalStudents
         ' 
-        lblTotalStudents.Font = New Font("Segoe UI", 26F, FontStyle.Bold)
+        lblTotalStudents.Font = New Font("Segoe UI", 26.0F, FontStyle.Bold)
         lblTotalStudents.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
         lblTotalStudents.Location = New Point(15, 30)
         lblTotalStudents.Name = "lblTotalStudents"
@@ -214,7 +214,7 @@ Partial Class UcDashboard
         ' 
         ' lblQRGenerated
         ' 
-        lblQRGenerated.Font = New Font("Segoe UI", 26F, FontStyle.Bold)
+        lblQRGenerated.Font = New Font("Segoe UI", 26.0F, FontStyle.Bold)
         lblQRGenerated.ForeColor = Color.FromArgb(CByte(40), CByte(100), CByte(60))
         lblQRGenerated.Location = New Point(15, 30)
         lblQRGenerated.Name = "lblQRGenerated"
@@ -248,7 +248,7 @@ Partial Class UcDashboard
         ' 
         ' lblTodayEntry
         ' 
-        lblTodayEntry.Font = New Font("Segoe UI", 26F, FontStyle.Bold)
+        lblTodayEntry.Font = New Font("Segoe UI", 26.0F, FontStyle.Bold)
         lblTodayEntry.ForeColor = Color.FromArgb(CByte(50), CByte(70), CByte(100))
         lblTodayEntry.Location = New Point(15, 30)
         lblTodayEntry.Name = "lblTodayEntry"
@@ -282,7 +282,7 @@ Partial Class UcDashboard
         ' 
         ' lblTodayExit
         ' 
-        lblTodayExit.Font = New Font("Segoe UI", 26F, FontStyle.Bold)
+        lblTodayExit.Font = New Font("Segoe UI", 26.0F, FontStyle.Bold)
         lblTodayExit.ForeColor = Color.FromArgb(CByte(170), CByte(45), CByte(45))
         lblTodayExit.Location = New Point(15, 30)
         lblTodayExit.Name = "lblTodayExit"
@@ -294,15 +294,15 @@ Partial Class UcDashboard
         ' 
         tlpMiddle.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         tlpMiddle.ColumnCount = 2
-        tlpMiddle.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 62F))
-        tlpMiddle.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 38F))
+        tlpMiddle.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 62.0F))
+        tlpMiddle.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 38.0F))
         tlpMiddle.Controls.Add(pnlRecentEntryExit, 0, 0)
         tlpMiddle.Controls.Add(pnlRecentSMS, 1, 0)
         tlpMiddle.Location = New Point(18, 182)
         tlpMiddle.Margin = New Padding(0)
         tlpMiddle.Name = "tlpMiddle"
         tlpMiddle.RowCount = 1
-        tlpMiddle.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
+        tlpMiddle.RowStyles.Add(New RowStyle(SizeType.Percent, 100.0F))
         tlpMiddle.Size = New Size(998, 250)
         tlpMiddle.TabIndex = 2
         ' 
@@ -330,7 +330,7 @@ Partial Class UcDashboard
         dgvRecentEntryExit.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
         DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(93), CByte(50), CByte(29))
-        DataGridViewCellStyle1.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
+        DataGridViewCellStyle1.Font = New Font("Segoe UI Semibold", 10.0F, FontStyle.Bold)
         DataGridViewCellStyle1.ForeColor = Color.White
         DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(93), CByte(50), CByte(29))
         DataGridViewCellStyle1.SelectionForeColor = Color.White
@@ -340,7 +340,7 @@ Partial Class UcDashboard
         dgvRecentEntryExit.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle2.BackColor = SystemColors.Window
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 10F)
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 10.0F)
         DataGridViewCellStyle2.ForeColor = SystemColors.ControlText
         DataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(CByte(233), CByte(216), CByte(202))
         DataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(CByte(52), CByte(32), CByte(23))
@@ -374,7 +374,7 @@ Partial Class UcDashboard
         ' lblRecentEntryExitTitle
         ' 
         lblRecentEntryExitTitle.AutoSize = True
-        lblRecentEntryExitTitle.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
+        lblRecentEntryExitTitle.Font = New Font("Segoe UI Semibold", 12.0F, FontStyle.Bold)
         lblRecentEntryExitTitle.ForeColor = Color.White
         lblRecentEntryExitTitle.Location = New Point(14, 8)
         lblRecentEntryExitTitle.Name = "lblRecentEntryExitTitle"
@@ -406,7 +406,7 @@ Partial Class UcDashboard
         dgvRecentSMS.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
         DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle3.BackColor = Color.FromArgb(CByte(93), CByte(50), CByte(29))
-        DataGridViewCellStyle3.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
+        DataGridViewCellStyle3.Font = New Font("Segoe UI Semibold", 10.0F, FontStyle.Bold)
         DataGridViewCellStyle3.ForeColor = Color.White
         DataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(CByte(93), CByte(50), CByte(29))
         DataGridViewCellStyle3.SelectionForeColor = Color.White
@@ -416,7 +416,7 @@ Partial Class UcDashboard
         dgvRecentSMS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle4.BackColor = SystemColors.Window
-        DataGridViewCellStyle4.Font = New Font("Segoe UI", 10F)
+        DataGridViewCellStyle4.Font = New Font("Segoe UI", 10.0F)
         DataGridViewCellStyle4.ForeColor = SystemColors.ControlText
         DataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(CByte(233), CByte(216), CByte(202))
         DataGridViewCellStyle4.SelectionForeColor = Color.FromArgb(CByte(52), CByte(32), CByte(23))
@@ -450,7 +450,7 @@ Partial Class UcDashboard
         ' lblRecentSMSTitle
         ' 
         lblRecentSMSTitle.AutoSize = True
-        lblRecentSMSTitle.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
+        lblRecentSMSTitle.Font = New Font("Segoe UI Semibold", 12.0F, FontStyle.Bold)
         lblRecentSMSTitle.ForeColor = Color.White
         lblRecentSMSTitle.Location = New Point(14, 8)
         lblRecentSMSTitle.Name = "lblRecentSMSTitle"
@@ -485,20 +485,18 @@ Partial Class UcDashboard
         ' tlpQuickOverview
         ' 
         tlpQuickOverview.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        tlpQuickOverview.ColumnCount = 5
-        tlpQuickOverview.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 302F))
-        tlpQuickOverview.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 26F))
-        tlpQuickOverview.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 302F))
-        tlpQuickOverview.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 26F))
-        tlpQuickOverview.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 302F))
+        tlpQuickOverview.ColumnCount = 3
+        tlpQuickOverview.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.33333F))
+        tlpQuickOverview.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.33333F))
+        tlpQuickOverview.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.33334F))
         tlpQuickOverview.Controls.Add(pnlQRNotGenerated, 0, 0)
-        tlpQuickOverview.Controls.Add(pnlNoExitToday, 2, 0)
-        tlpQuickOverview.Controls.Add(pnlFailedSMS, 4, 0)
+        tlpQuickOverview.Controls.Add(pnlNoExitToday, 1, 0)
+        tlpQuickOverview.Controls.Add(pnlFailedSMS, 2, 0)
         tlpQuickOverview.Location = New Point(18, 30)
-        tlpQuickOverview.Margin = New Padding(3, 2, 3, 2)
+        tlpQuickOverview.Margin = New Padding(0)
         tlpQuickOverview.Name = "tlpQuickOverview"
         tlpQuickOverview.RowCount = 1
-        tlpQuickOverview.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
+        tlpQuickOverview.RowStyles.Add(New RowStyle(SizeType.Percent, 100.0F))
         tlpQuickOverview.Size = New Size(958, 41)
         tlpQuickOverview.TabIndex = 1
         ' 
@@ -509,9 +507,9 @@ Partial Class UcDashboard
         pnlQRNotGenerated.Controls.Add(lblQRNotGenerated)
         pnlQRNotGenerated.Dock = DockStyle.Fill
         pnlQRNotGenerated.Location = New Point(0, 0)
-        pnlQRNotGenerated.Margin = New Padding(0)
+        pnlQRNotGenerated.Margin = New Padding(0, 0, 6, 0)
         pnlQRNotGenerated.Name = "pnlQRNotGenerated"
-        pnlQRNotGenerated.Size = New Size(302, 41)
+        pnlQRNotGenerated.Size = New Size(313, 41)
         pnlQRNotGenerated.TabIndex = 0
         ' 
         ' lblQRNotGeneratedTitle
@@ -527,9 +525,9 @@ Partial Class UcDashboard
         ' lblQRNotGenerated
         ' 
         lblQRNotGenerated.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        lblQRNotGenerated.Font = New Font("Segoe UI", 18F, FontStyle.Bold)
+        lblQRNotGenerated.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold)
         lblQRNotGenerated.ForeColor = Color.FromArgb(CByte(68), CByte(37), CByte(22))
-        lblQRNotGenerated.Location = New Point(230, 5)
+        lblQRNotGenerated.Location = New Point(250, 6)
         lblQRNotGenerated.Name = "lblQRNotGenerated"
         lblQRNotGenerated.Size = New Size(60, 30)
         lblQRNotGenerated.TabIndex = 1
@@ -542,10 +540,10 @@ Partial Class UcDashboard
         pnlNoExitToday.Controls.Add(lblNoExitTodayTitle)
         pnlNoExitToday.Controls.Add(lblNoExitToday)
         pnlNoExitToday.Dock = DockStyle.Fill
-        pnlNoExitToday.Location = New Point(328, 0)
-        pnlNoExitToday.Margin = New Padding(0)
+        pnlNoExitToday.Location = New Point(322, 0)
+        pnlNoExitToday.Margin = New Padding(3, 0, 3, 0)
         pnlNoExitToday.Name = "pnlNoExitToday"
-        pnlNoExitToday.Size = New Size(302, 41)
+        pnlNoExitToday.Size = New Size(313, 41)
         pnlNoExitToday.TabIndex = 1
         ' 
         ' lblNoExitTodayTitle
@@ -561,9 +559,9 @@ Partial Class UcDashboard
         ' lblNoExitToday
         ' 
         lblNoExitToday.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        lblNoExitToday.Font = New Font("Segoe UI", 18F, FontStyle.Bold)
+        lblNoExitToday.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold)
         lblNoExitToday.ForeColor = Color.FromArgb(CByte(170), CByte(45), CByte(45))
-        lblNoExitToday.Location = New Point(230, 5)
+        lblNoExitToday.Location = New Point(250, 5)
         lblNoExitToday.Name = "lblNoExitToday"
         lblNoExitToday.Size = New Size(60, 30)
         lblNoExitToday.TabIndex = 1
@@ -576,10 +574,10 @@ Partial Class UcDashboard
         pnlFailedSMS.Controls.Add(lblFailedSMSTitle)
         pnlFailedSMS.Controls.Add(lblFailedSMS)
         pnlFailedSMS.Dock = DockStyle.Fill
-        pnlFailedSMS.Location = New Point(656, 0)
-        pnlFailedSMS.Margin = New Padding(0)
+        pnlFailedSMS.Location = New Point(644, 0)
+        pnlFailedSMS.Margin = New Padding(6, 0, 0, 0)
         pnlFailedSMS.Name = "pnlFailedSMS"
-        pnlFailedSMS.Size = New Size(302, 41)
+        pnlFailedSMS.Size = New Size(314, 41)
         pnlFailedSMS.TabIndex = 2
         ' 
         ' lblFailedSMSTitle
@@ -595,9 +593,9 @@ Partial Class UcDashboard
         ' lblFailedSMS
         ' 
         lblFailedSMS.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        lblFailedSMS.Font = New Font("Segoe UI", 18F, FontStyle.Bold)
+        lblFailedSMS.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold)
         lblFailedSMS.ForeColor = Color.FromArgb(CByte(170), CByte(45), CByte(45))
-        lblFailedSMS.Location = New Point(230, 5)
+        lblFailedSMS.Location = New Point(251, 5)
         lblFailedSMS.Name = "lblFailedSMS"
         lblFailedSMS.Size = New Size(60, 30)
         lblFailedSMS.TabIndex = 1
@@ -611,14 +609,14 @@ Partial Class UcDashboard
         ' 
         ' UcDashboard
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(247), CByte(241), CByte(236))
         Controls.Add(pnlQuickOverview)
         Controls.Add(tlpMiddle)
         Controls.Add(tlpStats)
         Controls.Add(pnlHeader)
-        Font = New Font("Segoe UI", 9F)
+        Font = New Font("Segoe UI", 9.0F)
         Margin = New Padding(3, 2, 3, 2)
         Name = "UcDashboard"
         Size = New Size(1032, 540)

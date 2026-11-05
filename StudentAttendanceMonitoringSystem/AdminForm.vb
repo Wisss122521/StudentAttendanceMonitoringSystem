@@ -1,8 +1,22 @@
-﻿Imports QRCoder
+﻿Public Class AdminForm
 
-Public Class AdminForm
+    Private currentNavigation As ToolStripMenuItem
 
-    Private currentNavigation As Label
+
+    '==================================================
+    ' COLORS
+    '==================================================
+    Private ReadOnly menuBackground As Color =
+        Color.FromArgb(72, 40, 24)
+
+    Private ReadOnly activeBackground As Color =
+        Color.FromArgb(245, 234, 223)
+
+    Private ReadOnly activeForeground As Color =
+        Color.FromArgb(72, 40, 24)
+
+    Private ReadOnly hoverBackground As Color =
+        Color.FromArgb(103, 60, 36)
 
 
     '==================================================
@@ -15,9 +29,17 @@ Public Class AdminForm
 
         Me.DoubleBuffered = True
 
+
+        ' Custom MenuStrip colors
+        MenuStrip1.Renderer =
+            New ToolStripProfessionalRenderer(
+                New AdminMenuColorTable()
+            )
+
+
         OpenPage(
             New UcDashboard(),
-            lblDashboard
+            mnuDashboard
         )
 
     End Sub
@@ -33,32 +55,39 @@ Public Class AdminForm
         pnlContent.SuspendLayout()
 
 
-        ' Dispose old UserControl
-        For Each ctrl As Control In
-            pnlContent.Controls
+        Try
 
-            ctrl.Dispose()
+            ' Dispose current page
+            While pnlContent.Controls.Count > 0
 
-        Next
+                Dim oldControl As Control =
+                    pnlContent.Controls(0)
 
+                pnlContent.Controls.RemoveAt(0)
 
-        pnlContent.Controls.Clear()
+                oldControl.Dispose()
 
-
-        uc.Dock =
-            DockStyle.Fill
-
-        uc.Margin =
-            New Padding(0)
-
-        pnlContent.Controls.Add(
-            uc
-        )
-
-        uc.BringToFront()
+            End While
 
 
-        pnlContent.ResumeLayout()
+            uc.Dock =
+                DockStyle.Fill
+
+            uc.Margin =
+                New Padding(0)
+
+            pnlContent.Controls.Add(
+                uc
+            )
+
+            uc.BringToFront()
+
+
+        Finally
+
+            pnlContent.ResumeLayout()
+
+        End Try
 
     End Sub
 
@@ -68,7 +97,7 @@ Public Class AdminForm
     '==================================================
     Private Sub OpenPage(
         uc As UserControl,
-        nav As Label
+        nav As ToolStripMenuItem
     )
 
         LoadUserControl(
@@ -86,38 +115,21 @@ Public Class AdminForm
     ' ACTIVE NAVIGATION
     '==================================================
     Private Sub SetActiveNavigation(
-        selectedLabel As Label
+        selectedItem As ToolStripMenuItem
     )
 
-        ' Reset all labels
         ResetNavigation()
 
 
-        selectedLabel.BackColor =
-            Color.FromArgb(
-                103,
-                60,
-                36
-            )
+        selectedItem.BackColor =
+            activeBackground
 
-        selectedLabel.ForeColor =
-            Color.White
-
-
-        pnlIndicator.Top =
-            selectedLabel.Top
-
-        pnlIndicator.Height =
-            selectedLabel.Height
-
-        pnlIndicator.Visible =
-            True
-
-        pnlIndicator.BringToFront()
+        selectedItem.ForeColor =
+            activeForeground
 
 
         currentNavigation =
-            selectedLabel
+            selectedItem
 
     End Sub
 
@@ -127,18 +139,17 @@ Public Class AdminForm
     '==================================================
     Private Sub ResetNavigation()
 
-        Dim navItems As Label() = {
-            lblDashboard,
-            lblManageStudents,
-            lblQRCode,
-            lblReports,
-            lblSMS,
-            lblUserManagement,
-            lblLogout
+        Dim navItems As ToolStripMenuItem() = {
+            mnuDashboard,
+            mnuManageStudents,
+            mnuQRCode,
+            mnuReports,
+            mnuSMS,
+            mnuUserManagement
         }
 
 
-        For Each nav As Label In navItems
+        For Each nav As ToolStripMenuItem In navItems
 
             nav.BackColor =
                 Color.Transparent
@@ -154,14 +165,14 @@ Public Class AdminForm
     '==================================================
     ' DASHBOARD
     '==================================================
-    Private Sub lblDashboard_Click(
+    Private Sub mnuDashboard_Click(
         sender As Object,
         e As EventArgs
-    ) Handles lblDashboard.Click
+    ) Handles mnuDashboard.Click
 
         OpenPage(
             New UcDashboard(),
-            lblDashboard
+            mnuDashboard
         )
 
     End Sub
@@ -170,14 +181,14 @@ Public Class AdminForm
     '==================================================
     ' MANAGE STUDENTS
     '==================================================
-    Private Sub lblManageStudents_Click(
+    Private Sub mnuManageStudents_Click(
         sender As Object,
         e As EventArgs
-    ) Handles lblManageStudents.Click
+    ) Handles mnuManageStudents.Click
 
         OpenPage(
             New UcManageStudent(),
-            lblManageStudents
+            mnuManageStudents
         )
 
     End Sub
@@ -186,14 +197,14 @@ Public Class AdminForm
     '==================================================
     ' QR CODE
     '==================================================
-    Private Sub lblQRCode_Click(
+    Private Sub mnuQRCode_Click(
         sender As Object,
         e As EventArgs
-    ) Handles lblQRCode.Click
+    ) Handles mnuQRCode.Click
 
         OpenPage(
             New UcQrCode(),
-            lblQRCode
+            mnuQRCode
         )
 
     End Sub
@@ -202,14 +213,14 @@ Public Class AdminForm
     '==================================================
     ' REPORTS
     '==================================================
-    Private Sub lblReports_Click(
+    Private Sub mnuReports_Click(
         sender As Object,
         e As EventArgs
-    ) Handles lblReports.Click
+    ) Handles mnuReports.Click
 
         OpenPage(
             New UcGenerateReport(),
-            lblReports
+            mnuReports
         )
 
     End Sub
@@ -218,14 +229,14 @@ Public Class AdminForm
     '==================================================
     ' SMS
     '==================================================
-    Private Sub lblSMS_Click(
+    Private Sub mnuSMS_Click(
         sender As Object,
         e As EventArgs
-    ) Handles lblSMS.Click
+    ) Handles mnuSMS.Click
 
         OpenPage(
             New UcSmsNotifications(),
-            lblSMS
+            mnuSMS
         )
 
     End Sub
@@ -234,14 +245,14 @@ Public Class AdminForm
     '==================================================
     ' USER MANAGEMENT
     '==================================================
-    Private Sub lblUserManagement_Click(
+    Private Sub mnuUserManagement_Click(
         sender As Object,
         e As EventArgs
-    ) Handles lblUserManagement.Click
+    ) Handles mnuUserManagement.Click
 
         OpenPage(
             New UcUserManagement(),
-            lblUserManagement
+            mnuUserManagement
         )
 
     End Sub
@@ -250,49 +261,231 @@ Public Class AdminForm
     '==================================================
     ' LOG OUT
     '==================================================
-    Private Sub lblLogout_Click(
+    Private Sub mnuLogout_Click(
         sender As Object,
         e As EventArgs
-    ) Handles lblLogout.Click
+    ) Handles mnuLogout.Click
 
         Dim result As DialogResult =
-        MessageBox.Show(
-            "Are you sure you want to log out?",
-            "Log Out",
-            MessageBoxButtons.YesNo,
-            MessageBoxIcon.Question
-        )
+            MessageBox.Show(
+                "Are you sure you want to log out?",
+                "Log Out",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            )
 
-        If result = DialogResult.Yes Then
+
+        If result =
+           DialogResult.Yes Then
+
             Me.Close()
+
         End If
 
     End Sub
 
 
     '==================================================
-    ' HOVER EFFECTS
+    ' NAVIGATION HOVER
     '==================================================
     Private Sub Navigation_MouseEnter(
-    sender As Object,
-    e As EventArgs
-    ) Handles lblDashboard.MouseEnter,
-              lblManageStudents.MouseEnter,
-              lblQRCode.MouseEnter,
-              lblReports.MouseEnter,
-              lblSMS.MouseEnter,
-              lblUserManagement.MouseEnter,
-              lblLogout.MouseEnter
+        sender As Object,
+        e As EventArgs
+    ) Handles mnuDashboard.MouseEnter,
+              mnuManageStudents.MouseEnter,
+              mnuQRCode.MouseEnter,
+              mnuReports.MouseEnter,
+              mnuSMS.MouseEnter,
+              mnuUserManagement.MouseEnter
 
-        Dim nav As Label =
-        DirectCast(sender, Label)
+        Dim nav As ToolStripMenuItem =
+            DirectCast(
+                sender,
+                ToolStripMenuItem
+            )
+
 
         If nav IsNot currentNavigation Then
 
             nav.BackColor =
-            Color.FromArgb(120, 72, 45)
+                hoverBackground
+
+            nav.ForeColor =
+                Color.White
 
         End If
 
     End Sub
+
+
+    '==================================================
+    ' NAVIGATION MOUSE LEAVE
+    '==================================================
+    Private Sub Navigation_MouseLeave(
+        sender As Object,
+        e As EventArgs
+    ) Handles mnuDashboard.MouseLeave,
+              mnuManageStudents.MouseLeave,
+              mnuQRCode.MouseLeave,
+              mnuReports.MouseLeave,
+              mnuSMS.MouseLeave,
+              mnuUserManagement.MouseLeave
+
+        Dim nav As ToolStripMenuItem =
+            DirectCast(
+                sender,
+                ToolStripMenuItem
+            )
+
+
+        If nav Is currentNavigation Then
+
+            nav.BackColor =
+                activeBackground
+
+            nav.ForeColor =
+                activeForeground
+
+        Else
+
+            nav.BackColor =
+                Color.Transparent
+
+            nav.ForeColor =
+                Color.White
+
+        End If
+
+    End Sub
+
+
+    '==================================================
+    ' LOGOUT HOVER
+    '==================================================
+    Private Sub mnuLogout_MouseEnter(
+        sender As Object,
+        e As EventArgs
+    ) Handles mnuLogout.MouseEnter
+
+        mnuLogout.BackColor =
+            Color.FromArgb(123, 55, 37)
+
+        mnuLogout.ForeColor =
+            Color.White
+
+    End Sub
+
+
+    Private Sub mnuLogout_MouseLeave(
+        sender As Object,
+        e As EventArgs
+    ) Handles mnuLogout.MouseLeave
+
+        mnuLogout.BackColor =
+            Color.FromArgb(92, 47, 28)
+
+        mnuLogout.ForeColor =
+            Color.White
+
+    End Sub
+
+
+    '==================================================
+    ' MENU COLOR TABLE
+    '==================================================
+    Private Class AdminMenuColorTable
+
+        Inherits ProfessionalColorTable
+
+
+        Public Overrides ReadOnly Property MenuStripGradientBegin As Color
+            Get
+                Return Color.FromArgb(
+                    72,
+                    40,
+                    24
+                )
+            End Get
+        End Property
+
+
+        Public Overrides ReadOnly Property MenuStripGradientEnd As Color
+            Get
+                Return Color.FromArgb(
+                    72,
+                    40,
+                    24
+                )
+            End Get
+        End Property
+
+
+        Public Overrides ReadOnly Property MenuItemSelected As Color
+            Get
+                Return Color.FromArgb(
+                    103,
+                    60,
+                    36
+                )
+            End Get
+        End Property
+
+
+        Public Overrides ReadOnly Property MenuItemBorder As Color
+            Get
+                Return Color.FromArgb(
+                    103,
+                    60,
+                    36
+                )
+            End Get
+        End Property
+
+
+        Public Overrides ReadOnly Property MenuItemPressedGradientBegin As Color
+            Get
+                Return Color.FromArgb(
+                    103,
+                    60,
+                    36
+                )
+            End Get
+        End Property
+
+
+        Public Overrides ReadOnly Property MenuItemPressedGradientMiddle As Color
+            Get
+                Return Color.FromArgb(
+                    103,
+                    60,
+                    36
+                )
+            End Get
+        End Property
+
+
+        Public Overrides ReadOnly Property MenuItemPressedGradientEnd As Color
+            Get
+                Return Color.FromArgb(
+                    103,
+                    60,
+                    36
+                )
+            End Get
+        End Property
+
+
+        Public Overrides ReadOnly Property ToolStripDropDownBackground As Color
+            Get
+                Return Color.FromArgb(
+                    247,
+                    241,
+                    236
+                )
+            End Get
+        End Property
+
+    End Class
+
+
 End Class

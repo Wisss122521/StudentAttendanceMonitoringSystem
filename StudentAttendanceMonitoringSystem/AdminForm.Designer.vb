@@ -3,15 +3,23 @@ Partial Class AdminForm
 
     Inherits System.Windows.Forms.Form
 
+
     <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(disposing As Boolean)
 
         Try
-            If disposing AndAlso components IsNot Nothing Then
+
+            If disposing AndAlso
+               components IsNot Nothing Then
+
                 components.Dispose()
+
             End If
+
         Finally
+
             MyBase.Dispose(disposing)
+
         End Try
 
     End Sub
@@ -22,177 +30,130 @@ Partial Class AdminForm
 
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Panel1 = New Panel()
-        Panel2 = New Panel()
-        pnlIndicator = New Panel()
-        lblDashboard = New Label()
-        lblManageStudents = New Label()
-        lblQRCode = New Label()
-        lblReports = New Label()
-        lblSMS = New Label()
-        lblUserManagement = New Label()
-        lblLogout = New Label()
-        PictureBox1 = New PictureBox()
+        MenuStrip1 = New MenuStrip()
+        tsBrand = New ToolStripLabel()
+        mnuDashboard = New ToolStripMenuItem()
+        mnuManageStudents = New ToolStripMenuItem()
+        mnuQRCode = New ToolStripMenuItem()
+        mnuReports = New ToolStripMenuItem()
+        mnuSMS = New ToolStripMenuItem()
+        mnuUserManagement = New ToolStripMenuItem()
+        mnuLogout = New ToolStripMenuItem()
         pnlContent = New Panel()
-        Panel1.SuspendLayout()
-        Panel2.SuspendLayout()
-        CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
+        MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
-        ' Panel1
+        ' MenuStrip1
         ' 
-        Panel1.BackgroundImage = My.Resources.Resources._6a4fef6f_e247_4671_bc82_cbd6ced86108
-        Panel1.BackgroundImageLayout = ImageLayout.Stretch
-        Panel1.Controls.Add(Panel2)
-        Panel1.Dock = DockStyle.Left
-        Panel1.Location = New Point(0, 0)
-        Panel1.Name = "Panel1"
-        Panel1.Size = New Size(220, 700)
-        Panel1.TabIndex = 0
+        MenuStrip1.BackColor = Color.FromArgb(CByte(72), CByte(40), CByte(24))
+        MenuStrip1.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
+        MenuStrip1.ImageScalingSize = New Size(20, 20)
+        MenuStrip1.Items.AddRange(New ToolStripItem() {tsBrand, mnuDashboard, mnuManageStudents, mnuQRCode, mnuReports, mnuSMS, mnuUserManagement, mnuLogout})
+        MenuStrip1.Location = New Point(0, 0)
+        MenuStrip1.Name = "MenuStrip1"
+        MenuStrip1.Padding = New Padding(12, 0, 12, 0)
+        MenuStrip1.ShowItemToolTips = True
+        MenuStrip1.Size = New Size(1400, 58)
+        MenuStrip1.TabIndex = 0
         ' 
-        ' Panel2
+        ' tsBrand
         ' 
-        Panel2.BackColor = Color.Transparent
-        Panel2.Controls.Add(pnlIndicator)
-        Panel2.Controls.Add(lblDashboard)
-        Panel2.Controls.Add(lblManageStudents)
-        Panel2.Controls.Add(lblQRCode)
-        Panel2.Controls.Add(lblReports)
-        Panel2.Controls.Add(lblSMS)
-        Panel2.Controls.Add(lblUserManagement)
-        Panel2.Controls.Add(lblLogout)
-        Panel2.Controls.Add(PictureBox1)
-        Panel2.Dock = DockStyle.Fill
-        Panel2.Location = New Point(0, 0)
-        Panel2.Name = "Panel2"
-        Panel2.Size = New Size(220, 700)
-        Panel2.TabIndex = 0
+        tsBrand.AutoSize = False
+        tsBrand.Font = New Font("Georgia", 14.5F, FontStyle.Bold)
+        tsBrand.ForeColor = Color.White
+        tsBrand.Margin = New Padding(4, 0, 28, 0)
+        tsBrand.Name = "tsBrand"
+        tsBrand.Size = New Size(325, 58)
+        tsBrand.Text = "Student Monitoring Entry/Exit"
+        tsBrand.TextAlign = ContentAlignment.MiddleLeft
         ' 
-        ' pnlIndicator
+        ' mnuDashboard
         ' 
-        pnlIndicator.BackColor = Color.FromArgb(CByte(245), CByte(234), CByte(223))
-        pnlIndicator.Location = New Point(0, 165)
-        pnlIndicator.Name = "pnlIndicator"
-        pnlIndicator.Size = New Size(5, 43)
-        pnlIndicator.TabIndex = 10
+        mnuDashboard.AutoSize = False
+        mnuDashboard.BackColor = Color.FromArgb(CByte(245), CByte(234), CByte(223))
+        mnuDashboard.ForeColor = Color.FromArgb(CByte(72), CByte(40), CByte(24))
+        mnuDashboard.Name = "mnuDashboard"
+        mnuDashboard.Padding = New Padding(10, 0, 10, 0)
+        mnuDashboard.Size = New Size(105, 58)
+        mnuDashboard.Text = "Dashboard"
+        mnuDashboard.ToolTipText = "Open Dashboard"
         ' 
-        ' lblDashboard
+        ' mnuManageStudents
         ' 
-        lblDashboard.BackColor = Color.FromArgb(CByte(103), CByte(60), CByte(36))
-        lblDashboard.Cursor = Cursors.Hand
-        lblDashboard.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
-        lblDashboard.ForeColor = Color.White
-        lblDashboard.Location = New Point(5, 165)
-        lblDashboard.Name = "lblDashboard"
-        lblDashboard.Padding = New Padding(18, 0, 0, 0)
-        lblDashboard.Size = New Size(215, 43)
-        lblDashboard.TabIndex = 1
-        lblDashboard.Text = "Dashboard"
-        lblDashboard.TextAlign = ContentAlignment.MiddleLeft
+        mnuManageStudents.AutoSize = False
+        mnuManageStudents.BackColor = Color.Transparent
+        mnuManageStudents.ForeColor = Color.White
+        mnuManageStudents.Name = "mnuManageStudents"
+        mnuManageStudents.Padding = New Padding(10, 0, 10, 0)
+        mnuManageStudents.Size = New Size(145, 58)
+        mnuManageStudents.Text = "Manage Students"
+        mnuManageStudents.ToolTipText = "Manage student information"
         ' 
-        ' lblManageStudents
+        ' mnuQRCode
         ' 
-        lblManageStudents.BackColor = Color.Transparent
-        lblManageStudents.Cursor = Cursors.Hand
-        lblManageStudents.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
-        lblManageStudents.ForeColor = Color.White
-        lblManageStudents.Location = New Point(5, 210)
-        lblManageStudents.Name = "lblManageStudents"
-        lblManageStudents.Padding = New Padding(18, 0, 0, 0)
-        lblManageStudents.Size = New Size(215, 43)
-        lblManageStudents.TabIndex = 2
-        lblManageStudents.Text = "Manage Students"
-        lblManageStudents.TextAlign = ContentAlignment.MiddleLeft
+        mnuQRCode.AutoSize = False
+        mnuQRCode.BackColor = Color.Transparent
+        mnuQRCode.ForeColor = Color.White
+        mnuQRCode.Name = "mnuQRCode"
+        mnuQRCode.Padding = New Padding(10, 0, 10, 0)
+        mnuQRCode.Size = New Size(170, 58)
+        mnuQRCode.Text = "QR Code Management"
+        mnuQRCode.ToolTipText = "Generate and manage QR Codes"
         ' 
-        ' lblQRCode
+        ' mnuReports
         ' 
-        lblQRCode.BackColor = Color.Transparent
-        lblQRCode.Cursor = Cursors.Hand
-        lblQRCode.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
-        lblQRCode.ForeColor = Color.White
-        lblQRCode.Location = New Point(5, 255)
-        lblQRCode.Name = "lblQRCode"
-        lblQRCode.Padding = New Padding(18, 0, 0, 0)
-        lblQRCode.Size = New Size(215, 43)
-        lblQRCode.TabIndex = 3
-        lblQRCode.Text = "QR Code Management"
-        lblQRCode.TextAlign = ContentAlignment.MiddleLeft
+        mnuReports.AutoSize = False
+        mnuReports.BackColor = Color.Transparent
+        mnuReports.ForeColor = Color.White
+        mnuReports.Name = "mnuReports"
+        mnuReports.Padding = New Padding(10, 0, 10, 0)
+        mnuReports.Size = New Size(140, 58)
+        mnuReports.Text = "Generate Reports"
+        mnuReports.ToolTipText = "Generate student entry and exit reports"
         ' 
-        ' lblReports
+        ' mnuSMS
         ' 
-        lblReports.BackColor = Color.Transparent
-        lblReports.Cursor = Cursors.Hand
-        lblReports.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
-        lblReports.ForeColor = Color.White
-        lblReports.Location = New Point(5, 300)
-        lblReports.Name = "lblReports"
-        lblReports.Padding = New Padding(18, 0, 0, 0)
-        lblReports.Size = New Size(215, 43)
-        lblReports.TabIndex = 4
-        lblReports.Text = "Generate Reports"
-        lblReports.TextAlign = ContentAlignment.MiddleLeft
+        mnuSMS.AutoSize = False
+        mnuSMS.BackColor = Color.Transparent
+        mnuSMS.ForeColor = Color.White
+        mnuSMS.Name = "mnuSMS"
+        mnuSMS.Padding = New Padding(10, 0, 10, 0)
+        mnuSMS.Size = New Size(150, 58)
+        mnuSMS.Text = "SMS Notifications"
+        mnuSMS.ToolTipText = "View and send SMS notifications"
         ' 
-        ' lblSMS
+        ' mnuUserManagement
         ' 
-        lblSMS.BackColor = Color.Transparent
-        lblSMS.Cursor = Cursors.Hand
-        lblSMS.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
-        lblSMS.ForeColor = Color.White
-        lblSMS.Location = New Point(5, 345)
-        lblSMS.Name = "lblSMS"
-        lblSMS.Padding = New Padding(18, 0, 0, 0)
-        lblSMS.Size = New Size(215, 43)
-        lblSMS.TabIndex = 5
-        lblSMS.Text = "SMS Notifications"
-        lblSMS.TextAlign = ContentAlignment.MiddleLeft
+        mnuUserManagement.AutoSize = False
+        mnuUserManagement.BackColor = Color.Transparent
+        mnuUserManagement.ForeColor = Color.White
+        mnuUserManagement.Name = "mnuUserManagement"
+        mnuUserManagement.Padding = New Padding(10, 0, 10, 0)
+        mnuUserManagement.Size = New Size(155, 58)
+        mnuUserManagement.Text = "User Management"
+        mnuUserManagement.ToolTipText = "Manage system accounts"
         ' 
-        ' lblUserManagement
+        ' mnuLogout
         ' 
-        lblUserManagement.BackColor = Color.Transparent
-        lblUserManagement.Cursor = Cursors.Hand
-        lblUserManagement.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
-        lblUserManagement.ForeColor = Color.White
-        lblUserManagement.Location = New Point(5, 390)
-        lblUserManagement.Name = "lblUserManagement"
-        lblUserManagement.Padding = New Padding(18, 0, 0, 0)
-        lblUserManagement.Size = New Size(215, 43)
-        lblUserManagement.TabIndex = 6
-        lblUserManagement.Text = "User Management"
-        lblUserManagement.TextAlign = ContentAlignment.MiddleLeft
-        ' 
-        ' lblLogout
-        ' 
-        lblLogout.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        lblLogout.BackColor = Color.Transparent
-        lblLogout.Cursor = Cursors.Hand
-        lblLogout.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
-        lblLogout.ForeColor = Color.White
-        lblLogout.Location = New Point(0, 640)
-        lblLogout.Name = "lblLogout"
-        lblLogout.Size = New Size(220, 43)
-        lblLogout.TabIndex = 7
-        lblLogout.Text = "Log Out"
-        lblLogout.TextAlign = ContentAlignment.MiddleCenter
-        ' 
-        ' PictureBox1
-        ' 
-        PictureBox1.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        PictureBox1.BackColor = Color.Transparent
-        PictureBox1.Image = My.Resources.Resources.ChatGPT_Image_Sep_11__2026__08_43_52_AM
-        PictureBox1.Location = New Point(10, 5)
-        PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(200, 145)
-        PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
-        PictureBox1.TabIndex = 0
-        PictureBox1.TabStop = False
+        mnuLogout.Alignment = ToolStripItemAlignment.Right
+        mnuLogout.AutoSize = False
+        mnuLogout.BackColor = Color.FromArgb(CByte(92), CByte(47), CByte(28))
+        mnuLogout.ForeColor = Color.White
+        mnuLogout.Margin = New Padding(8, 8, 2, 8)
+        mnuLogout.Name = "mnuLogout"
+        mnuLogout.Padding = New Padding(8, 0, 8, 0)
+        mnuLogout.Size = New Size(100, 42)
+        mnuLogout.Text = "Log Out"
+        mnuLogout.ToolTipText = "Log out of the system"
         ' 
         ' pnlContent
         ' 
         pnlContent.BackColor = Color.FromArgb(CByte(247), CByte(241), CByte(236))
         pnlContent.Dock = DockStyle.Fill
-        pnlContent.Location = New Point(220, 0)
+        pnlContent.Location = New Point(0, 58)
+        pnlContent.Margin = New Padding(0)
         pnlContent.Name = "pnlContent"
-        pnlContent.Size = New Size(1180, 700)
+        pnlContent.Size = New Size(1400, 642)
         pnlContent.TabIndex = 1
         ' 
         ' AdminForm
@@ -202,35 +163,33 @@ Partial Class AdminForm
         BackColor = Color.FromArgb(CByte(247), CByte(241), CByte(236))
         ClientSize = New Size(1400, 700)
         Controls.Add(pnlContent)
-        Controls.Add(Panel1)
+        Controls.Add(MenuStrip1)
         FormBorderStyle = FormBorderStyle.None
+        MainMenuStrip = MenuStrip1
+        MinimumSize = New Size(1100, 650)
         Name = "AdminForm"
         StartPosition = FormStartPosition.CenterScreen
         Text = "Student Monitoring System"
         WindowState = FormWindowState.Maximized
-        Panel1.ResumeLayout(False)
-        Panel2.ResumeLayout(False)
-        CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
+        MenuStrip1.ResumeLayout(False)
+        MenuStrip1.PerformLayout()
         ResumeLayout(False)
+        PerformLayout()
 
     End Sub
 
 
-    Friend WithEvents Panel1 As Panel
-    Friend WithEvents Panel2 As Panel
+    Friend WithEvents MenuStrip1 As MenuStrip
 
-    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents tsBrand As ToolStripLabel
 
-    Friend WithEvents pnlIndicator As Panel
-
-    Friend WithEvents lblDashboard As Label
-    Friend WithEvents lblManageStudents As Label
-    Friend WithEvents lblQRCode As Label
-    Friend WithEvents lblReports As Label
-    Friend WithEvents lblSMS As Label
-    Friend WithEvents lblUserManagement As Label
-
-    Friend WithEvents lblLogout As Label
+    Friend WithEvents mnuDashboard As ToolStripMenuItem
+    Friend WithEvents mnuManageStudents As ToolStripMenuItem
+    Friend WithEvents mnuQRCode As ToolStripMenuItem
+    Friend WithEvents mnuReports As ToolStripMenuItem
+    Friend WithEvents mnuSMS As ToolStripMenuItem
+    Friend WithEvents mnuUserManagement As ToolStripMenuItem
+    Friend WithEvents mnuLogout As ToolStripMenuItem
 
     Friend WithEvents pnlContent As Panel
 
